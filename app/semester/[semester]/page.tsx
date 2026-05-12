@@ -272,7 +272,7 @@ const semesterData = {
         icon: <Code className="text-orange-400" />,
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/advanced-java-programming-syllabus.pdf",
-        pyqLink: "#",
+        pyqLink: "/pyq/advanced-java-programming",
         description:
           "Deep dive into enterprise applications, networking, and advanced database connectivity.",
       },
@@ -283,8 +283,9 @@ const semesterData = {
         category: "Professional Core",
         icon: <Cpu className="text-emerald-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf:
+          "/pdfs/syllabus/microprocessor-and-interfacing-syllabus.pdf",
+        pyqLink: "/pyq/microprocessor-and-interfacing",
         description:
           "Architecture and programming of 8085/8086 microprocessors and hardware interfacing.",
       },
@@ -295,8 +296,8 @@ const semesterData = {
         category: "Professional Core",
         icon: <Globe className="text-pink-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf: "/pdfs/syllabus/web-programming-syllabus.pdf",
+        pyqLink: "/pyq/web-programming",
         description:
           "Full-stack development techniques including modern frameworks and responsive design.",
       },
@@ -307,8 +308,8 @@ const semesterData = {
         category: "Professional Elective",
         icon: <Database className="text-yellow-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf: "/pdfs/syllabus/data-mining-syllabus.pdf",
+        pyqLink: "/pyq/data-mining",
         description:
           "Discover patterns in large datasets using clustering, classification, and association rules.",
       },
@@ -319,8 +320,8 @@ const semesterData = {
         category: "Professional Core",
         icon: <Terminal className="text-cyan-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf: "/pdfs/syllabus/system-software-syllabus.pdf",
+        pyqLink: "/pyq/system-software",
         description:
           "Understanding assemblers, macro processors, loaders, and compiler construction phases.",
       },
@@ -331,8 +332,8 @@ const semesterData = {
         category: "Professional Elective",
         icon: <Wifi className="text-indigo-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf: "/pdfs/syllabus/iot-and-applications-syllabus.pdf",
+        pyqLink: "/pyq/iot-and-applications",
         description:
           "Exploring the ecosystem of connected devices, sensors, and cloud integration protocols.",
       },
@@ -343,8 +344,8 @@ const semesterData = {
         category: "Professional Elective",
         icon: <BarChart3 className="text-red-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf: "/pdfs/syllabus/data-visualization-syllabus.pdf",
+        pyqLink: "/pyq/data-visualization",
         description:
           "Transform complex data into interactive visual stories using modern visualization tools.",
       },
@@ -367,8 +368,9 @@ const semesterData = {
         category: "Humanities",
         icon: <UserCheck className="text-teal-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf:
+          "/pdfs/syllabus/contributor-personality-development-program-syllabus.pdf",
+        pyqLink: "/pyq/contributor-personality-development-program",
         description:
           "Building the mindset of a contributor to create value in professional and social environments.",
       },
@@ -379,8 +381,9 @@ const semesterData = {
         category: "Humanities",
         icon: <Heart className="text-rose-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
+        syllabusPdf:
+          "/pdfs/syllabus/integrated-personality-development-course-syllabus.pdf",
+        pyqLink: "/pyq/integrated-personality-development-course",
         description:
           "Integrated personality development focusing on ethics, values, and holistic growth.",
       },

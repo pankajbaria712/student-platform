@@ -1,6 +1,8 @@
 {
-  "/subject/[slug]/unit-1/page": "app/subject/[slug]/unit-1/page.js",
-  "/semester/[semester]/page": "app/semester/[semester]/page.js",
+  "/not-found": "app/not-found.js",
   "/page": "app/page.js",
-  "/subject/[slug]/page": "app/subject/[slug]/page.js"
+  "/semester/[semester]/page": "app/semester/[semester]/page.js",
+  "/subject/[slug]/page": "app/subject/[slug]/page.js",
+  "/subject/[slug]/unit-1/page": "app/subject/[slug]/unit-1/page.js",
+  "/pyq/theory-of-computation/page": "app/pyq/theory-of-computation/page.js"
 }

@@ -3,65 +3,38 @@ type Subject = {
   name: string;
   credits: number;
   category: string;
-  link: string;
+  notesLink: string;
+  syllabusPdf: string;
+  pyqLink: string;
 };
 
-const semester5Subjects: Subject[] = [
+const semester6Subjects: Subject[] = [
   {
     code: "3160704",
     name: "Theory of Computation",
     credits: 5,
     category: "Professional Core",
-    link: "/subject/theory-of-computation",
+    notesLink: "/subject/theory-of-computation",
+    syllabusPdf: "/pdfs/syllabus/theory-of-computation-syllabus.pdf",
+    pyqLink: "/pyq/theory-of-computation",
   },
   {
     code: "3160707",
     name: "Advanced Java Programming",
     credits: 4,
     category: "Professional Elective - III",
-    link: "/subject/advanced-java-programming",
+    notesLink: "/subject/advanced-java-programming",
+    syllabusPdf: "/pdfs/syllabus/advanced-java-programming-syllabus.pdf",
+    pyqLink: "/pyq/advanced-java-programming",
   },
   {
     code: "3160712",
     name: "Microprocessor and Interfacing",
     credits: 4,
     category: "Professional Core",
-    link: "/subject/microprocessor-and-interfacing",
-  },
-  {
-    code: "3160713",
-    name: "Web Programming",
-    credits: 4,
-    category: "Professional Elective - II",
-    link: "/subject/web-programming",
-  },
-  {
-    code: "3160714",
-    name: "Data Mining",
-    credits: 4,
-    category: "Professional Elective - II",
-    link: "/subject/data-mining",
-  },
-  {
-    code: "3160715",
-    name: "System Software",
-    credits: 4,
-    category: "Professional Elective - III",
-    link: "/subject/system-software",
-  },
-  {
-    code: "3160716",
-    name: "IoT and Applications",
-    credits: 3,
-    category: "Open Elective - II",
-    link: "/subject/iot-and-applications",
-  },
-  {
-    code: "3160717",
-    name: "Data Visualization",
-    credits: 3,
-    category: "Open Elective - II",
-    link: "/subject/data-visualization",
+    notesLink: "/subject/microprocessor-and-interfacing",
+    syllabusPdf: "/pdfs/syllabus/microprocessor-and-interfacing-syllabus.pdf",
+    pyqLink: "/pyq/microprocessor-and-interfacing",
   },
 ];
 
@@ -76,14 +49,14 @@ export default function SemesterPage() {
           </p>
           <h1 className="mt-2 text-4xl font-bold">Semester 6 Subjects</h1>
           <p className="mt-3 text-gray-600">
-            Notes, PYQs, important questions, viva preparation, and premium PDF
+            Notes, Syllabus PDFs, Previous Year Question Papers, and Premium PDF
             downloads for Semester 6.
           </p>
         </div>
 
-        {/* Subject Grid */}
+        {/* Subject Cards */}
         <div className="grid gap-6 md:grid-cols-2">
-          {semester5Subjects.map((subject) => (
+          {semester6Subjects.map((subject) => (
             <div
               key={subject.code}
               className="rounded-3xl border border-gray-200 p-6 shadow-sm transition hover:shadow-md"
@@ -102,16 +75,31 @@ export default function SemesterPage() {
               <p className="mt-4 text-sm text-gray-600">{subject.category}</p>
 
               <div className="mt-6 flex flex-wrap gap-3">
+                {/* View Notes */}
                 <a
-                  href={subject.link}
+                  href={subject.notesLink}
                   className="rounded-2xl bg-black px-5 py-2 text-sm font-medium text-white"
                 >
                   View Notes
                 </a>
 
-                <button className="rounded-2xl border border-gray-300 px-5 py-2 text-sm font-medium">
-                  PYQ PDFs
-                </button>
+                {/* Syllabus PDF */}
+                <a
+                  href={subject.syllabusPdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-2xl border border-gray-300 px-5 py-2 text-sm font-medium"
+                >
+                  Syllabus
+                </a>
+
+                {/* PYQ Page */}
+                <a
+                  href={subject.pyqLink}
+                  className="rounded-2xl border border-gray-300 px-5 py-2 text-sm font-medium"
+                >
+                  PYQ Papers
+                </a>
               </div>
             </div>
           ))}
@@ -133,3 +121,37 @@ export default function SemesterPage() {
     </main>
   );
 }
+
+/*
+PDF SAVE LOCATION:
+
+Create this folder:
+
+public/
+  pdfs/
+    syllabus/
+      theory-of-computation-syllabus.pdf
+      advanced-java-programming-syllabus.pdf
+
+Why public folder?
+Because free PDFs like syllabus should be directly readable + downloadable.
+
+When user clicks Syllabus:
+PDF opens in browser readable mode.
+Browser automatically shows Download button also.
+
+PYQ FLOW:
+Create a separate page like:
+
+app/
+  pyq/
+    theory-of-computation/
+      page.tsx
+
+That page should show list like:
+- TOC SUMMER 2025
+- TOC WINTER 2024
+- TOC SUMMER 2024
+
+Each item opens its PDF.
+*/

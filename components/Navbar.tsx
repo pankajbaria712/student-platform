@@ -5,7 +5,7 @@ export default function Navbar() {
         {/* Logo */}
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            Student<span className="text-gray-400">Hub</span>
+            GTUStudent<span className="text-gray-400">Hub</span>
           </h1>
           <p className="text-xs text-gray-500">Notes • PYQs • Premium PDFs</p>
         </div>
@@ -38,6 +38,13 @@ export default function Navbar() {
             className="text-sm font-medium text-gray-300 transition hover:text-white"
           >
             Premium
+          </a>
+
+          <a
+            href="/contact"
+            className="text-sm font-medium text-gray-300 transition hover:text-white"
+          >
+            Contact
           </a>
         </div>
 

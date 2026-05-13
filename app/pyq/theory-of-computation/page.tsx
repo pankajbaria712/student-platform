@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
+import Disclaimer from "@/components/Disclaimer";
 
 const pyqPapers = [
   {
@@ -101,6 +102,9 @@ const PaperCard = ({ paper }) => (
           <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
             {paper.title}
           </h3>
+          <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-gray-500">
+            Source: GTU
+          </p>
         </div>
       </div>
 
@@ -113,12 +117,7 @@ const PaperCard = ({ paper }) => (
           download
         />
         <div className="h-8 w-px bg-white/5 hidden lg:block mx-2" />
-        <ActionButton
-          icon={Lock}
-          label="Unlock Solution • ₹6"
-          href="#"
-          premium
-        />
+        <ActionButton icon={Lock} label="Locked Content" href="#" premium />
       </div>
     </div>
   </div>
@@ -143,24 +142,33 @@ export default function PYQPage() {
         </Link>
 
         {/* Page Header */}
-        <header className="mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-6">
-            <Zap size={12} fill="currentColor" /> Expert Solutions Available
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight">
-            Theory of{" "}
-            <span className="text-indigo-500 italic underline decoration-white/10 underline-offset-8">
-              Computation
-            </span>{" "}
-            <br />
-            PYQ Library
-          </h1>
-          <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-            Access verified previous year question papers and unlock
-            step-by-step verified solutions curated by university gold
-            medalists.
-          </p>
-        </header>
+        <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <a
+            href="#"
+            className="inline-flex items-center justify-center gap-2 rounded-3xl bg-indigo-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400"
+          >
+            <Zap size={16} /> Buy All Papers • ₹19
+          </a>
+
+          <header className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-6">
+              <Zap size={12} fill="currentColor" /> Expert Solutions Available
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight">
+              Theory of{" "}
+              <span className="text-indigo-500 italic underline decoration-white/10 underline-offset-8">
+                Computation
+              </span>{" "}
+              <br />
+              PYQ Library
+            </h1>
+            <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
+              Access verified previous year question papers and unlock
+              step-by-step verified solutions curated by university gold
+              medalists.
+            </p>
+          </header>
+        </div>
 
         {/* Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -198,17 +206,19 @@ export default function PYQPage() {
 
         {/* Papers List */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between px-6 mb-4">
+          <div className="flex flex-col gap-2 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
               Available Papers
             </span>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
-              Actions & Premium
-            </span>
+            <span className="text-[10px] text-gray-500">Source: GTU</span>
           </div>
           {pyqPapers.map((paper) => (
             <PaperCard key={paper.title} paper={paper} />
           ))}
+        </div>
+
+        <div className="mb-16 mt-12">
+          <Disclaimer />
         </div>
 
         {/* Micro-Transaction Footer */}

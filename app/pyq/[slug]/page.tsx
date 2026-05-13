@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
+import Disclaimer from "@/components/Disclaimer";
 
 const subjectData: Record<
   string,
@@ -832,6 +833,9 @@ const PaperCard = ({
           <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
             {paper.title}
           </h3>
+          <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-gray-500">
+            Source: GTU
+          </p>
         </div>
       </div>
 
@@ -939,13 +943,11 @@ export default function SubjectPYQPage({
         </div>
 
         <div className="space-y-4">
-          <div className="flex items-center justify-between px-6 mb-4">
+          <div className="flex flex-col gap-2 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
               Available Papers
             </span>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
-              Actions & Premium
-            </span>
+            <span className="text-[10px] text-gray-500">Source: GTU</span>
           </div>
 
           {subject.papers.length > 0 ? (
@@ -964,6 +966,10 @@ export default function SubjectPYQPage({
               </p>
             </div>
           )}
+        </div>
+
+        <div className="mb-16 mt-12">
+          <Disclaimer />
         </div>
 
         <section className="mt-20 p-8 rounded-[2.5rem] bg-indigo-600/5 border border-indigo-500/10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">

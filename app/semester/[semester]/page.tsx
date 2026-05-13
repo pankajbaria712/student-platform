@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
+import Disclaimer from "@/components/Disclaimer";
 
 const semesterData = {
   "3": {
@@ -601,6 +602,19 @@ const SubjectCard = ({ subject }) => (
         />
         <ActionButton icon={History} label="Papers" href={subject.pyqLink} />
       </div>
+      {(subject.syllabusPdf !== "#" || subject.pyqLink !== "#") && (
+        <p className="mt-4 text-[10px] text-gray-400">
+          Source:{" "}
+          <a
+            href="https://www.gtu.ac.in"
+            target="_blank"
+            rel="noreferrer"
+            className="text-indigo-300 hover:text-indigo-100"
+          >
+            GTU
+          </a>
+        </p>
+      )}
     </div>
   </div>
 );
@@ -668,6 +682,10 @@ export default function SemesterPage({ params }: SemesterPageProps) {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mb-24">
+          <Disclaimer />
         </div>
 
         {/* Premium Banner */}

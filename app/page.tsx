@@ -1,27 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import Navbar from "@/components/Navbar";
 import {
   BookOpen,
   Download,
   Crown,
   ChevronRight,
   Search,
-  Zap,
   ShieldCheck,
   FileText,
   Star,
   Users,
 } from "lucide-react";
-
-const NavItem = ({ label, href }: { label: string; href: string }) => (
-  <a
-    href={href}
-    className="text-sm font-medium text-gray-400 transition hover:text-white"
-  >
-    {label}
-  </a>
-);
 
 const FeatureBadge = ({ icon: Icon, text }: { icon: any; text: string }) => (
   <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-gray-300">
@@ -69,55 +60,16 @@ const SemesterCard = ({ semester }: { semester: number }) => (
 
 export default function HomePage() {
   const semesters = [3, 4, 5, 6, 7, 8];
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/40">
+      <Navbar />
+
       {/* Background Glow */}
       <div className="fixed inset-0 z-0">
         <div className="absolute left-[-10%] top-[-10%] h-[50%] w-[50%] rounded-full bg-indigo-600/10 blur-[120px]" />
         <div className="absolute bottom-[10%] right-[-10%] h-[40%] w-[40%] rounded-full bg-purple-600/10 blur-[120px]" />
       </div>
-
-      {/* Navbar */}
-      <nav
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "border-b border-white/5 bg-black/60 py-4 backdrop-blur-xl"
-            : "py-6"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          <a href="/" className="flex cursor-pointer items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20">
-              <Zap size={22} className="text-white" fill="white" />
-            </div>
-            <span className="text-xl font-black uppercase italic tracking-tight">
-              EduNext
-            </span>
-          </a>
-
-          <div className="hidden items-center gap-8 md:flex">
-            <NavItem label="Resources" href="#notes" />
-            <NavItem label="Premium" href="#premium" />
-            <NavItem label="PYQs" href="/pyq/theory-of-computation" />
-            <NavItem label="Contact" href="#footer" />
-          </div>
-
-          <a
-            href="#premium"
-            className="rounded-xl bg-white px-5 py-2 text-sm font-bold text-black transition hover:bg-gray-200"
-          >
-            Unlock PDF
-          </a>
-        </div>
-      </nav>
 
       {/* Hero */}
       <section className="relative px-6 pb-20 pt-40">
@@ -238,10 +190,10 @@ export default function HomePage() {
           </div>
 
           <div className="flex gap-6 text-sm text-gray-500">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Refund Policy</a>
-            <a href="#">Contact</a>
+            <a href="/privacy-policy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/refund-policy">Refund Policy</a>
+            <a href="/contact">Contact</a>
           </div>
         </div>
       </footer>

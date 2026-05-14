@@ -175,7 +175,7 @@ export default function PremiumButton({
       type="button"
       onClick={handlePremiumAction}
       disabled={isLoading}
-      className="rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+      className="w-full min-h-[44px] rounded-2xl bg-indigo-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60 lg:w-auto lg:shrink-0"
     >
       {isLoading ? "Processing..." : buttonLabel}
     </button>

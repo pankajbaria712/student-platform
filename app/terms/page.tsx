@@ -7,17 +7,17 @@ export default function TermsPage() {
     <div className="min-h-screen bg-[#050505] text-white">
       <Navbar />
 
-      <main className="mx-auto max-w-4xl px-6 py-20">
-        <div className="mb-16">
-          <h1 className="mb-4 text-5xl font-black tracking-tight">
+      <main className="mx-auto max-w-4xl px-page py-12 sm:py-16 md:py-20">
+        <div className="mb-10 sm:mb-16">
+          <h1 className="mb-3 text-3xl font-black tracking-tight sm:mb-4 sm:text-4xl md:text-5xl">
             Terms of <span className="text-indigo-500">Service</span>
           </h1>
-          <p className="text-xl text-gray-400">
+          <p className="text-sm text-gray-400 sm:text-base md:text-lg">
             Last updated: {new Date().toLocaleDateString()}
           </p>
         </div>
 
-        <div className="prose prose-invert max-w-none space-y-8">
+        <div className="prose prose-invert prose-sm max-w-none space-y-8 sm:prose-base">
           <section>
             <h2 className="mb-4 text-2xl font-bold">1. Acceptance of Terms</h2>
             <p className="text-gray-300 leading-relaxed">

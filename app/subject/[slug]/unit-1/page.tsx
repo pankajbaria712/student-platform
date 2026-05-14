@@ -1,3 +1,7 @@
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import PremiumButton from "@/components/PremiumButton";
+
 type NoteSection = {
   heading: string;
   content: string;
@@ -37,80 +41,123 @@ const noteData = {
   ] as NoteSection[],
 };
 
-export default function FullNotesPage() {
+interface UnitPageProps {
+  params: { slug: string };
+}
+
+export default function FullNotesPage({ params }: UnitPageProps) {
+  const subjectSlug = params.slug || "theory-of-computation";
+
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      <div className="mx-auto max-w-4xl px-6 py-10">
-        {/* Breadcrumb */}
-        <p className="text-sm text-gray-500">
-          {noteData.semester} • {noteData.subjectCode} • {noteData.subjectName}
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Navbar />
+      <main className="mx-auto max-w-4xl px-page py-8 pb-safe sm:py-10">
+        <nav className="text-xs text-slate-400 sm:text-sm" aria-label="Breadcrumb">
+          <Link href="/" className="text-indigo-400 hover:text-indigo-300">
+            Home
+          </Link>
+          <span className="mx-2 text-slate-600">/</span>
+          <Link
+            href={`/subject/${subjectSlug}`}
+            className="text-indigo-400 hover:text-indigo-300"
+          >
+            {noteData.subjectName}
+          </Link>
+          <span className="mx-2 text-slate-600">/</span>
+          <span className="text-slate-300">Unit 1</span>
+        </nav>
+
+        <p className="mt-4 text-xs text-slate-500 sm:text-sm">
+          {noteData.semester} · {noteData.subjectCode}
         </p>
 
-        {/* Title */}
-        <div className="mt-4">
-          <h1 className="text-4xl font-bold">{noteData.unitTitle}</h1>
-          <p className="mt-3 text-gray-600">
+        <div className="mt-3">
+          <h1 className="text-2xl font-bold leading-tight text-white sm:text-4xl">
+            {noteData.unitTitle}
+          </h1>
+          <p className="mt-3 text-sm text-slate-400 sm:text-base">
             Read complete chapter-wise notes for free. Premium users can
             download the full printable PDF for ₹33.
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-8 flex flex-wrap gap-4">
-          <button className="rounded-2xl bg-black px-6 py-3 text-white">
-            Continue Reading
-          </button>
-
-          <button className="rounded-2xl border border-gray-300 px-6 py-3">
-            View PYQ Questions
-          </button>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="#notes-content"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-2xl bg-indigo-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-indigo-400"
+          >
+            Continue reading
+          </a>
+          <Link
+            href={`/pyq/${subjectSlug}`}
+            className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+          >
+            View PYQ questions
+          </Link>
         </div>
 
-        {/* Notes Content */}
-        <section className="mt-12 space-y-8">
+        <section id="notes-content" className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
           {noteData.sections.map((section) => (
             <article
               key={section.heading}
-              className="rounded-3xl border border-gray-200 p-6 shadow-sm"
+              className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:rounded-3xl sm:p-6"
             >
-              <h2 className="text-2xl font-semibold">{section.heading}</h2>
-              <p className="mt-4 leading-8 text-gray-700">{section.content}</p>
+              <h2 className="text-lg font-semibold text-white sm:text-2xl">
+                {section.heading}
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base sm:leading-8">
+                {section.content}
+              </p>
             </article>
           ))}
         </section>
 
-        {/* Important Questions */}
-        <section className="mt-14 rounded-3xl border border-gray-200 p-8 shadow-sm">
-          <h3 className="text-2xl font-bold">Important Exam Questions</h3>
+        <section className="mt-12 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:mt-14 sm:rounded-3xl sm:p-8">
+          <h3 className="text-xl font-bold text-white sm:text-2xl">
+            Important exam questions
+          </h3>
 
-          <ul className="mt-5 space-y-3 text-gray-700">
-            <li>• Explain Finite Automata with example.</li>
-            <li>• Differentiate between DFA and NFA.</li>
-            <li>• Explain the applications of Automata Theory.</li>
-            <li>• Draw DFA for binary strings ending with 01.</li>
+          <ul className="mt-5 space-y-3 text-sm text-slate-300 sm:text-base">
+            <li>Explain Finite Automata with example.</li>
+            <li>Differentiate between DFA and NFA.</li>
+            <li>Explain the applications of Automata Theory.</li>
+            <li>Draw DFA for binary strings ending with 01.</li>
           </ul>
         </section>
 
-        {/* Premium PDF Section */}
-        <section className="mt-14 rounded-3xl border border-gray-200 p-8 shadow-sm">
-          <h3 className="text-2xl font-bold">Premium PDF Download</h3>
-          <p className="mt-3 text-gray-600">
-            Download full printable notes PDF, revision notes, PYQ support, and
-            exam-focused important questions for only ₹33.
-          </p>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border p-4">✔ Full Subject PDF</div>
-            <div className="rounded-2xl border p-4">✔ Printable Version</div>
-            <div className="rounded-2xl border p-4">✔ Revision Notes</div>
-            <div className="rounded-2xl border p-4">✔ Important Questions</div>
+        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:mt-14 sm:rounded-3xl sm:p-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-white sm:text-2xl">
+                Premium PDF download
+              </h3>
+              <p className="mt-3 text-sm text-slate-400 sm:text-base">
+                Full printable PDF, revision notes, PYQ support, and exam-focused
+                important questions for ₹33.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Full subject PDF",
+                  "Printable version",
+                  "Revision notes",
+                  "Important questions",
+                ].map((label) => (
+                  <div
+                    key={label}
+                    className="rounded-2xl border border-slate-700/80 bg-slate-950/50 px-4 py-3 text-sm text-slate-300"
+                  >
+                    ✔ {label}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <PremiumButton
+              subjectId={subjectSlug}
+              subjectTitle={noteData.subjectName}
+            />
           </div>
-
-          <button className="mt-8 rounded-2xl bg-black px-6 py-3 text-white">
-            Download Premium PDF – ₹33
-          </button>
         </section>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

@@ -11,6 +11,8 @@ import {
   Zap,
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
+import Navbar from "@/components/Navbar";
+import BundleOfferCard from "@/components/BundleOfferCard";
 
 const pyqPapers = [
   {
@@ -83,23 +85,23 @@ const ActionButton = ({
 );
 
 const PaperCard = ({ paper }) => (
-  <div className="group relative rounded-3xl bg-white/[0.02] border border-white/5 p-6 hover:bg-white/[0.04] transition-all duration-300">
-    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-      <div className="flex items-center gap-5">
-        <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all">
-          <FileText size={24} />
+  <div className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:bg-white/[0.04] sm:rounded-3xl sm:p-6">
+    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex min-w-0 flex-1 items-start gap-4">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 transition-all group-hover:bg-indigo-500 group-hover:text-white sm:h-12 sm:w-12">
+          <FileText size={22} />
         </div>
-        <div>
-          <div className="flex items-center gap-2 mb-1">
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex flex-wrap items-center gap-2">
             <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500">
               {paper.type} {paper.year}
             </span>
             <div className="h-1 w-1 rounded-full bg-white/20" />
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
               {paper.code}
             </span>
           </div>
-          <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
+          <h3 className="text-base font-bold text-white transition-colors group-hover:text-indigo-400 sm:text-lg">
             {paper.title}
           </h3>
           <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-gray-500">
@@ -108,7 +110,7 @@ const PaperCard = ({ paper }) => (
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-stretch gap-2 sm:gap-3 lg:justify-end">
         <ActionButton icon={ExternalLink} label="View Paper" href={paper.pdf} />
         <ActionButton
           icon={Download}
@@ -116,8 +118,8 @@ const PaperCard = ({ paper }) => (
           href={paper.pdf}
           download
         />
-        <div className="h-8 w-px bg-white/5 hidden lg:block mx-2" />
-        <ActionButton icon={Lock} label="Locked Content" href="#" premium />
+        <div className="mx-2 hidden h-8 w-px bg-white/5 lg:block" />
+        <ActionButton icon={Lock} label="Open Solution" href="#" premium />
       </div>
     </div>
   </div>
@@ -125,53 +127,50 @@ const PaperCard = ({ paper }) => (
 
 export default function PYQPage() {
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-indigo-500/30 font-sans antialiased overflow-x-hidden pb-20">
-      {/* Background Ambience */}
+    <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30 pb-safe">
       <div className="fixed inset-0 z-0">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-indigo-600/5 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-purple-600/5 blur-[120px]" />
+        <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-indigo-600/5 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-purple-600/5 blur-[120px]" />
       </div>
 
-      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-20">
-        {/* Navigation Breadcrumb */}
+      <div className="relative z-10">
+        <Navbar />
+      </div>
+
+      <main className="relative z-10 mx-auto max-w-6xl px-page pb-16 pt-6 sm:pb-20 sm:pt-10">
         <Link
           href="/semester/6"
-          className="flex items-center gap-2 text-gray-500 hover:text-indigo-400 transition-colors text-[10px] font-black uppercase tracking-[0.2em] mb-10"
+          className="mb-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 transition-colors hover:text-indigo-400 sm:mb-10"
         >
           <ChevronLeft size={14} /> Back to Semester 6
         </Link>
 
-        {/* Page Header */}
-        <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-          <a
-            href="#"
-            className="inline-flex items-center justify-center gap-2 rounded-3xl bg-indigo-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400"
-          >
-            <Zap size={16} /> Buy All Papers • ₹19
-          </a>
-
-          <header className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-6">
-              <Zap size={12} fill="currentColor" /> Expert Solutions Available
+        <header className="mb-10 sm:mb-14">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-indigo-400">
+            <Zap size={12} fill="currentColor" /> Expert solutions available
+          </div>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <h1 className="mb-4 text-3xl font-black leading-tight tracking-tighter sm:text-4xl md:text-6xl">
+                Theory of{" "}
+                <span className="text-indigo-500 italic underline decoration-white/10 underline-offset-8">
+                  Computation
+                </span>{" "}
+                PYQ Solution
+              </h1>
+              <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
+                Access verified previous year question papers and unlock
+                verified solutions of PYQ Papers curated by university gold
+                medalists.
+              </p>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight">
-              Theory of{" "}
-              <span className="text-indigo-500 italic underline decoration-white/10 underline-offset-8">
-                Computation
-              </span>{" "}
-              <br />
-              PYQ Library
-            </h1>
-            <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-              Access verified previous year question papers and unlock
-              step-by-step verified solutions curated by university gold
-              medalists.
-            </p>
-          </header>
-        </div>
+            <div className="lg:justify-self-end">
+              <BundleOfferCard />
+            </div>
+          </div>
+        </header>
 
-        {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="mb-10 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3 md:mb-12">
           {[
             {
               icon: ShieldCheck,
@@ -206,7 +205,7 @@ export default function PYQPage() {
 
         {/* Papers List */}
         <div className="space-y-4">
-          <div className="flex flex-col gap-2 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
               Available Papers
             </span>
@@ -220,26 +219,11 @@ export default function PYQPage() {
         <div className="mb-16 mt-12">
           <Disclaimer />
         </div>
-
-        {/* Micro-Transaction Footer */}
-        <section className="mt-20 p-8 rounded-[2.5rem] bg-indigo-600/5 border border-indigo-500/10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-          <div>
-            <h4 className="text-xl font-bold mb-2">
-              Need a specific solution?
-            </h4>
-            <p className="text-gray-500 text-sm">
-              Request a solution for any paper and get it within 24 hours.
-            </p>
-          </div>
-          <button className="px-8 py-4 bg-white text-black rounded-2xl font-black text-sm hover:scale-105 transition-transform active:scale-95 shadow-xl shadow-white/5">
-            Request Custom Solution
-          </button>
-        </section>
       </main>
 
-      <footer className="mt-20 border-t border-white/5 py-12 text-center">
+      <footer className="border-t border-white/5 py-10 pb-safe text-center sm:py-12">
         <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.4em]">
-          Powered by EduNext Advanced Learning Systems
+          Powered by GTUStudentHub Advanced Learning Systems
         </p>
       </footer>
     </div>

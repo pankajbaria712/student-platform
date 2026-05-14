@@ -20,6 +20,31 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/register/page.js"
+    ],
+    "/semester/[semester]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/semester/[semester]/page.js"
+    ],
+    "/pyq/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pyq/[slug]/page.js"
+    ],
+    "/subject/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/subject/[slug]/page.js"
+    ],
+    "/subject/[slug]/unit-1/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/subject/[slug]/unit-1/page.js"
+    ],
+    "/pyq/theory-of-computation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pyq/theory-of-computation/page.js"
     ]
   }
 }

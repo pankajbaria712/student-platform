@@ -1,4 +1,5 @@
 import PremiumButton from "@/components/PremiumButton";
+import Navbar from "@/components/Navbar";
 
 type Chapter = {
   title: string;
@@ -58,54 +59,57 @@ interface SubjectPageProps {
 
 export default function SubjectPage({ params }: SubjectPageProps) {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-6xl px-6 py-10">
-        <div className="mb-10 rounded-[2rem] border border-white/10 bg-slate-900/70 p-8 shadow-2xl shadow-black/20 backdrop-blur-xl">
-          <p className="text-sm font-medium text-slate-400">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Navbar />
+      <main className="mx-auto max-w-6xl px-page py-8 sm:py-10">
+        <div className="mb-8 rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl sm:mb-10 sm:rounded-[2rem] sm:p-8">
+          <p className="text-xs font-medium text-slate-400 sm:text-sm">
             {subjectData.semester} • {subjectData.code}
           </p>
-          <h1 className="mt-2 text-4xl font-bold text-white">
+          <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-4xl">
             {subjectData.name}
           </h1>
-          <p className="mt-3 max-w-3xl text-slate-400">
+          <p className="mt-3 max-w-3xl text-sm text-slate-400 sm:text-base">
             {subjectData.description}
           </p>
         </div>
 
-        <div className="mb-10 flex flex-wrap gap-4">
+        <div className="mb-8 flex flex-col gap-3 sm:mb-10 sm:flex-row sm:flex-wrap">
           <a
             href={`/subject/${params.slug}/unit-1`}
-            className="rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-2xl bg-indigo-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-indigo-400 sm:px-6"
           >
-            Read Notes Free
+            Read notes free
           </a>
           <a
             href={`/pyq/${params.slug}`}
-            className="rounded-2xl border border-slate-700 bg-slate-900 px-6 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white sm:px-6"
           >
             View PYQ PDFs
           </a>
           <a
             href="/contact"
-            className="rounded-2xl border border-slate-700 bg-slate-900 px-6 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white sm:px-6"
           >
-            Contact Support
+            Contact support
           </a>
         </div>
 
         <section>
-          <h2 className="text-3xl font-bold text-white">Chapter-wise Notes</h2>
-          <p className="mt-2 text-slate-400">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+            Chapter-wise notes
+          </h2>
+          <p className="mt-2 text-sm text-slate-400 sm:text-base">
             Read complete unit-wise notes directly on the website.
           </p>
 
-          <div className="mt-8 space-y-6">
+          <div className="mt-6 space-y-4 sm:mt-8 sm:space-y-6">
             {subjectData.chapters.map((chapter) => (
               <div
                 key={chapter.title}
-                className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-sm"
+                className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-sm sm:rounded-3xl sm:p-6"
               >
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-lg font-semibold text-white sm:text-xl">
                   {chapter.title}
                 </h3>
                 <ul className="mt-4 space-y-2 text-slate-300">
@@ -124,17 +128,17 @@ export default function SubjectPage({ params }: SubjectPageProps) {
           </div>
         </section>
 
-        <section className="mt-14 rounded-[2rem] border border-slate-800 bg-slate-900/80 p-8 shadow-2xl shadow-black/20">
+        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-black/20 sm:mt-14 sm:rounded-[2rem] sm:p-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h3 className="text-3xl font-bold text-white">
-                Premium PDF Download
+              <h3 className="text-2xl font-bold text-white sm:text-3xl">
+                Premium PDF download
               </h3>
-              <p className="mt-3 max-w-2xl text-slate-400">
+              <p className="mt-3 max-w-2xl text-sm text-slate-400 sm:text-base">
                 Download complete printable notes, revision highlights, and exam
                 support for only ₹33.
               </p>
-              <ul className="mt-6 space-y-2 text-slate-300">
+              <ul className="mt-6 space-y-2 text-sm text-slate-300 sm:text-base">
                 <li>✔ Full Subject PDF</li>
                 <li>✔ Printable Download</li>
                 <li>✔ Revision Notes Included</li>
@@ -148,7 +152,7 @@ export default function SubjectPage({ params }: SubjectPageProps) {
             />
           </div>
         </section>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

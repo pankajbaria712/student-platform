@@ -72,32 +72,37 @@ export default function HomePage() {
       </div>
 
       {/* Hero */}
-      <section className="relative px-6 pb-20 pt-40">
+      <section className="relative px-page pb-16 pt-28 sm:pb-20 sm:pt-36 md:pt-40">
         <div className="mx-auto max-w-5xl text-center">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-indigo-400">
-            <Users size={14} /> Trusted by 5,000+ Students
+          <div className="mb-6 inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-indigo-400 sm:mb-8 sm:px-4 sm:text-xs">
+            <Users size={14} className="shrink-0" /> Trusted by 5,000+ students
           </div>
 
-          <h1 className="mb-6 bg-gradient-to-b from-white to-white/40 bg-clip-text text-5xl font-black leading-tight text-transparent md:text-8xl">
+          <h1 className="mb-5 bg-gradient-to-b from-white to-white/40 bg-clip-text text-4xl font-black leading-[1.08] text-transparent sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
             Engineering Made
             <br />
             Simple. Effective.
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-400 md:text-xl">
+          <p className="mx-auto mb-8 max-w-2xl px-1 text-base leading-relaxed text-gray-400 sm:mb-10 sm:text-lg md:text-xl">
             Semester notes, syllabus PDFs, PYQs, and premium printable study
             material built for BE Computer Engineering students.
           </p>
 
-          <div className="relative mx-auto max-w-2xl">
-            <div className="flex items-center rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md">
-              <Search className="ml-4 text-gray-500" size={20} />
-              <input
-                type="text"
-                placeholder="Search subject, notes, PYQ..."
-                className="w-full bg-transparent px-4 py-3 text-white outline-none placeholder:text-gray-500"
-              />
-              <button className="rounded-xl bg-indigo-600 px-6 py-3 font-bold text-white transition hover:bg-indigo-500">
+          <div className="relative mx-auto max-w-2xl px-0">
+            <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md sm:flex-row sm:items-center sm:gap-0">
+              <div className="flex min-h-[48px] flex-1 items-center px-2 sm:px-0">
+                <Search className="ml-2 shrink-0 text-gray-500 sm:ml-3" size={20} />
+                <input
+                  type="search"
+                  placeholder="Search subject, notes, PYQ…"
+                  className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-gray-500 sm:text-base"
+                />
+              </div>
+              <button
+                type="button"
+                className="shrink-0 rounded-xl bg-indigo-600 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-indigo-500 sm:mr-1 sm:py-3"
+              >
                 Search
               </button>
             </div>
@@ -105,22 +110,39 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div
+        id="pyq"
+        className="relative z-10 scroll-mt-28 px-page pb-8 pt-4 sm:scroll-mt-32"
+      >
+        <div className="mx-auto max-w-7xl rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-5 text-center sm:px-6 sm:text-left">
+          <p className="text-sm font-semibold text-white sm:text-base">
+            Previous year papers & solutions
+          </p>
+          <p className="mt-1 text-xs text-gray-400 sm:text-sm">
+            Open any semester, pick a subject, then use{" "}
+            <span className="font-semibold text-indigo-300">Papers</span> for
+            PYQs or grab the ₹19 bundle on subject PYQ pages.
+          </p>
+        </div>
+      </div>
+
       {/* Semester Section */}
-      <section id="notes" className="relative z-10 px-6 py-24">
+      <section id="notes" className="relative z-10 scroll-mt-28 px-page py-16 sm:scroll-mt-32 sm:py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="mb-12 flex flex-col gap-6 sm:mb-16 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="mb-4 text-4xl font-black">Academic Resources</h2>
-              <div className="flex flex-wrap gap-3">
+              <h2 className="mb-3 text-3xl font-black sm:mb-4 sm:text-4xl">
+                Academic resources
+              </h2>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 <FeatureBadge icon={FileText} text="150+ Notes" />
                 <FeatureBadge icon={Star} text="Top Rated PYQs" />
                 <FeatureBadge icon={ShieldCheck} text="Verified Content" />
               </div>
             </div>
 
-            <p className="hidden max-w-md text-right text-gray-400 md:block">
-              Choose your semester and access syllabus, notes, PYQs, and premium
-              PDFs instantly.
+            <p className="max-w-md text-sm text-gray-400 md:text-right">
+              Choose your semester for syllabus, notes, PYQs, and premium PDFs.
             </p>
           </div>
 
@@ -133,19 +155,22 @@ export default function HomePage() {
       </section>
 
       {/* Premium */}
-      <section id="premium" className="px-6 py-24">
-        <div className="mx-auto max-w-7xl rounded-[3rem] border border-indigo-500/20 bg-[#0a0a0a] p-8 shadow-[0_0_40px_rgba(79,70,229,0.2)] md:p-14">
-          <div className="grid gap-12 lg:grid-cols-2">
+      <section
+        id="premium"
+        className="scroll-mt-28 px-page py-16 sm:scroll-mt-32 sm:py-24"
+      >
+        <div className="mx-auto max-w-7xl rounded-3xl border border-indigo-500/20 bg-[#0a0a0a] p-6 shadow-[0_0_40px_rgba(79,70,229,0.2)] sm:rounded-[2.5rem] sm:p-10 md:p-14">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
             <div>
-              <p className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-indigo-400">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-indigo-400 sm:mb-4 sm:text-sm">
                 Premium Access
               </p>
 
-              <h3 className="mb-6 text-4xl font-black md:text-6xl">
-                Download Premium PDF for Only ₹33
+              <h3 className="mb-5 text-3xl font-black leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
+                Download premium PDF for only ₹33
               </h3>
 
-              <p className="mb-8 text-lg text-gray-400">
+              <p className="mb-6 text-base text-gray-400 sm:mb-8 sm:text-lg">
                 Printable PDFs, revision notes, exam important questions, and
                 ad-free reading experience.
               </p>
@@ -165,12 +190,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-indigo-500/20 bg-indigo-500/5 p-8 text-center">
+            <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-6 text-center sm:rounded-[2rem] sm:p-8">
               <p className="mb-2 text-sm text-gray-500 line-through">MRP ₹99</p>
-              <div className="mb-3 text-6xl font-black">₹33</div>
-              <p className="mb-8 text-sm text-gray-500">Per Subject Only</p>
+              <div className="mb-3 text-5xl font-black sm:text-6xl">₹33</div>
+              <p className="mb-6 text-sm text-gray-500 sm:mb-8">
+                Per subject only
+              </p>
 
-              <button className="flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-indigo-600 text-lg font-bold text-white transition hover:bg-indigo-500">
+              <button
+                type="button"
+                className="flex min-h-[3.5rem] w-full items-center justify-center gap-3 rounded-2xl bg-indigo-600 px-4 text-base font-bold text-white transition hover:bg-indigo-500 sm:text-lg"
+              >
                 <Crown size={20} fill="currentColor" />
                 Buy Now
               </button>
@@ -182,19 +212,27 @@ export default function HomePage() {
       {/* Footer */}
       <footer
         id="footer"
-        className="relative z-10 border-t border-white/5 px-6 pb-12 pt-20"
+        className="relative z-10 border-t border-white/5 px-page pb-safe pt-16 sm:pt-20"
       >
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
-          <div className="text-sm text-gray-500">
-            © 2026 EduNext. All rights reserved.
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row sm:gap-8">
+          <div className="text-center text-sm text-gray-500 sm:text-left">
+            © 2026 GTUStudentHub. All rights reserved.
           </div>
 
-          <div className="flex gap-6 text-sm text-gray-500">
-            <a href="/privacy-policy">Privacy</a>
-            <a href="/terms">Terms</a>
-            <a href="/refund-policy">Refund Policy</a>
-            <a href="/contact">Contact</a>
-          </div>
+          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500">
+            <a href="/privacy-policy" className="hover:text-white">
+              Privacy
+            </a>
+            <a href="/terms" className="hover:text-white">
+              Terms
+            </a>
+            <a href="/refund-policy" className="hover:text-white">
+              Refunds
+            </a>
+            <a href="/contact" className="hover:text-white">
+              Contact
+            </a>
+          </nav>
         </div>
       </footer>
     </div>

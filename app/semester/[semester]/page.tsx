@@ -23,6 +23,7 @@ import {
   Zap,
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
+import Navbar from "@/components/Navbar";
 
 const semesterData = {
   "3": {
@@ -533,7 +534,7 @@ interface SemesterPageProps {
 const ActionButton = ({ icon: Icon, label, href, primary = false }) => {
   const isPdf = typeof href === "string" && href.toLowerCase().endsWith(".pdf");
   const isDisabled = !href || href === "#";
-  const baseClasses = `flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[11px] font-bold transition-all flex-1 ${
+  const baseClasses = `flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold transition-all sm:flex-1 ${
     primary
       ? "bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 border border-indigo-400/20"
       : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:border-white/30 hover:text-white"
@@ -565,7 +566,7 @@ const ActionButton = ({ icon: Icon, label, href, primary = false }) => {
 };
 
 const SubjectCard = ({ subject }) => (
-  <div className="group relative rounded-[2rem] bg-white/[0.02] border border-white/5 p-7 hover:bg-white/[0.04] transition-all duration-500 hover:border-indigo-500/30">
+  <div className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-500 hover:border-indigo-500/30 hover:bg-white/[0.04] sm:rounded-[2rem] sm:p-7">
     <div className="relative z-10">
       <div className="flex items-start justify-between mb-5">
         <div className="h-14 w-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition-all duration-500">
@@ -581,14 +582,14 @@ const SubjectCard = ({ subject }) => (
         </div>
       </div>
 
-      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors line-clamp-1">
+      <h3 className="mb-2 line-clamp-2 text-lg font-bold text-white transition-colors group-hover:text-indigo-400 sm:text-xl sm:line-clamp-1">
         {subject.name}
       </h3>
       <p className="text-gray-500 text-xs mb-6 leading-relaxed line-clamp-2 h-8">
         {subject.description}
       </p>
 
-      <div className="pt-5 border-t border-white/5 flex gap-2">
+      <div className="flex flex-col gap-2 border-t border-white/5 pt-5 sm:flex-row sm:flex-wrap">
         <ActionButton
           icon={Book}
           label="Notes"
@@ -623,39 +624,43 @@ export default function SemesterPage({ params }: SemesterPageProps) {
   const data = semesterData[params.semester] || semesterData["6"];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-indigo-500/30 font-sans antialiased overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">
       {/* Dynamic Background Effects */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/5 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] rounded-full bg-purple-600/5 blur-[100px]" />
+        <div className="absolute top-[-10%] right-[-10%] h-[50%] w-[50%] animate-pulse rounded-full bg-indigo-600/5 blur-[120px]" />
+        <div className="absolute bottom-[-5%] left-[-5%] h-[40%] w-[40%] rounded-full bg-purple-600/5 blur-[100px]" />
       </div>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+      <div className="relative z-10">
+        <Navbar />
+      </div>
+
+      <main className="relative z-10 mx-auto max-w-7xl px-page py-12 sm:py-16 md:py-20">
         {/* Page Header */}
-        <header className="mb-20">
-          <div className="flex items-center gap-2 text-indigo-400 text-[10px] font-black uppercase tracking-[0.3em] mb-4">
-            <GraduationCap size={14} />
+        <header className="mb-12 sm:mb-16 md:mb-20">
+          <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400">
+            <GraduationCap size={14} className="shrink-0" />
             <span>BE Computer Engineering</span>
-            <ChevronRight size={10} className="text-gray-700" />
+            <ChevronRight size={10} className="hidden text-gray-700 sm:inline" />
             <span className="text-gray-500">{data.heading}</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 bg-gradient-to-r from-white via-white to-gray-500 bg-clip-text text-transparent leading-[1.1]">
+          <h1 className="mb-4 bg-gradient-to-r from-white via-white to-gray-500 bg-clip-text text-4xl font-black leading-[1.1] tracking-tighter text-transparent sm:text-5xl md:mb-6 md:text-6xl lg:text-7xl">
             Academic <span className="text-indigo-500 italic">Inventory</span>
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
+          <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
             {data.subtitle}
           </p>
         </header>
 
         {/* Subjects Grid - Optimized for all 11 subjects */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-24">
+        <div className="mb-16 grid grid-cols-1 gap-4 sm:mb-20 sm:gap-5 md:grid-cols-2 lg:mb-24 lg:grid-cols-3">
           {data.subjects.map((sub) => (
             <SubjectCard key={sub.code} subject={sub} />
           ))}
 
           {/* Quick Stats Bento Card */}
-          <div className="rounded-[2rem] bg-indigo-600 p-[1px] group">
-            <div className="h-full w-full rounded-[1.95rem] bg-[#0a0a0a] p-8 flex flex-col justify-center">
+          <div className="group rounded-[2rem] bg-indigo-600 p-[1px]">
+            <div className="flex h-full w-full flex-col justify-center rounded-[1.95rem] bg-[#0a0a0a] p-6 sm:p-8">
               <div className="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-3">
                 Exam Readiness
               </div>
@@ -690,13 +695,13 @@ export default function SemesterPage({ params }: SemesterPageProps) {
 
         {/* Premium Banner */}
         <section className="relative">
-          <div className="absolute inset-0 bg-indigo-600/10 blur-3xl rounded-[3rem]" />
-          <div className="relative rounded-[3rem] bg-white/[0.02] border border-white/5 p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden">
+          <div className="absolute inset-0 rounded-[3rem] bg-indigo-600/10 blur-3xl" />
+          <div className="relative flex flex-col items-center justify-between gap-10 overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] p-6 sm:rounded-[3rem] sm:p-10 md:gap-12 md:p-16 lg:flex-row">
             <div className="max-w-xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8">
                 <Crown size={12} fill="currentColor" /> Premium Access
               </div>
-              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
+              <h2 className="mb-5 text-3xl font-black leading-tight tracking-tight sm:mb-6 sm:text-4xl md:text-5xl">
                 Unlock the{" "}
                 <span className="italic text-indigo-500 underline decoration-indigo-500/30 underline-offset-8">
                   Ultimate
@@ -723,12 +728,12 @@ export default function SemesterPage({ params }: SemesterPageProps) {
             </div>
 
             <div className="w-full lg:w-[340px]">
-              <div className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] p-10 text-center shadow-2xl relative">
+              <div className="relative rounded-3xl border border-white/10 bg-[#0a0a0a] p-6 text-center shadow-2xl sm:rounded-[2.5rem] sm:p-10">
                 <div className="text-gray-500 text-xs mb-1 font-bold line-through tracking-widest">
                   MRP ₹99
                 </div>
-                <div className="flex items-center justify-center gap-2 mb-6">
-                  <span className="text-6xl font-black tracking-tighter">
+                <div className="mb-6 flex items-center justify-center gap-2">
+                  <span className="text-5xl font-black tracking-tighter sm:text-6xl">
                     ₹33
                   </span>
                   <div className="text-left leading-none">
@@ -740,7 +745,10 @@ export default function SemesterPage({ params }: SemesterPageProps) {
                     </div>
                   </div>
                 </div>
-                <button className="group w-full h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black text-sm transition-all hover:bg-indigo-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-95">
+                <button
+                  type="button"
+                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-white text-sm font-black text-black transition-all hover:bg-indigo-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-95 sm:h-16"
+                >
                   Unlock All Subjects <ArrowUpRight size={18} />
                 </button>
                 <p className="text-[10px] text-gray-600 mt-6 font-bold uppercase tracking-widest">
@@ -752,8 +760,8 @@ export default function SemesterPage({ params }: SemesterPageProps) {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-white/5 py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center opacity-40">
+      <footer className="relative z-10 border-t border-white/5 px-page py-10 pb-safe sm:py-12">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 opacity-40 md:flex-row">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
             <div className="h-6 w-6 rounded bg-indigo-600" />
             <span className="text-xs font-black tracking-tighter uppercase">

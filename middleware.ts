@@ -2,6 +2,14 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const protectedPaths = [
+  "/api/create-order",
+  "/api/verify-payment",
+  "/api/generate-link",
+  "/api/check-access",
+  "/api/create-bundle-order",
+];
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
@@ -27,14 +35,16 @@ export async function middleware(req: NextRequest) {
     },
   );
 
-  // Refresh session if expired - required for Server Components
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // Protect premium download routes
-  if (req.nextUrl.pathname.startsWith("/api/generate-link")) {
-    if (!session) {
+  if (protectedPaths.some((path) => req.nextUrl.pathname.startsWith(path))) {
+    // Check if there's a session from cookies OR an Authorization header
+    const authHeader = req.headers.get("authorization");
+    const hasToken = authHeader?.startsWith("Bearer ");
+
+    if (!session && !hasToken) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   }

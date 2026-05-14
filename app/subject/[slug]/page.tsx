@@ -1,3 +1,5 @@
+import PremiumButton from "@/components/PremiumButton";
+
 type Chapter = {
   title: string;
   topics: string[];
@@ -56,36 +58,44 @@ interface SubjectPageProps {
 
 export default function SubjectPage({ params }: SubjectPageProps) {
   return (
-    <main className="min-h-screen bg-white px-6 py-10 text-gray-900">
-      <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="mb-10">
-          <p className="text-sm font-medium text-gray-500">
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="mb-10 rounded-[2rem] border border-white/10 bg-slate-900/70 p-8 shadow-2xl shadow-black/20 backdrop-blur-xl">
+          <p className="text-sm font-medium text-slate-400">
             {subjectData.semester} • {subjectData.code}
           </p>
-          <h1 className="mt-2 text-4xl font-bold">{subjectData.name}</h1>
-          <p className="mt-3 max-w-3xl text-gray-600">
+          <h1 className="mt-2 text-4xl font-bold text-white">
+            {subjectData.name}
+          </h1>
+          <p className="mt-3 max-w-3xl text-slate-400">
             {subjectData.description}
           </p>
         </div>
 
-        {/* Quick Actions */}
         <div className="mb-10 flex flex-wrap gap-4">
-          <button className="rounded-2xl bg-black px-6 py-3 text-white">
+          <a
+            href={`/subject/${params.slug}/unit-1`}
+            className="rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400"
+          >
             Read Notes Free
-          </button>
-          <button className="rounded-2xl border border-gray-300 px-6 py-3">
+          </a>
+          <a
+            href={`/pyq/${params.slug}`}
+            className="rounded-2xl border border-slate-700 bg-slate-900 px-6 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+          >
             View PYQ PDFs
-          </button>
-          <button className="rounded-2xl border border-gray-300 px-6 py-3">
-            Important Questions
-          </button>
+          </a>
+          <a
+            href="/contact"
+            className="rounded-2xl border border-slate-700 bg-slate-900 px-6 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+          >
+            Contact Support
+          </a>
         </div>
 
-        {/* Chapter Wise Notes */}
         <section>
-          <h2 className="text-3xl font-bold">Chapter-wise Notes</h2>
-          <p className="mt-2 text-gray-600">
+          <h2 className="text-3xl font-bold text-white">Chapter-wise Notes</h2>
+          <p className="mt-2 text-slate-400">
             Read complete unit-wise notes directly on the website.
           </p>
 
@@ -93,19 +103,19 @@ export default function SubjectPage({ params }: SubjectPageProps) {
             {subjectData.chapters.map((chapter) => (
               <div
                 key={chapter.title}
-                className="rounded-3xl border border-gray-200 p-6 shadow-sm"
+                className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-sm"
               >
-                <h3 className="text-xl font-semibold">{chapter.title}</h3>
-
-                <ul className="mt-4 space-y-2 text-gray-700">
+                <h3 className="text-xl font-semibold text-white">
+                  {chapter.title}
+                </h3>
+                <ul className="mt-4 space-y-2 text-slate-300">
                   {chapter.topics.map((topic) => (
                     <li key={topic}>• {topic}</li>
                   ))}
                 </ul>
-
                 <a
                   href={`/subject/${params.slug}/unit-1`}
-                  className="rounded-xl border px-4 py-2 text-sm font-medium"
+                  className="mt-6 inline-flex rounded-2xl border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-sm font-semibold text-indigo-300 transition hover:bg-indigo-500/20"
                 >
                   Open Full Notes
                 </a>
@@ -114,24 +124,29 @@ export default function SubjectPage({ params }: SubjectPageProps) {
           </div>
         </section>
 
-        {/* Premium PDF Section */}
-        <section className="mt-14 rounded-3xl border border-gray-200 p-8 shadow-sm">
-          <h3 className="text-2xl font-bold">Premium PDF Download</h3>
-          <p className="mt-3 text-gray-600">
-            Download complete printable notes PDF, revision notes, and exam
-            important questions for only ₹33.
-          </p>
+        <section className="mt-14 rounded-[2rem] border border-slate-800 bg-slate-900/80 p-8 shadow-2xl shadow-black/20">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h3 className="text-3xl font-bold text-white">
+                Premium PDF Download
+              </h3>
+              <p className="mt-3 max-w-2xl text-slate-400">
+                Download complete printable notes, revision highlights, and exam
+                support for only ₹33.
+              </p>
+              <ul className="mt-6 space-y-2 text-slate-300">
+                <li>✔ Full Subject PDF</li>
+                <li>✔ Printable Download</li>
+                <li>✔ Revision Notes Included</li>
+                <li>✔ Accessible Anytime</li>
+              </ul>
+            </div>
 
-          <ul className="mt-5 space-y-2 text-sm text-gray-700">
-            <li>✔ Full Subject PDF</li>
-            <li>✔ Printable Format</li>
-            <li>✔ Exam Revision Notes</li>
-            <li>✔ Important Questions + PYQ Support</li>
-          </ul>
-
-          <button className="mt-8 rounded-2xl bg-black px-6 py-3 text-white">
-            Download Premium PDF – ₹33
-          </button>
+            <PremiumButton
+              subjectId={params.slug}
+              subjectTitle={subjectData.name}
+            />
+          </div>
         </section>
       </div>
     </main>

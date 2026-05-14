@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
+import { getSupabaseClient } from "@/lib/supabase";
 
 export default function BundleOfferCard() {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,33 +10,44 @@ export default function BundleOfferCard() {
   const handlePayment = async () => {
     setIsLoading(true);
     try {
+      const supabase = getSupabaseClient();
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+
+      if (!token) {
+        alert("Please log in first to purchase.");
+        return;
+      }
+
       const response = await fetch("/api/create-bundle-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           amount: 19,
         }),
       });
 
-      const data = await response.json();
+      const data2 = await response.json();
 
-      if (data.orderId) {
+      if (data2.orderId) {
         // Initialize Razorpay
         const options = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: data.amount,
+          amount: data2.amount,
           currency: "INR",
           name: "StudentHub",
           description: "All Paper Solutions Bundle",
-          order_id: data.orderId,
+          order_id: data2.orderId,
           handler: async function (response: any) {
             // Verify payment
             const verifyResponse = await fetch("/api/verify-payment", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
@@ -59,7 +71,7 @@ export default function BundleOfferCard() {
         const rzp = new (window as any).Razorpay(options);
         rzp.open();
       } else {
-        alert("Failed to create order.");
+        alert("Failed to create order: " + (data2.error || "Unknown error"));
       }
     } catch (error) {
       console.error("Payment error:", error);

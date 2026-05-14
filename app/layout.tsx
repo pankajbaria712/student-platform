@@ -6,7 +6,7 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "StudentHub - BE Computer Engineering Notes & PYQs",
+  title: "EduNext - Notes, PYQs, Premium PDFs",
   description:
     "Access semester notes, PYQs, and premium PDF downloads for BE Computer Engineering students.",
 };
@@ -18,7 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} bg-slate-950 text-slate-100 antialiased`}
+      >
         {children}
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>

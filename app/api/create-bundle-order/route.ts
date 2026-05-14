@@ -1,13 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
-import { supabaseAdmin } from "@/lib/supabase";
+import { createServerClient } from "@supabase/ssr";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+
+const buildCookieStore = (request: NextRequest) => ({
+  getAll: async () =>
+    request.cookies.getAll().map((cookie) => ({
+      name: cookie.name,
+      value: cookie.value,
+    })),
+  setAll: async () => {
+    // No-op for API route auth checks.
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount } = await request.json();
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
 
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { cookies: buildCookieStore(request) },
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser(token);
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { amount } = await request.json();
     const key_id = process.env.RAZORPAY_KEY_ID;
     const key_secret = process.env.RAZORPAY_KEY_SECRET;
+
     if (!key_id || !key_secret) {
       console.error("Razorpay credentials are not configured.");
       return NextResponse.json(
@@ -16,12 +49,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const razorpay = new Razorpay({
-      key_id,
-      key_secret,
-    });
-
-    // Validate input - for bundle, amount should be 19
     if (!amount || amount !== 19) {
       return NextResponse.json(
         { error: "Invalid request parameters" },
@@ -29,22 +56,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create Razorpay order
+    const razorpay = new Razorpay({
+      key_id,
+      key_secret,
+    });
+
     const options = {
-      amount: amount * 100, // Razorpay expects amount in paisa
+      amount: amount * 100,
       currency: "INR",
       receipt: `receipt_bundle_${Date.now()}`,
     };
 
     const order = await razorpay.orders.create(options);
 
-    // Store order in database
     const { error } = await supabaseAdmin.from("payments").insert({
-      payment_id: order.id,
+      user_id: user.id,
+      email: user.email || "",
       subject_id: null,
+      payment_id: order.id,
       amount: amount,
       status: "pending",
-      email: "bundle@studenthub.com",
     });
 
     if (error) {

@@ -1,21 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { supabaseAdmin } from "@/lib/supabase";
+import { createServerClient } from "@supabase/ssr";
+import { supabaseAdmin } from "@/lib/supabase-admin";
+
+const buildCookieStore = (request: NextRequest) => ({
+  getAll: async () =>
+    request.cookies.getAll().map((cookie) => ({
+      name: cookie.name,
+      value: cookie.value,
+    })),
+  setAll: async () => {
+    // No-op for API route session checks.
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      subjectId,
-    } = await request.json();
+    const authHeader = request.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
 
-    // Verify payment signature
-    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { cookies: buildCookieStore(request) },
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser(token);
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      await request.json();
+
+    const sign = `${razorpay_order_id}|${razorpay_payment_id}`;
     const expectedSign = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-      .update(sign.toString())
+      .update(sign)
       .digest("hex");
 
     if (razorpay_signature !== expectedSign) {
@@ -25,16 +53,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update payment status in database
-    const { error } = await supabaseAdmin
+    const { data: payment, error: fetchError } = await supabaseAdmin
+      .from("payments")
+      .select("id, user_id")
+      .eq("payment_id", razorpay_order_id)
+      .single();
+
+    if (fetchError || !payment) {
+      return NextResponse.json(
+        { error: "Payment record not found" },
+        { status: 404 },
+      );
+    }
+
+    if (payment.user_id !== user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { error: updateError } = await supabaseAdmin
       .from("payments")
       .update({
         status: "completed",
+        email: user.email || undefined,
       })
       .eq("payment_id", razorpay_order_id);
 
-    if (error) {
-      console.error("Database update error:", error);
+    if (updateError) {
+      console.error("Database update error:", updateError);
       return NextResponse.json(
         { error: "Failed to update payment status" },
         { status: 500 },
@@ -44,7 +89,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Payment verified successfully",
-      subjectId,
     });
   } catch (error) {
     console.error("Verify payment error:", error);

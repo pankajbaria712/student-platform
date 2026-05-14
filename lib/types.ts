@@ -23,6 +23,7 @@ export interface Payment {
   payment_id: string;
   amount: number;
   status: "pending" | "completed" | "failed";
+  email: string;
   created_at: string;
 }
 

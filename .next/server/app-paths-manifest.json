@@ -1,6 +1,4 @@
 {
-  "/page": "app/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/privacy-policy/page": "app/privacy-policy/page.js",
-  "/terms/page": "app/terms/page.js"
+  "/api/verify-payment/route": "app/api/verify-payment/route.js",
+  "/pyq/[slug]/page": "app/pyq/[slug]/page.js"
 }

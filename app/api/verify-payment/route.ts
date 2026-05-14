@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       .from("payments")
       .update({
         status: "completed",
-        payment_id: razorpay_payment_id,
       })
       .eq("payment_id", razorpay_order_id);
 

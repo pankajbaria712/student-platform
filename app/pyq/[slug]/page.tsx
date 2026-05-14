@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
+import BundleOfferCard from "@/components/BundleOfferCard";
 
 const subjectData: Record<
   string,
@@ -880,6 +881,8 @@ export default function SubjectPYQPage({
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-indigo-500/30 font-sans antialiased overflow-x-hidden pb-20">
+      <BundleOfferCard />
+
       <div className="fixed inset-0 z-0">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-indigo-600/5 blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-purple-600/5 blur-[120px]" />

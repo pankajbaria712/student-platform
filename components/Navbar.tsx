@@ -82,7 +82,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            EduNext<span className="text-indigo-400">.</span>
+            GTUStudentHub<span className="text-indigo-400">.</span>
           </h1>
           <p className="text-xs text-slate-500">Notes • PYQs • Premium PDFs</p>
         </div>
@@ -135,12 +135,6 @@ export default function Navbar() {
                 className="rounded-2xl border border-slate-700 bg-slate-900 px-5 py-2 text-sm font-semibold text-slate-200 transition hover:bg-slate-800 hover:text-white"
               >
                 Login
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-2xl bg-indigo-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
-              >
-                Register
               </Link>
             </>
           )}

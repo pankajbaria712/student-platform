@@ -1,8 +1,5 @@
 {
   "/page": "app/page.js",
-  "/register/page": "app/register/page.js",
-  "/semester/[semester]/page": "app/semester/[semester]/page.js",
   "/login/page": "app/login/page.js",
-  "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
-  "/api/create-bundle-order/route": "app/api/create-bundle-order/route.js"
+  "/register/page": "app/register/page.js"
 }

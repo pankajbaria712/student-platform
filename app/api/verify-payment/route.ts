@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { PAYMENT_STATUS_SUCCESS } from "@/lib/pyq/constants";
 
 const buildCookieStore = (request: NextRequest) => ({
   getAll: async () =>
@@ -9,9 +10,7 @@ const buildCookieStore = (request: NextRequest) => ({
       name: cookie.name,
       value: cookie.value,
     })),
-  setAll: async () => {
-    // No-op for API route session checks.
-  },
+  setAll: async () => {},
 });
 
 export async function POST(request: NextRequest) {
@@ -33,12 +32,19 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser(token);
 
-    if (!user) {
+    if (!user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       await request.json();
+
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return NextResponse.json(
+        { error: "Missing payment verification fields" },
+        { status: 400 },
+      );
+    }
 
     const sign = `${razorpay_order_id}|${razorpay_payment_id}`;
     const expectedSign = crypto
@@ -55,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     const { data: payment, error: fetchError } = await supabaseAdmin
       .from("payments")
-      .select("id, user_id")
+      .select("id, user_id, amount, subject_id, status")
       .eq("payment_id", razorpay_order_id)
       .single();
 
@@ -73,8 +79,8 @@ export async function POST(request: NextRequest) {
     const { error: updateError } = await supabaseAdmin
       .from("payments")
       .update({
-        status: "completed",
-        email: user.email || undefined,
+        status: PAYMENT_STATUS_SUCCESS,
+        email: user.email,
       })
       .eq("payment_id", razorpay_order_id);
 
@@ -88,6 +94,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      access: true,
       message: "Payment verified successfully",
     });
   } catch (error) {

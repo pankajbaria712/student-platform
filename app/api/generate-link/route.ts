@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       .select("id")
       .eq("user_id", session.user.id)
       .eq("subject_id", subjectId)
-      .eq("status", "completed")
+      .in("status", ["success", "completed"])
       .limit(1)
       .single();
 

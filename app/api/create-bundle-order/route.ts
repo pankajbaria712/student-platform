@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
 
 const buildCookieStore = (request: NextRequest) => ({
   getAll: async () =>
@@ -9,11 +10,10 @@ const buildCookieStore = (request: NextRequest) => ({
       name: cookie.name,
       value: cookie.value,
     })),
-  setAll: async () => {
-    // No-op for API route auth checks.
-  },
+  setAll: async () => {},
 });
 
+/** Legacy alias — same as POST /api/create-order with bundle + ₹19 */
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization");
@@ -33,48 +33,35 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser(token);
 
-    if (!user) {
+    if (!user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { amount } = await request.json();
     const key_id = process.env.RAZORPAY_KEY_ID;
     const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!key_id || !key_secret) {
-      console.error("Razorpay credentials are not configured.");
       return NextResponse.json(
         { error: "Payment gateway is not configured" },
         { status: 500 },
       );
     }
 
-    if (!amount || amount !== 19) {
-      return NextResponse.json(
-        { error: "Invalid request parameters" },
-        { status: 400 },
-      );
-    }
+    const razorpay = new Razorpay({ key_id, key_secret });
+    const amount = 19;
 
-    const razorpay = new Razorpay({
-      key_id,
-      key_secret,
-    });
-
-    const options = {
+    const order = await razorpay.orders.create({
       amount: amount * 100,
       currency: "INR",
-      receipt: `receipt_bundle_${Date.now()}`,
-    };
-
-    const order = await razorpay.orders.create(options);
+      receipt: `bundle_${Date.now()}`,
+    });
 
     const { error } = await supabaseAdmin.from("payments").insert({
       user_id: user.id,
-      email: user.email || "",
-      subject_id: null,
+      email: user.email,
+      subject_id: PYQ_BUNDLE_SUBJECT_ID,
       payment_id: order.id,
-      amount: amount,
+      amount,
       status: "pending",
     });
 

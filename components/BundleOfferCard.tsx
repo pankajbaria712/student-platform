@@ -1,14 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Sparkles, Loader2 } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase";
+import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
 
-export default function BundleOfferCard() {
+type BundleOfferCardProps = {
+  onPaymentSuccess?: () => void | Promise<void>;
+};
+
+export default function BundleOfferCard({
+  onPaymentSuccess,
+}: BundleOfferCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handlePayment = async () => {
+    if (isLoading) return;
     setIsLoading(true);
+
     try {
       const supabase = getSupabaseClient();
       const { data } = await supabase.auth.getSession();
@@ -16,31 +35,42 @@ export default function BundleOfferCard() {
 
       if (!token) {
         alert("Please log in first to purchase.");
+        setIsLoading(false);
         return;
       }
 
-      const response = await fetch("/api/create-bundle-order", {
+      const response = await fetch("/api/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
+          subjectId: PYQ_BUNDLE_SUBJECT_ID,
           amount: 19,
         }),
       });
 
-      const data2 = await response.json();
+      const orderData = await response.json();
 
-      if (data2.orderId) {
-        const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: data2.amount,
-          currency: "INR",
-          name: "StudentHub",
-          description: "All Paper Solutions Bundle",
-          order_id: data2.orderId,
-          handler: async function (response: any) {
+      if (!response.ok || !orderData.orderId) {
+        throw new Error(orderData.error || "Failed to create order");
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "GTU Student Hub",
+        description: "All PYQ Solutions Bundle",
+        order_id: orderData.orderId,
+        handler: async function (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) {
+          setIsLoading(true);
+          try {
             const verifyResponse = await fetch("/api/verify-payment", {
               method: "POST",
               headers: {
@@ -51,67 +81,108 @@ export default function BundleOfferCard() {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                subjectId: "bundle",
               }),
             });
 
             const verifyData = await verifyResponse.json();
-            if (verifyData.success) {
-              alert("Payment successful! All solutions unlocked.");
-              window.location.reload();
-            } else {
-              alert("Payment verification failed.");
-            }
-          },
-        };
 
-        const rzp = new (window as any).Razorpay(options);
-        rzp.open();
-      } else {
-        alert("Failed to create order: " + (data2.error || "Unknown error"));
-      }
-    } catch (error) {
+            if (verifyResponse.ok && verifyData.success) {
+              if (onPaymentSuccess) {
+                await onPaymentSuccess();
+              } else {
+                window.location.reload();
+              }
+            } else {
+              alert(
+                verifyData.error ||
+                  "Payment verification failed. Please contact support.",
+              );
+            }
+          } catch (err) {
+            console.error("Verification Error:", err);
+            alert("Payment verification failed. Please contact support.");
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        prefill: {
+          email: data.session?.user?.email || "",
+        },
+        theme: { color: "#4f46e5" },
+        modal: {
+          ondismiss: function () {
+            setIsLoading(false);
+          },
+        },
+      };
+
+      const RazorpayCtor = (
+        window as unknown as {
+          Razorpay: new (o: unknown) => { open: () => void };
+        }
+      ).Razorpay;
+      const rzp = new RazorpayCtor(options);
+      rzp.open();
+      setIsLoading(false);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong.";
       console.error("Payment error:", error);
-      alert("Payment failed.");
-    } finally {
+      alert(message);
       setIsLoading(false);
     }
   };
 
+  const Box = "div" as const;
+
   return (
-    <div className="">
-      <div className="pointer-events-auto w-full max-w-md sm:max-w-sm">
-        <div className="rounded-2xl border border-indigo-500/30 bg-slate-950/95 p-4 shadow-2xl shadow-indigo-900/30 backdrop-blur-md sm:rounded-2xl sm:bg-gradient-to-br sm:from-indigo-600/20 sm:to-purple-600/20 sm:p-6">
-          <div className="text-center">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/15 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-300 sm:mb-4 sm:text-xs">
-              <Sparkles size={12} /> Exam offer
-            </div>
-            <h3 className="mb-1 text-base font-bold sm:mb-2 sm:text-lg">
-              Get all paper solutions
+    <Box id="bundle-offer-card" className="scroll-mt-24">
+      <Box className="pointer-events-auto w-full max-w-md sm:max-w-sm">
+        <Box className="rounded-2xl border border-indigo-500/30 bg-slate-950/95 p-4 shadow-2xl shadow-indigo-900/30 backdrop-blur-md transition-all hover:border-indigo-500/50 sm:p-6">
+          <Box className="text-center">
+            <Box className="mb-3 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/15 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-300 sm:mb-4 sm:text-xs">
+              <Sparkles size={12} className="animate-pulse" /> Limited Exam offer
+            </Box>
+
+            <h3 className="mb-1 text-base font-bold sm:mb-2 sm:text-lg text-white">
+              Get All Solutions
             </h3>
             <p className="mb-3 text-xs text-slate-400 sm:mb-4 sm:text-sm">
-              Unlock step-by-step solutions for every PYQ in this subject.
+              Unlock verified step-by-step solutions for every paper in this subject.
             </p>
-            <div className="mb-3 flex flex-wrap items-center justify-center gap-2 sm:mb-4">
-              <span className="text-2xl font-black text-green-400">₹19</span>
-              <span className="text-base text-slate-500 line-through sm:text-lg">
-                ₹199
-              </span>
-              <span className="rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold text-green-300 sm:text-xs">
-                90% off
-              </span>
-            </div>
+
+            <Box className="mb-4 flex items-center justify-center gap-3">
+              <span className="text-3xl font-black text-green-400">₹19</span>
+              <Box className="flex flex-col items-start">
+                <span className="text-xs text-slate-500 line-through">₹199</span>
+                <span className="rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold text-green-300">
+                  90% off
+                </span>
+              </Box>
+            </Box>
+
             <button
               type="button"
               onClick={handlePayment}
               disabled={isLoading}
-              className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:brightness-110 active:scale-[0.98] disabled:opacity-50 sm:rounded-xl sm:py-3"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-4 text-sm font-black uppercase tracking-widest text-white shadow-lg transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
             >
-              {isLoading ? "Processing…" : "Buy now & unlock all"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Unlock Solution ₹19"
+              )}
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
+            <p className="mt-4 text-[10px] text-slate-500">
+              One-time payment • Lifetime access
+            </p>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }

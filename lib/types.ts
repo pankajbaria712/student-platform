@@ -22,7 +22,7 @@ export interface Payment {
   subject_id: string;
   payment_id: string;
   amount: number;
-  status: "pending" | "completed" | "failed";
+  status: "pending" | "success" | "completed" | "failed";
   email: string;
   created_at: string;
 }

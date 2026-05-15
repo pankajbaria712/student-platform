@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
 
 const buildCookieStore = (request: NextRequest) => ({
   getAll: async () =>
@@ -9,9 +10,7 @@ const buildCookieStore = (request: NextRequest) => ({
       name: cookie.name,
       value: cookie.value,
     })),
-  setAll: async () => {
-    // No-op in API routes for server-side auth checks.
-  },
+  setAll: async () => {},
 });
 
 export async function POST(request: NextRequest) {
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser(token);
 
-    if (!user) {
+    if (!user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -42,39 +41,39 @@ export async function POST(request: NextRequest) {
     const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!key_id || !key_secret) {
-      console.error("Razorpay credentials are not configured.");
       return NextResponse.json(
         { error: "Payment gateway is not configured" },
         { status: 500 },
       );
     }
 
-    if (!subjectId || !amount || amount !== 33) {
+    const isBundle =
+      subjectId === PYQ_BUNDLE_SUBJECT_ID && Number(amount) === 19;
+    const isSubject = subjectId && Number(amount) === 33;
+
+    if (!isBundle && !isSubject) {
       return NextResponse.json(
         { error: "Invalid request parameters" },
         { status: 400 },
       );
     }
 
-    const razorpay = new Razorpay({
-      key_id,
-      key_secret,
-    });
+    const razorpay = new Razorpay({ key_id, key_secret });
 
-    const options = {
-      amount: amount * 100,
+    const order = await razorpay.orders.create({
+      amount: Number(amount) * 100,
       currency: "INR",
-      receipt: `receipt_${Date.now()}`,
-    };
-
-    const order = await razorpay.orders.create(options);
+      receipt: isBundle
+        ? `bundle_${Date.now()}`
+        : `subject_${subjectId}_${Date.now()}`,
+    });
 
     const { error } = await supabaseAdmin.from("payments").insert({
       user_id: user.id,
-      email: user.email || "",
+      email: user.email,
       subject_id: subjectId,
       payment_id: order.id,
-      amount: amount,
+      amount: Number(amount),
       status: "pending",
     });
 

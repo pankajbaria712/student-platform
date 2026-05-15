@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Download,
   Eye,
@@ -11,7 +12,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Paper } from "@/app/pyq/_data/subjects";
-import { fetchSignedSolutionUrl } from "@/lib/pyq/client";
 import { getFreePdfUrl } from "@/lib/pyq/paths";
 
 type ActionButtonProps = {
@@ -95,6 +95,7 @@ export default function PyqPaperCard({
   isPaid,
   onRequestUnlock,
 }: PyqPaperCardProps) {
+  const router = useRouter();
   const [opening, setOpening] = useState(false);
 
   const freePdfUrl = getFreePdfUrl(paper.pdf);
@@ -115,26 +116,13 @@ export default function PyqPaperCard({
 
     setOpening(true);
     try {
-      const { url, error } = await fetchSignedSolutionUrl(
-        paper.solutionFile,
-        subjectSlug,
+      router.push(
+        `/solution-viewer?subjectSlug=${encodeURIComponent(
+          subjectSlug,
+        )}&file=${encodeURIComponent(paper.solutionFile)}`,
       );
-
-      if (error === "login_required") {
-        alert("Please log in to open solutions.");
-        window.location.href = "/login";
-        return;
-      }
-
-      if (error === "access_denied" || !url) {
-        alert("Premium access required. Unlock all solutions for ₹19.");
-        scrollToOffer();
-        return;
-      }
-
-      window.open(url, "_blank", "noopener,noreferrer");
     } catch (err) {
-      console.error("Open solution error:", err);
+      console.error("Open solution navigation error:", err);
       alert("Could not open solution. Please try again.");
     } finally {
       setOpening(false);

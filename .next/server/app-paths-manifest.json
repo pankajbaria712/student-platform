@@ -1,11 +1,10 @@
 {
-  "/not-found": "app/not-found.js",
-  "/semester/[semester]/page": "app/semester/[semester]/page.js",
-  "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
   "/page": "app/page.js",
-  "/api/check-access/route": "app/api/check-access/route.js",
-  "/contact/page": "app/contact/page.js",
-  "/api/get-signed-solution/route": "app/api/get-signed-solution/route.js",
+  "/solution-viewer/page": "app/solution-viewer/page.js",
+  "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
   "/register/page": "app/register/page.js",
-  "/login/page": "app/login/page.js"
+  "/api/get-signed-solution/route": "app/api/get-signed-solution/route.js",
+  "/login/page": "app/login/page.js",
+  "/semester/[semester]/page": "app/semester/[semester]/page.js",
+  "/api/check-access/route": "app/api/check-access/route.js"
 }

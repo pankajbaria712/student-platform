@@ -7,9 +7,6 @@ export const PYQ_PDF_BASE = "/pdfs/pyq";
 /** Supabase Storage bucket (private) for premium solution PDFs */
 export const PREMIUM_STORAGE_BUCKET = "premium-pdfs";
 
-/** Signed URL lifetime: 1 hour */
-export const SIGNED_URL_TTL_SECONDS = 3600;
-
 /** Primary status written after Razorpay verification */
 export const PAYMENT_STATUS_SUCCESS = "success";
 

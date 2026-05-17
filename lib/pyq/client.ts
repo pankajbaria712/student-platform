@@ -1,6 +1,8 @@
 import { getSupabaseClient } from "@/lib/supabase";
 
-async function getAuthHeaders(): Promise<HeadersInit | null> {
+async function getAuthHeaders(
+  includeJsonContentType = true,
+): Promise<HeadersInit | null> {
   const supabase = getSupabaseClient();
   const {
     data: { session },
@@ -8,10 +10,15 @@ async function getAuthHeaders(): Promise<HeadersInit | null> {
 
   if (!session?.access_token) return null;
 
-  return {
-    "Content-Type": "application/json",
+  const headers: HeadersInit = {
     Authorization: `Bearer ${session.access_token}`,
   };
+
+  if (includeJsonContentType) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  return headers;
 }
 
 export async function checkPyqAccess(
@@ -33,33 +40,13 @@ export async function checkPyqAccess(
   return Boolean(data.access);
 }
 
-/** Fetches a short-lived Supabase signed URL for a premium solution PDF. */
-export async function fetchSignedSolutionUrl(
+export function getSolutionDownloadPath(
   solutionFile: string,
   subjectSlug: string,
-): Promise<{ url?: string; error?: string }> {
-  const headers = await getAuthHeaders();
-  if (!headers) {
-    return { error: "login_required" };
-  }
-
-  const res = await fetch("/api/get-signed-solution", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ file: solutionFile, subjectSlug }),
+): string {
+  const params = new URLSearchParams({
+    file: solutionFile,
+    subjectSlug,
   });
-
-  const data = (await res.json()) as { url?: string; error?: string };
-
-  if (!res.ok) {
-    return {
-      error: data.error ?? (res.status === 403 ? "access_denied" : "request_failed"),
-    };
-  }
-
-  if (!data.url) {
-    return { error: "no_url" };
-  }
-
-  return { url: data.url };
+  return `/api/download-solution?${params.toString()}`;
 }

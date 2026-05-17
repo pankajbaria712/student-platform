@@ -1,27 +1,36 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import {
-  PREMIUM_STORAGE_BUCKET,
-  SIGNED_URL_TTL_SECONDS,
-} from "./constants";
+import { PREMIUM_STORAGE_BUCKET } from "./constants";
 import { isAllowedStorageFile, normalizeStorageFile } from "./paths";
 
-export async function createPremiumSignedUrl(
-  storageFile: string,
-): Promise<{ url: string } | { error: string }> {
-  const file = normalizeStorageFile(storageFile);
+export type PremiumPdfDownload =
+  | { data: ArrayBuffer; fileName: string }
+  | { error: string; status: number };
 
-  if (!isAllowedStorageFile(file)) {
-    return { error: "Invalid or unknown solution file" };
+/**
+ * Downloads a premium PDF from the private bucket (service role).
+ * Never expose this URL to the client — stream via /api/stream-solution.
+ */
+export async function downloadPremiumPdf(
+  storageFile: string,
+): Promise<PremiumPdfDownload> {
+  const fileName = normalizeStorageFile(storageFile);
+
+  if (!isAllowedStorageFile(fileName)) {
+    return { error: "Invalid or unknown solution file", status: 400 };
   }
 
   const { data, error } = await supabaseAdmin.storage
     .from(PREMIUM_STORAGE_BUCKET)
-    .createSignedUrl(file, SIGNED_URL_TTL_SECONDS);
+    .download(fileName);
 
-  if (error || !data?.signedUrl) {
-    console.error("createSignedUrl error:", error);
-    return { error: error?.message ?? "Failed to generate signed URL" };
+  if (error || !data) {
+    console.error("downloadPremiumPdf error:", error);
+    return {
+      error: error?.message ?? "Solution file not found",
+      status: 404,
+    };
   }
 
-  return { url: data.signedUrl };
+  const buffer = await data.arrayBuffer();
+  return { data: buffer, fileName };
 }

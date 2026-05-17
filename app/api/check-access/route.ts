@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 import { hasPyqPremiumAccess } from "@/lib/pyq/access-server";
 import { hasPaymentAccess } from "@/lib/pyq/payments-access";
 import { getUserFromBearerToken } from "@/lib/pyq/auth";
@@ -8,11 +9,33 @@ export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization");
     const token = authHeader?.replace("Bearer ", "");
 
-    if (!token) {
-      return NextResponse.json({ access: false });
+    let user = null;
+
+    if (token) {
+      user = await getUserFromBearerToken(request, token);
     }
 
-    const user = await getUserFromBearerToken(request, token);
+    if (!user?.email) {
+      const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll: async () =>
+              request.cookies.getAll().map((cookie) => ({
+                name: cookie.name,
+                value: cookie.value,
+              })),
+            setAll: async () => {},
+          },
+        },
+      );
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      user = session?.user ?? null;
+    }
 
     if (!user?.email) {
       return NextResponse.json({ access: false });

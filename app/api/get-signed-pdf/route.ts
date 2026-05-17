@@ -1,13 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 /**
- * @deprecated Use POST /api/get-signed-solution instead (auth + access check).
+ * @deprecated Use GET /api/stream-solution via /solution-viewer instead.
  */
-export async function POST(request: NextRequest) {
+export async function POST() {
   return NextResponse.json(
-    {
-      error: "Use POST /api/get-signed-solution with Authorization header",
-    },
+    { error: "Use /solution-viewer with secure streaming." },
     { status: 410 },
   );
 }

@@ -1,8 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import {
-  PAYMENT_SUCCESS_STATUSES,
-  PYQ_BUNDLE_SUBJECT_ID,
-} from "./constants";
+import { PAYMENT_SUCCESS_STATUSES, PYQ_BUNDLE_SUBJECT_ID } from "./constants";
 
 export type PaymentAccessContext = {
   email: string;
@@ -27,7 +24,6 @@ export async function hasPaymentAccess({
     `subject_id.eq.${PYQ_BUNDLE_SUBJECT_ID}`,
     "subject_id.is.null",
   ];
-
   if (subjectSlug) {
     subjectFilters.push(`subject_id.eq.${subjectSlug}`);
   }
@@ -35,20 +31,20 @@ export async function hasPaymentAccess({
     subjectFilters.push(`subject_id.eq.${subjectCode}`);
   }
 
-  let query = supabaseAdmin
+  const userFilters = [];
+  if (email) userFilters.push(`email.eq.${email}`);
+  if (userId) userFilters.push(`user_id.eq.${userId}`);
+  if (userFilters.length === 0) {
+    return false;
+  }
+
+  const query = supabaseAdmin
     .from("payments")
     .select("id")
     .in("status", [...PAYMENT_SUCCESS_STATUSES])
     .or(subjectFilters.join(","))
+    .or(userFilters.join(","))
     .limit(1);
-
-  if (email && userId) {
-    query = query.or(`email.eq.${email},user_id.eq.${userId}`);
-  } else if (email) {
-    query = query.eq("email", email);
-  } else if (userId) {
-    query = query.eq("user_id", userId);
-  }
 
   const { data, error } = await query;
 

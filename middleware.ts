@@ -8,7 +8,6 @@ const protectedPaths = [
   "/api/generate-link",
   "/api/check-access",
   "/api/create-bundle-order",
-  "/api/get-signed-solution",
 ];
 
 export async function middleware(req: NextRequest) {

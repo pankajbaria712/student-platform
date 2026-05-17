@@ -11,21 +11,6 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/semester/[semester]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/semester/[semester]/page.js"
-    ],
-    "/pyq/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/pyq/[slug]/page.js"
-    ],
-    "/solution-viewer/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/solution-viewer/page.js"
-    ],
     "/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -35,6 +20,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
+    ],
+    "/semester/[semester]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/semester/[semester]/page.js"
+    ],
+    "/pyq/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pyq/[slug]/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",

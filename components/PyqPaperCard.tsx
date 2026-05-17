@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { Paper } from "@/app/pyq/_data/subjects";
 import { getFreePdfUrl } from "@/lib/pyq/paths";
+import { getSupabaseClient } from "@/lib/supabase";
 
 type ActionButtonProps = {
   icon: LucideIcon;
@@ -111,19 +112,52 @@ export default function PyqPaperCard({
     });
   };
 
-  const handleOpenSolution = async () => {
+  const handleDownloadSolution = async () => {
     if (!paper.solutionFile || opening) return;
 
     setOpening(true);
     try {
-      router.push(
-        `/solution-viewer?subjectSlug=${encodeURIComponent(
+      // Prefer sending a bearer token if available, fall back to cookies.
+      const supabase = getSupabaseClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
+      const headers: HeadersInit = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
+      const response = await fetch(
+        `/api/download-solution?subjectSlug=${encodeURIComponent(
           subjectSlug,
         )}&file=${encodeURIComponent(paper.solutionFile)}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers,
+        },
       );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error("Download solution failed:", response.status, errorData);
+        alert(
+          errorData?.error || "Could not download solution. Please try again.",
+        );
+        return;
+      }
+
+      const data = (await response.json()) as { signedUrl?: string };
+      if (!data?.signedUrl) {
+        console.error("Download solution missing signedUrl", data);
+        alert("Could not download solution. Please try again.");
+        return;
+      }
+
+      window.location.href = data.signedUrl;
     } catch (err) {
-      console.error("Open solution navigation error:", err);
-      alert("Could not open solution. Please try again.");
+      console.error("Download solution navigation error:", err);
+      alert("Could not download solution. Please try again.");
     } finally {
       setOpening(false);
     }
@@ -161,9 +195,9 @@ export default function PyqPaperCard({
 
           {hasSolution && (
             <PyqActionButton
-              icon={isPaid ? Sparkles : Lock}
-              label={isPaid ? "Open Solution" : "Unlock Solution ₹19"}
-              onClick={isPaid ? handleOpenSolution : scrollToOffer}
+              icon={isPaid ? Download : Lock}
+              label={isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19"}
+              onClick={isPaid ? handleDownloadSolution : scrollToOffer}
               loading={opening}
               premium
             />

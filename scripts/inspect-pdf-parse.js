@@ -1,0 +1,15 @@
+const pdf = require("pdf-parse");
+console.log("type:", typeof pdf);
+console.log("keys:", Object.keys(pdf));
+console.log("allProps:", Object.getOwnPropertyNames(pdf));
+console.log("has default:", "default" in pdf);
+console.log("default type:", typeof pdf.default);
+console.log("pdf.PDFParse type:", typeof pdf.PDFParse);
+console.log("pdf.PDFParse is function:", typeof pdf.PDFParse === "function");
+const source = pdf.PDFParse.toString();
+console.log("pdf.PDFParse source starts with:", source.slice(0, 500));
+console.log("has parse in source:", source.includes("parse("));
+console.log("prototype parse type:", typeof pdf.PDFParse.prototype.parse);
+console.log("pdf.parse type:", typeof pdf.parse);
+console.log("pdf.getDocument type:", typeof pdf.getDocument);
+console.log("readme:", pdf.readme ? pdf.readme.slice(0, 100) : "no readme");

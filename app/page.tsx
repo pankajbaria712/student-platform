@@ -92,7 +92,10 @@ export default function HomePage() {
           <div className="relative mx-auto max-w-2xl px-0">
             <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md sm:flex-row sm:items-center sm:gap-0">
               <div className="flex min-h-[48px] flex-1 items-center px-2 sm:px-0">
-                <Search className="ml-2 shrink-0 text-gray-500 sm:ml-3" size={20} />
+                <Search
+                  className="ml-2 shrink-0 text-gray-500 sm:ml-3"
+                  size={20}
+                />
                 <input
                   type="search"
                   placeholder="Search subject, notes, PYQ…"
@@ -127,7 +130,10 @@ export default function HomePage() {
       </div>
 
       {/* Semester Section */}
-      <section id="notes" className="relative z-10 scroll-mt-28 px-page py-16 sm:scroll-mt-32 sm:py-24">
+      <section
+        id="notes"
+        className="relative z-10 scroll-mt-28 px-page py-16 sm:scroll-mt-32 sm:py-24"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 flex flex-col gap-6 sm:mb-16 md:flex-row md:items-end md:justify-between">
             <div>

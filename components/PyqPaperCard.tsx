@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Download,
   Eye,
@@ -12,7 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Paper } from "@/app/pyq/_data/subjects";
-import { getFreePdfUrl } from "@/lib/pyq/paths";
+import { getFreePdfUrl, getIpdcTestUrl } from "@/lib/pyq/paths";
 import { getSupabaseClient } from "@/lib/supabase";
 
 type ActionButtonProps = {
@@ -96,11 +95,17 @@ export default function PyqPaperCard({
   isPaid,
   onRequestUnlock,
 }: PyqPaperCardProps) {
-  const router = useRouter();
   const [opening, setOpening] = useState(false);
 
   const freePdfUrl = getFreePdfUrl(paper.pdf);
+  const isFreeTestSubject =
+    subjectSlug === "integrated-personality-development-course";
   const hasSolution = paper.solutionAvailable && Boolean(paper.solutionFile);
+  const freeTestHref = paper.testSlug
+    ? getIpdcTestUrl(paper.testSlug)
+    : isFreeTestSubject
+      ? getIpdcTestUrl(`${paper.type.toLowerCase()}-${paper.year}`)
+      : undefined;
 
   const scrollToOffer = () => {
     if (onRequestUnlock) {
@@ -193,7 +198,16 @@ export default function PyqPaperCard({
             download
           />
 
-          {hasSolution && (
+          {isFreeTestSubject && freeTestHref ? (
+            <PyqActionButton
+              icon={Sparkles}
+              label="Start Free Test"
+              href={freeTestHref}
+              primary
+            />
+          ) : null}
+
+          {hasSolution && !isFreeTestSubject && (
             <PyqActionButton
               icon={isPaid ? Download : Lock}
               label={isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19"}

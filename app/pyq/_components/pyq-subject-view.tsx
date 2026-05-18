@@ -31,10 +31,18 @@ export function PyqSubjectView({
   subject: Subject;
   subjectSlug: string;
 }) {
+  const freeTestSubject =
+    subjectSlug === "integrated-personality-development-course";
   const [isPaid, setIsPaid] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(true);
 
   const refreshAccess = useCallback(async () => {
+    if (freeTestSubject) {
+      setIsPaid(true);
+      setCheckingAccess(false);
+      return;
+    }
+
     setCheckingAccess(true);
     try {
       const supabase = getSupabaseClient();
@@ -55,7 +63,7 @@ export function PyqSubjectView({
     } finally {
       setCheckingAccess(false);
     }
-  }, [subjectSlug, subject.code]);
+  }, [freeTestSubject, subjectSlug, subject.code]);
 
   useEffect(() => {
     refreshAccess();
@@ -93,7 +101,9 @@ export function PyqSubjectView({
                 {subject.title}
                 <br />
                 <span className="italic text-indigo-500 underline decoration-white/10 underline-offset-8">
-                  Question Papers Solution
+                  {freeTestSubject
+                    ? "IPDC Practice Test Library"
+                    : "Question Papers Solution"}
                 </span>
               </h1>
 
@@ -107,13 +117,31 @@ export function PyqSubjectView({
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center text-sm text-gray-500">
                   Checking access...
                 </div>
+              ) : freeTestSubject ? (
+                <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-6 text-center">
+                  <Sparkles
+                    className="mx-auto mb-2 text-indigo-400"
+                    size={24}
+                  />
+                  <p className="text-sm font-bold text-indigo-200">
+                    IPDC Test Access
+                  </p>
+                  <p className="text-xs text-indigo-300/80">
+                    Free access to all IPDC practice tests — no payment
+                    required.
+                  </p>
+                </div>
               ) : !isPaid ? (
                 <BundleOfferCard onPaymentSuccess={refreshAccess} />
               ) : (
                 <div className="rounded-2xl border border-green-500/20 bg-green-500/5 p-6 text-center">
                   <Sparkles className="mx-auto mb-2 text-green-400" size={24} />
-                  <p className="text-sm font-bold text-green-400">Premium Access Active</p>
-                  <p className="text-xs text-green-500/70">All solutions unlocked for you.</p>
+                  <p className="text-sm font-bold text-green-400">
+                    Premium Access Active
+                  </p>
+                  <p className="text-xs text-green-500/70">
+                    All solutions unlocked for you.
+                  </p>
                 </div>
               )}
             </div>
@@ -130,8 +158,12 @@ export function PyqSubjectView({
                 <item.icon size={20} />
               </div>
               <div>
-                <div className="text-xs font-black uppercase tracking-widest">{item.title}</div>
-                <div className="text-[10px] font-bold text-gray-500">{item.desc}</div>
+                <div className="text-xs font-black uppercase tracking-widest">
+                  {item.title}
+                </div>
+                <div className="text-[10px] font-bold text-gray-500">
+                  {item.desc}
+                </div>
               </div>
             </div>
           ))}
@@ -161,7 +193,9 @@ export function PyqSubjectView({
             ))
           ) : (
             <div className="rounded-3xl border border-white/5 bg-white/[0.02] p-10 text-center">
-              <p className="text-lg font-semibold text-gray-400">No papers available yet.</p>
+              <p className="text-lg font-semibold text-gray-400">
+                No papers available yet.
+              </p>
             </div>
           )}
         </section>
@@ -179,4 +213,3 @@ export function PyqSubjectView({
     </div>
   );
 }
-

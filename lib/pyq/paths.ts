@@ -12,6 +12,10 @@ export function getFreePdfUrl(pdfPath: string): string {
   return `${PYQ_PDF_BASE}/${pdfPath.replace(/^\/+/, "")}`;
 }
 
+export function getIpdcTestUrl(testSlug: string): string {
+  return `/test/ipdc/${encodeURIComponent(testSlug)}`;
+}
+
 const ALLOWED_STORAGE_FILES = new Set<string>();
 
 function buildAllowlist() {

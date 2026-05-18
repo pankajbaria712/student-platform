@@ -14,6 +14,8 @@ export type Paper = {
   solutionAvailable: boolean;
   /** e.g. wp-summer-2025-solution.pdf (bucket: premium-pdfs) */
   solutionFile?: string;
+  /** Optional free test route slug for IPDC papers */
+  testSlug?: string;
 };
 
 export type Subject = {
@@ -112,6 +114,60 @@ export const subjectData: SubjectData = {
         pdf: "/pdfs/pyq/web-programming/wp-summer-2023.pdf",
         solutionAvailable: true,
         solutionFile: "wp-summer-2023-solution.pdf",
+      },
+    ],
+  },
+  "integrated-personality-development-course": {
+    title: "Integrated Personality Development Course",
+    code: "3160003",
+    semester: 6,
+    description:
+      "Integrated personality development focusing on values, ethics, leadership, and holistic growth.",
+    papers: [
+      {
+        title: "IPDC Winter 2025",
+        code: "3160003",
+        year: "2025",
+        type: "Winter",
+        pdf: "/pdfs/pyq/integrated-personality-development-course/ipdc-winter-2025.pdf",
+        solutionAvailable: false,
+        testSlug: "winter-2025",
+      },
+      {
+        title: "IPDC Summer 2025",
+        code: "3160003",
+        year: "2025",
+        type: "Summer",
+        pdf: "/pdfs/pyq/integrated-personality-development-course/ipdc-summer-2025.pdf",
+        solutionAvailable: false,
+        testSlug: "summer-2025",
+      },
+      {
+        title: "IPDC Winter 2024",
+        code: "3160003",
+        year: "2024",
+        type: "Winter",
+        pdf: "/pdfs/pyq/integrated-personality-development-course/ipdc-winter-2024.pdf",
+        solutionAvailable: false,
+        testSlug: "winter-2024",
+      },
+      {
+        title: "IPDC Summer 2024",
+        code: "3160003",
+        year: "2024",
+        type: "Summer",
+        pdf: "/pdfs/pyq/integrated-personality-development-course/ipdc-summer-2024.pdf",
+        solutionAvailable: false,
+        testSlug: "summer-2024",
+      },
+      {
+        title: "IPDC Winter 2023",
+        code: "3160003",
+        year: "2023",
+        type: "Winter",
+        pdf: "/pdfs/pyq/integrated-personality-development-course/ipdc-winter-2023.pdf",
+        solutionAvailable: false,
+        testSlug: "winter-2023",
       },
     ],
   },

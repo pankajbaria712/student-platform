@@ -52,7 +52,7 @@ export default function RegisterPage() {
               Create your account
             </p>
             <h1 className="mt-3 text-2xl font-black text-white sm:mt-4 sm:text-4xl">
-              Register for EduNext
+              Register for GTUStudentHub.
             </h1>
             <p className="mt-3 text-sm text-gray-400">
               Start reading free notes and unlock premium content with one

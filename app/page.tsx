@@ -79,7 +79,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="mb-5 bg-gradient-to-b from-white to-white/40 bg-clip-text text-4xl font-black leading-[1.08] text-transparent sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
-            Engineering Made
+           CE Engineering Made
             <br />
             Simple. Effective.
           </h1>

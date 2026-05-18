@@ -56,7 +56,7 @@ export default function LoginPage() {
               Welcome Back
             </p>
             <h1 className="mt-3 text-2xl font-black text-white sm:mt-4 sm:text-4xl">
-              Login to EduNext
+              Login to GTUStudentHub.
             </h1>
             <p className="mt-3 text-sm text-gray-400">
               Access your saved purchases, premium downloads and notes.

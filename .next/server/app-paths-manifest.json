@@ -1,4 +1,7 @@
 {
+  "/page": "app/page.js",
+  "/semester/[semester]/page": "app/semester/[semester]/page.js",
   "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
-  "/test/ipdc/[test]/page": "app/test/ipdc/[test]/page.js"
+  "/test/ipdc/[test]/page": "app/test/ipdc/[test]/page.js",
+  "/test/ipdc/page": "app/test/ipdc/page.js"
 }

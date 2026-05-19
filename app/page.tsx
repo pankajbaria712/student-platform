@@ -21,42 +21,58 @@ const FeatureBadge = ({ icon: Icon, text }: { icon: any; text: string }) => (
   </div>
 );
 
-const SemesterCard = ({ semester }: { semester: number }) => (
-  <a
-    href={`/semester/${semester}`}
-    className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 transition duration-500 hover:scale-[1.02] hover:border-indigo-500/50 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
-  >
-    <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-indigo-500/10 blur-2xl group-hover:bg-indigo-500/20" />
+const SemesterCard = ({ semester }: { semester: number }) => {
+  const isActive = semester === 6;
+  const cardClasses = isActive
+    ? "group relative block overflow-hidden rounded-3xl border border-indigo-500/40 bg-gradient-to-br from-indigo-600/10 via-slate-950/80 to-transparent p-6 shadow-[0_0_35px_rgba(99,102,241,0.3)] transition duration-500 hover:scale-[1.02]"
+    : "group relative block overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 opacity-70 transition duration-500 hover:scale-[1.01]";
+  const statusClasses = isActive
+    ? "bg-indigo-500/15 text-indigo-200 ring-1 ring-indigo-500/25"
+    : "bg-white/5 text-gray-400 ring-1 ring-white/10";
+  const cardContent = (
+    <>
+      <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-indigo-500/10 blur-2xl" />
 
-    <div className="relative z-10">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-400 transition group-hover:bg-indigo-500 group-hover:text-white">
-          <BookOpen size={24} />
+      <div className="relative z-10">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-400 transition group-hover:bg-indigo-500 group-hover:text-white">
+            <BookOpen size={24} />
+          </div>
+
+          <span className={`text-xs font-bold uppercase tracking-widest ${statusClasses}`}>
+            {isActive ? "ACTIVE" : "COMING SOON"}
+          </span>
         </div>
 
-        <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">
-          Active
-        </span>
+        <h3 className="mb-1 text-2xl font-bold text-white">Semester {semester}</h3>
+
+        <p className="mb-4 text-sm italic text-gray-400">BE Computer Engineering</p>
+
+        <div className={`flex items-center gap-2 text-sm font-medium ${isActive ? "text-indigo-400" : "text-gray-400"}`}>
+          {isActive ? "Explore Resources" : "Launches soon"}
+          <ChevronRight
+            size={16}
+            className={`transition ${isActive ? "group-hover:translate-x-1" : ""}`}
+          />
+        </div>
       </div>
+    </>
+  );
 
-      <h3 className="mb-1 text-2xl font-bold text-white">
-        Semester {semester}
-      </h3>
+  if (isActive) {
+    return (
+      <a href={`/semester/${semester}`} className={cardClasses}>
+        {cardContent}
+      </a>
+    );
+  }
 
-      <p className="mb-4 text-sm italic text-gray-400">
-        BE Computer Engineering
-      </p>
-
-      <div className="flex items-center gap-2 text-sm font-medium text-indigo-400">
-        Explore Resources
-        <ChevronRight
-          size={16}
-          className="transition group-hover:translate-x-1"
-        />
-      </div>
+  return (
+    <div className={`${cardClasses} pointer-events-none`} aria-disabled="true">
+      {cardContent}
     </div>
-  </a>
-);
+  );
+};
 
 export default function HomePage() {
   const semesters = [3, 4, 5, 6, 7, 8];
@@ -78,16 +94,35 @@ export default function HomePage() {
             <Users size={14} className="shrink-0" /> Trusted by 5,000+ students
           </div>
 
+          <div className="inline-flex items-center justify-center gap-3 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.35em] text-indigo-300 sm:mb-8">
+            GTU Computer Engineering Semester 6 
+          </div>
+
           <h1 className="mb-5 bg-gradient-to-b from-white to-white/40 bg-clip-text text-4xl font-black leading-[1.08] text-transparent sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
-           CE Engineering Made
+            CE Engineering Made
             <br />
             Simple. Effective.
           </h1>
 
           <p className="mx-auto mb-8 max-w-2xl px-1 text-base leading-relaxed text-gray-400 sm:mb-10 sm:text-lg md:text-xl">
-            Semester notes, syllabus PDFs, PYQs, and premium printable study
-            material built for BE Computer Engineering students.
+            PYQs, premium solutions, and IPDC tests built for GTU Computer Engineering students — with a polished, startup-ready experience.
           </p>
+
+          <div className="mx-auto mb-8 flex max-w-2xl flex-wrap items-center justify-center gap-3">
+            {[
+              "PYQs",
+              "Premium Solutions",
+              "IPDC Tests",
+              "Upcoming Subjects",
+            ].map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-gray-300"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
 
           <div className="relative mx-auto max-w-2xl px-0">
             <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md sm:flex-row sm:items-center sm:gap-0">

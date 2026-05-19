@@ -22,6 +22,7 @@ type ActionButtonProps = {
   premium?: boolean;
   download?: boolean;
   loading?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
@@ -33,16 +34,20 @@ function PyqActionButton({
   premium = false,
   download = false,
   loading = false,
+  disabled = false,
   onClick,
 }: ActionButtonProps) {
+  const isDisabled = disabled || loading;
   const baseClass =
-    "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[11px] font-black transition-all duration-300 active:scale-95 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed";
+    "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[11px] font-black transition-all duration-300 active:scale-95 whitespace-nowrap";
 
   const variantClass = premium
     ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20 border border-indigo-400/30 hover:shadow-indigo-500/40 hover:brightness-110"
     : primary
       ? "bg-white text-black hover:bg-gray-200"
-      : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white";
+      : isDisabled
+        ? "bg-white/5 border border-white/10 text-gray-500 cursor-not-allowed opacity-60"
+        : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white";
 
   const content = (
     <>
@@ -74,7 +79,7 @@ function PyqActionButton({
     <button
       type="button"
       onClick={onClick}
-      disabled={loading}
+      disabled={isDisabled}
       className={`${baseClass} ${variantClass}`}
     >
       {content}
@@ -207,13 +212,14 @@ export default function PyqPaperCard({
             />
           ) : null}
 
-          {hasSolution && !isFreeTestSubject && (
+          {!isFreeTestSubject && (
             <PyqActionButton
-              icon={isPaid ? Download : Lock}
-              label={isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19"}
-              onClick={isPaid ? handleDownloadSolution : scrollToOffer}
-              loading={opening}
-              premium
+              icon={hasSolution ? (isPaid ? Download : Lock) : Lock}
+              label={hasSolution ? (isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19") : "Coming Soon"}
+              onClick={hasSolution ? (isPaid ? handleDownloadSolution : scrollToOffer) : undefined}
+              loading={opening && hasSolution}
+              premium={hasSolution}
+              disabled={!hasSolution}
             />
           )}
         </Actions>

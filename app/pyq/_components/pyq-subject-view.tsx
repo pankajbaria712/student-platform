@@ -33,6 +33,9 @@ export function PyqSubjectView({
 }) {
   const freeTestSubject =
     subjectSlug === "integrated-personality-development-course";
+  const allSolutionsComingSoon =
+    !freeTestSubject &&
+    subject.papers.every((paper) => !paper.solutionAvailable);
   const [isPaid, setIsPaid] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(true);
 
@@ -170,6 +173,20 @@ export function PyqSubjectView({
         </section>
 
         <section className="space-y-4">
+          {allSolutionsComingSoon ? (
+            <div className="rounded-3xl border border-amber-400/20 bg-amber-400/10 p-6 text-amber-100 shadow-lg shadow-amber-500/10">
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-amber-200">
+                ⚠️ Solutions Coming Soon
+              </p>
+              <p className="mt-3 text-sm leading-6 text-gray-100">
+                {subject.title} premium solutions are currently under preparation and will be uploaded soon.
+              </p>
+              <p className="mt-3 text-xs text-gray-300">
+                Currently only IPDC interactive tests and selected subjects are fully available.
+              </p>
+            </div>
+          ) : null}
+
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600">
               Available Papers

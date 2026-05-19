@@ -31,7 +31,7 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/login");
+      router.push("/");
     } catch (err) {
       setError(
         "Unable to initialize auth client. Please restart the dev server.",

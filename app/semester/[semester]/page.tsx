@@ -565,8 +565,8 @@ const ActionButton = ({ icon: Icon, label, href, primary = false }) => {
   );
 };
 
-const SubjectCard = ({ subject }) => (
-  <div className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-500 hover:border-indigo-500/30 hover:bg-white/[0.04] sm:rounded-[2rem] sm:p-7">
+const SubjectCard = ({ subject, activeSemester = true }) => (
+  <div className={`group relative rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-500 hover:border-indigo-500/30 hover:bg-white/[0.04] sm:rounded-[2rem] sm:p-7 ${activeSemester ? "" : "opacity-75 saturate-50"}`}>
     <div className="relative z-10">
       <div className="flex items-start justify-between mb-5">
         <div className="h-14 w-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition-all duration-500">
@@ -622,6 +622,7 @@ const SubjectCard = ({ subject }) => (
 
 export default function SemesterPage({ params }: SemesterPageProps) {
   const data = semesterData[params.semester] || semesterData["6"];
+  const isActiveSemester = params.semester === "6";
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">
@@ -638,6 +639,20 @@ export default function SemesterPage({ params }: SemesterPageProps) {
       <main className="relative z-10 mx-auto max-w-7xl px-page py-12 sm:py-16 md:py-20">
         {/* Page Header */}
         <header className="mb-12 sm:mb-16 md:mb-20">
+          {!isActiveSemester ? (
+            <div className="mb-6 rounded-3xl border border-amber-400/20 bg-amber-400/10 p-6 text-amber-100 shadow-lg shadow-amber-500/10">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-amber-200">
+                Coming Soon
+              </p>
+              <h2 className="mt-4 text-3xl font-black text-white sm:text-4xl">
+                Semester {params.semester} is on the roadmap.
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-gray-200">
+                Semester 6 is the current focus. Upcoming semesters are being prepared with premium notes, PYQs, and solution packs.
+              </p>
+            </div>
+          ) : null}
+
           <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400">
             <GraduationCap size={14} className="shrink-0" />
             <span>BE Computer Engineering</span>
@@ -655,7 +670,11 @@ export default function SemesterPage({ params }: SemesterPageProps) {
         {/* Subjects Grid - Optimized for all 11 subjects */}
         <div className="mb-16 grid grid-cols-1 gap-4 sm:mb-20 sm:gap-5 md:grid-cols-2 lg:mb-24 lg:grid-cols-3">
           {data.subjects.map((sub) => (
-            <SubjectCard key={sub.code} subject={sub} />
+            <SubjectCard
+              key={sub.code}
+              subject={sub}
+              activeSemester={isActiveSemester}
+            />
           ))}
 
           {/* Quick Stats Bento Card */}

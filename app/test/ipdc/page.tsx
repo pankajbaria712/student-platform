@@ -23,6 +23,34 @@ export default function Page() {
             Choose your IPDC mock test and practice the exact GTU MCQ format
             with instant scoring and answer review.
           </p>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            {[
+              "FREE TEST SERIES",
+              "Most Popular",
+              "Exam Ready",
+            ].map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-indigo-500/20 bg-indigo-500/10 p-8 text-center">
+            <p className="text-xs uppercase tracking-[0.35em] text-indigo-200">
+              Prepare using real GTU MCQ papers
+            </p>
+            <h2 className="mt-4 text-3xl font-black text-white sm:text-4xl">
+              Real GTU MCQ practice for IPDC
+            </h2>
+            <p className="mt-4 text-sm leading-6 text-gray-300">
+              Instant scoring, answer review, and exam-ready confidence for GTU students.
+            </p>
+          </div>
+
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/pyq/integrated-personality-development-course"

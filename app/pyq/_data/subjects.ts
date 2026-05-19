@@ -76,7 +76,7 @@ export const subjectData: SubjectData = {
         year: "2025",
         type: "Summer",
         pdf: "/pdfs/pyq/web-programming/wp-summer-2025.pdf",
-        solutionAvailable: true,
+        solutionAvailable: false,
         solutionFile: "wp-summer-2025-solution.pdf",
       },
       {
@@ -85,7 +85,7 @@ export const subjectData: SubjectData = {
         year: "2024",
         type: "Winter",
         pdf: "/pdfs/pyq/web-programming/wp-winter-2024.pdf",
-        solutionAvailable: true,
+        solutionAvailable: false,
         solutionFile: "wp-winter-2024-solution.pdf",
       },
       {
@@ -94,7 +94,7 @@ export const subjectData: SubjectData = {
         year: "2024",
         type: "Summer",
         pdf: "/pdfs/pyq/web-programming/wp-summer-2024.pdf",
-        solutionAvailable: true,
+        solutionAvailable: false,
         solutionFile: "wp-summer-2024-solution.pdf",
       },
       {
@@ -103,7 +103,7 @@ export const subjectData: SubjectData = {
         year: "2023",
         type: "Winter",
         pdf: "/pdfs/pyq/web-programming/wp-winter-2023.pdf",
-        solutionAvailable: true,
+        solutionAvailable: false,
         solutionFile: "wp-winter-2023-solution.pdf",
       },
       {
@@ -112,7 +112,7 @@ export const subjectData: SubjectData = {
         year: "2023",
         type: "Summer",
         pdf: "/pdfs/pyq/web-programming/wp-summer-2023.pdf",
-        solutionAvailable: true,
+        solutionAvailable: false,
         solutionFile: "wp-summer-2023-solution.pdf",
       },
     ],

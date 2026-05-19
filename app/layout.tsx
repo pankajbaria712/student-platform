@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "EduNext - Notes, PYQs, Premium PDFs",
+  title: "GTUStudentHub - GTU Paper Solutions",
   description:
     "Access semester notes, PYQs, and premium PDF downloads for BE Computer Engineering students.",
 };

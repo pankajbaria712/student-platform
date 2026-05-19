@@ -1,8 +1,8 @@
 {
-  "/page": "app/page.js",
+  "/not-found": "app/not-found.js",
   "/pyq/theory-of-computation/page": "app/pyq/theory-of-computation/page.js",
-  "/test/ipdc/[test]/page": "app/test/ipdc/[test]/page.js",
+  "/register/page": "app/register/page.js",
   "/semester/[semester]/page": "app/semester/[semester]/page.js",
-  "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
-  "/test/ipdc/page": "app/test/ipdc/page.js"
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
 }

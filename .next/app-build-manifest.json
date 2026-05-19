@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/page": [
+    "/pyq/theory-of-computation/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/pyq/theory-of-computation/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -16,25 +16,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/semester/[semester]/page.js"
     ],
-    "/pyq/[slug]/page": [
+    "/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/pyq/[slug]/page.js"
+      "static/chunks/app/register/page.js"
     ],
-    "/test/ipdc/[test]/page": [
+    "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/test/ipdc/[test]/page.js"
+      "static/chunks/app/login/page.js"
     ],
-    "/test/ipdc/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/test/ipdc/page.js"
+      "static/chunks/app/page.js"
     ],
-    "/pyq/theory-of-computation/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/pyq/theory-of-computation/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }

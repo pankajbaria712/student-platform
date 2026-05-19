@@ -677,35 +677,7 @@ export default function SemesterPage({ params }: SemesterPageProps) {
             />
           ))}
 
-          {/* Quick Stats Bento Card */}
-          <div className="group rounded-[2rem] bg-indigo-600 p-[1px]">
-            <div className="flex h-full w-full flex-col justify-center rounded-[1.95rem] bg-[#0a0a0a] p-6 sm:p-8">
-              <div className="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-3">
-                Exam Readiness
-              </div>
-              <div className="text-3xl font-bold mb-3 tracking-tight">
-                45 Days Left.
-              </div>
-              <p className="text-gray-500 text-xs mb-6">
-                Our analytics show 85% of toppers start revising exactly today.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="h-8 w-8 rounded-full border-2 border-black bg-indigo-500 flex items-center justify-center text-[8px] font-bold"
-                    >
-                      ID
-                    </div>
-                  ))}
-                </div>
-                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter">
-                  1.2k+ students active
-                </span>
-              </div>
-            </div>
-          </div>
+          
         </div>
 
         <div className="mb-24">

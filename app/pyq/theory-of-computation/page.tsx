@@ -1,27 +1,28 @@
-import React from "react";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  FileText,
-  Download,
-  Lock,
-  ChevronLeft,
-  ExternalLink,
-  Sparkles,
-  ShieldCheck,
-  Zap,
-} from "lucide-react";
+import { ChevronLeft, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { getSupabaseClient } from "@/lib/supabase";
+import { checkPyqAccess } from "@/lib/pyq/client";
+import type { Paper } from "@/app/pyq/_data/subjects";
 import Disclaimer from "@/components/Disclaimer";
 import Navbar from "@/components/Navbar";
 import BundleOfferCard from "@/components/BundleOfferCard";
+import PyqPaperCard from "@/components/PyqPaperCard";
 
-const pyqPapers = [
+const subjectSlug = "theory-of-computation";
+const subjectCode = "3160704";
+
+const pyqPapers: Paper[] = [
   {
-    title: "TOC Summer 2025",
+    title: "TOC Winter 2025",
     code: "3160704",
     year: "2025",
-    type: "Summer",
-    pdf: "/pdfs/pyq/theory-of-computation/toc-summer-2025.pdf",
+    type: "Winter",
+    pdf: "/pdfs/pyq/theory-of-computation/toc-winter-2025.pdf",
     solutionAvailable: true,
+    solutionFile: "toc-winter-2025-solution.pdf",
   },
   {
     title: "TOC Winter 2024",
@@ -30,6 +31,7 @@ const pyqPapers = [
     type: "Winter",
     pdf: "/pdfs/pyq/theory-of-computation/toc-winter-2024.pdf",
     solutionAvailable: true,
+    solutionFile: "toc-winter-2024-solution.pdf",
   },
   {
     title: "TOC Summer 2024",
@@ -38,94 +40,50 @@ const pyqPapers = [
     type: "Summer",
     pdf: "/pdfs/pyq/theory-of-computation/toc-summer-2024.pdf",
     solutionAvailable: true,
+    solutionFile: "toc-summer-2024-solution.pdf",
   },
   {
-    title: "TOC Winter 2023",
+    title: "TOC Winter 2022",
     code: "3160704",
-    year: "2023",
+    year: "2022",
     type: "Winter",
-    pdf: "/pdfs/pyq/theory-of-computation/toc-winter-2023.pdf",
+    pdf: "/pdfs/pyq/theory-of-computation/toc-winter-2022.pdf",
     solutionAvailable: true,
-  },
-  {
-    title: "TOC Summer 2023",
-    code: "3160704",
-    year: "2023",
-    type: "Summer",
-    pdf: "/pdfs/pyq/theory-of-computation/toc-summer-2023.pdf",
-    solutionAvailable: true,
+    solutionFile: "toc-winter-2022-solution.pdf",
   },
 ];
 
-const ActionButton = ({
-  icon: Icon,
-  label,
-  href,
-  primary = false,
-  premium = false,
-  download = false,
-}) => (
-  <a
-    href={href}
-    download={download}
-    className={`
-      flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[11px] font-black transition-all active:scale-95 whitespace-nowrap
-      ${
-        premium
-          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20 border border-indigo-400/30 hover:shadow-indigo-500/40 hover:brightness-110"
-          : primary
-            ? "bg-white text-black hover:bg-gray-200"
-            : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:text-white"
-      }
-    `}
-  >
-    <Icon size={14} className={premium ? "animate-pulse" : ""} />
-    {label}
-  </a>
-);
-
-const PaperCard = ({ paper }) => (
-  <div className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:bg-white/[0.04] sm:rounded-3xl sm:p-6">
-    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-      <div className="flex min-w-0 flex-1 items-start gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 transition-all group-hover:bg-indigo-500 group-hover:text-white sm:h-12 sm:w-12">
-          <FileText size={22} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="mb-1 flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500">
-              {paper.type} {paper.year}
-            </span>
-            <div className="h-1 w-1 rounded-full bg-white/20" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
-              {paper.code}
-            </span>
-          </div>
-          <h3 className="text-base font-bold text-white transition-colors group-hover:text-indigo-400 sm:text-lg">
-            {paper.title}
-          </h3>
-          <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-gray-500">
-            Source: GTU
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-stretch gap-2 sm:gap-3 lg:justify-end">
-        <ActionButton icon={ExternalLink} label="View Paper" href={paper.pdf} />
-        <ActionButton
-          icon={Download}
-          label="Download"
-          href={paper.pdf}
-          download
-        />
-        <div className="mx-2 hidden h-8 w-px bg-white/5 lg:block" />
-        <ActionButton icon={Lock} label="Open Solution" href="#" premium />
-      </div>
-    </div>
-  </div>
-);
+const scrollToUnlock = () =>
+  document
+    .getElementById("bundle-offer-card")
+    ?.scrollIntoView({ behavior: "smooth" });
 
 export default function PYQPage() {
+  const [isPaid, setIsPaid] = useState(false);
+  const [checkingAccess, setCheckingAccess] = useState(true);
+
+  const refreshAccess = useCallback(async () => {
+    setCheckingAccess(true);
+    const supabase = getSupabaseClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      setIsPaid(false);
+      setCheckingAccess(false);
+      return;
+    }
+
+    const access = await checkPyqAccess(subjectSlug, subjectCode);
+    setIsPaid(access);
+    setCheckingAccess(false);
+  }, []);
+
+  useEffect(() => {
+    refreshAccess();
+  }, [refreshAccess]);
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30 pb-safe">
       <div className="fixed inset-0 z-0">
@@ -165,7 +123,20 @@ export default function PYQPage() {
               </p>
             </div>
             <div className="lg:justify-self-end">
-              <BundleOfferCard />
+              {checkingAccess ? (
+                <div className="rounded-[2rem] border border-white/10 bg-white/5 px-6 py-6 text-sm text-gray-300 shadow-lg shadow-indigo-500/10">
+                  Checking access...
+                </div>
+              ) : isPaid ? (
+                <div className="rounded-[2rem] border border-emerald-400/20 bg-emerald-500/10 px-6 py-6 text-sm text-emerald-100 shadow-lg shadow-emerald-500/10">
+                  <div className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-emerald-200">
+                    Access Active
+                  </div>
+                  <div className="text-base font-bold">Premium solutions unlocked</div>
+                </div>
+              ) : (
+                <BundleOfferCard onPaymentSuccess={refreshAccess} />
+              )}
             </div>
           </div>
         </header>
@@ -212,7 +183,13 @@ export default function PYQPage() {
             <span className="text-[10px] text-gray-500">Source: GTU</span>
           </div>
           {pyqPapers.map((paper) => (
-            <PaperCard key={paper.title} paper={paper} />
+            <PyqPaperCard
+              key={paper.title}
+              paper={paper}
+              subjectSlug={subjectSlug}
+              isPaid={isPaid}
+              onRequestUnlock={scrollToUnlock}
+            />
           ))}
         </div>
 

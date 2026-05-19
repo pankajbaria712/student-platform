@@ -31,6 +31,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
+    "/pyq/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pyq/[slug]/page.js"
+    ],
     "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

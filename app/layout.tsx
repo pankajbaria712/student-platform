@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import Navbar from "@/components/Navbar";
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -31,6 +33,7 @@ export default function RootLayout({
         {children}
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -88,7 +88,7 @@ export default function HomePage() {
       </div>
 
       {/* Hero */}
-      <section className="relative px-page pb-16 pt-28 sm:pb-20 sm:pt-36 md:pt-40">
+      <section className="relative px-page pb-16 pt-20 sm:pb-20 sm:pt-20 md:pt-20">
         <div className="mx-auto max-w-5xl text-center">
           <div className="mb-6 inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-indigo-400 sm:mb-8 sm:px-4 sm:text-xs">
             <Users size={14} className="shrink-0" /> Trusted by 5,000+ students

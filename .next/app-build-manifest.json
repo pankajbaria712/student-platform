@@ -30,6 +30,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/test/ipdc/page.js"
+    ],
+    "/pyq/theory-of-computation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pyq/theory-of-computation/page.js"
     ]
   }
 }

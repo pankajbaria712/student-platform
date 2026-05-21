@@ -20,29 +20,21 @@ export async function hasPaymentAccess({
 }: PaymentAccessContext): Promise<boolean> {
   if (!email && !userId) return false;
 
-  const subjectFilters = [
-    `subject_id.eq.${PYQ_BUNDLE_SUBJECT_ID}`,
-    "subject_id.is.null",
-  ];
-  if (subjectSlug) {
-    subjectFilters.push(`subject_id.eq.${subjectSlug}`);
-  }
-  if (subjectCode && subjectCode !== subjectSlug) {
-    subjectFilters.push(`subject_id.eq.${subjectCode}`);
-  }
+  const subjectIds = new Set<string>();
+  if (subjectSlug) subjectIds.add(subjectSlug);
+  if (subjectCode && subjectCode !== subjectSlug) subjectIds.add(subjectCode);
+  if (subjectIds.size === 0) return false;
 
   const userFilters = [];
   if (email) userFilters.push(`email.eq.${email}`);
   if (userId) userFilters.push(`user_id.eq.${userId}`);
-  if (userFilters.length === 0) {
-    return false;
-  }
+  if (userFilters.length === 0) return false;
 
   const query = supabaseAdmin
     .from("payments")
     .select("id")
     .in("status", [...PAYMENT_SUCCESS_STATUSES])
-    .or(subjectFilters.join(","))
+    .in("subject_id", Array.from(subjectIds))
     .or(userFilters.join(","))
     .limit(1);
 

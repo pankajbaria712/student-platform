@@ -279,7 +279,7 @@ const semesterData = {
           "Deep dive into enterprise applications, networking, and advanced database connectivity.",
       },
       {
-        code: "3160712",
+        code: "3160710",
         name: "Microprocessor & Interfacing",
         credits: 4,
         category: "Professional Core",
@@ -289,7 +289,7 @@ const semesterData = {
           "/pdfs/syllabus/microprocessor-and-interfacing-syllabus.pdf",
         pyqLink: "/pyq/microprocessor-and-interfacing",
         description:
-          "Architecture and programming of 8085/8086 microprocessors and hardware interfacing.",
+          "8086 microprocessor architecture, interfacing techniques, DMA, interrupts, and serial communication.",
       },
       {
         code: "3160713",

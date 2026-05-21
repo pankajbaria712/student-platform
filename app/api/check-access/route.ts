@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { hasPyqPremiumAccess } from "@/lib/pyq/access-server";
-import { hasPaymentAccess } from "@/lib/pyq/payments-access";
 import { getUserFromBearerToken } from "@/lib/pyq/auth";
 
 export async function POST(request: NextRequest) {
@@ -45,19 +44,14 @@ export async function POST(request: NextRequest) {
     const subjectSlug = body.subjectSlug ?? body.subjectId;
     const subjectCode = body.subjectCode;
 
-    let access: boolean;
-
-    if (subjectSlug) {
-      access = await hasPyqPremiumAccess(user.email, user.id, {
-        subjectSlug: String(subjectSlug),
-        subjectCode: subjectCode ? String(subjectCode) : String(subjectSlug),
-      });
-    } else {
-      access = await hasPaymentAccess({
-        email: user.email,
-        userId: user.id,
-      });
+    if (!subjectSlug) {
+      return NextResponse.json({ access: false }, { status: 400 });
     }
+
+    const access = await hasPyqPremiumAccess(user.email, user.id, {
+      subjectSlug: String(subjectSlug),
+      subjectCode: subjectCode ? String(subjectCode) : String(subjectSlug),
+    });
 
     return NextResponse.json({ access });
   } catch (error) {

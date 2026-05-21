@@ -49,7 +49,10 @@ export async function POST(request: NextRequest) {
 
     const isBundle =
       subjectId === PYQ_BUNDLE_SUBJECT_ID && Number(amount) === 19;
-    const isSubject = subjectId && Number(amount) === 33;
+    const isSubject =
+      subjectId &&
+      subjectId !== PYQ_BUNDLE_SUBJECT_ID &&
+      [19, 33].includes(Number(amount));
 
     if (!isBundle && !isSubject) {
       return NextResponse.json(
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest) {
       currency: "INR",
       receipt: isBundle
         ? `bundle_${Date.now()}`
-        : `subject_${subjectId}_${Date.now()}`,
+        : `subject_${String(subjectId).slice(0, 10)}_${Date.now().toString().slice(-8)}`,
     });
 
     const { error } = await supabaseAdmin.from("payments").insert({

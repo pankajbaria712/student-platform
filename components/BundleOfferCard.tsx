@@ -6,10 +6,18 @@ import { getSupabaseClient } from "@/lib/supabase";
 import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
 
 type BundleOfferCardProps = {
+  subjectId?: string;
+  subjectTitle?: string;
+  amount?: number;
+  description?: string;
   onPaymentSuccess?: () => void | Promise<void>;
 };
 
 export default function BundleOfferCard({
+  subjectId = PYQ_BUNDLE_SUBJECT_ID,
+  subjectTitle = "this subject",
+  amount = 19,
+  description = "Unlock premium solutions for this subject.",
   onPaymentSuccess,
 }: BundleOfferCardProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,8 +54,8 @@ export default function BundleOfferCard({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          subjectId: PYQ_BUNDLE_SUBJECT_ID,
-          amount: 19,
+          subjectId,
+          amount,
         }),
       });
 
@@ -62,7 +70,7 @@ export default function BundleOfferCard({
         amount: orderData.amount,
         currency: "INR",
         name: "GTU Student Hub",
-        description: "All PYQ Solutions Bundle",
+        description: `Premium access for ${subjectTitle}`,
         order_id: orderData.orderId,
         handler: async function (response: {
           razorpay_order_id: string;
@@ -145,14 +153,14 @@ export default function BundleOfferCard({
             </Box>
 
             <h3 className="mb-1 text-base font-bold sm:mb-2 sm:text-lg text-white">
-              Get All Solutions
+              Unlock {subjectTitle} Solutions
             </h3>
             <p className="mb-3 text-xs text-slate-400 sm:mb-4 sm:text-sm">
-              Unlock verified step-by-step solutions for every paper in this subject.
+              {description}
             </p>
 
             <Box className="mb-4 flex items-center justify-center gap-3">
-              <span className="text-3xl font-black text-green-400">₹19</span>
+              <span className="text-3xl font-black text-green-400">₹{amount}</span>
               <Box className="flex flex-col items-start">
                 <span className="text-xs text-slate-500 line-through">₹199</span>
                 <span className="rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold text-green-300">
@@ -173,7 +181,7 @@ export default function BundleOfferCard({
                   Processing...
                 </>
               ) : (
-                "Unlock Solution ₹19"
+                `Unlock Solution ₹${amount}`
               )}
             </button>
 

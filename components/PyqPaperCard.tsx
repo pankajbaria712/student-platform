@@ -111,6 +111,7 @@ export default function PyqPaperCard({
     : isFreeTestSubject
       ? getIpdcTestUrl(`${paper.type.toLowerCase()}-${paper.year}`)
       : undefined;
+  const isDemoPaper = paper.type === "Demo" || paper.year === "Demo";
 
   const scrollToOffer = () => {
     if (onRequestUnlock) {
@@ -179,10 +180,17 @@ export default function PyqPaperCard({
   const Actions = "div" as const;
 
   return (
-    <Card className="rounded-3xl border border-white/5 bg-white/[0.02] p-6 transition-hover hover:bg-white/[0.04]">
+    <Card className={`rounded-3xl p-6 transition-hover ${isDemoPaper ? "border border-cyan-400/30 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900/80 shadow-[0_20px_60px_rgba(14,165,233,0.16)]" : "border border-white/5 bg-white/[0.02] hover:bg-white/[0.04]"}`}>
       <Row className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <Col>
-          <p className="text-lg font-bold text-white">{paper.title}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-lg font-bold text-white">{paper.title}</p>
+            {isDemoPaper ? (
+              <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-200">
+                Free Demo
+              </span>
+            ) : null}
+          </div>
           <p className="mt-1 text-sm text-gray-400">
             Subject Code: {paper.code} • {paper.type} {paper.year}
           </p>
@@ -191,16 +199,9 @@ export default function PyqPaperCard({
         <Actions className="flex flex-wrap gap-3">
           <PyqActionButton
             icon={Eye}
-            label="View Paper"
+            label={isDemoPaper ? "View Demo" : "View Paper"}
             href={freePdfUrl}
             primary
-          />
-
-          <PyqActionButton
-            icon={Download}
-            label="Download"
-            href={freePdfUrl}
-            download
           />
 
           {isFreeTestSubject && freeTestHref ? (
@@ -212,7 +213,7 @@ export default function PyqPaperCard({
             />
           ) : null}
 
-          {!isFreeTestSubject && (
+          {!isDemoPaper && !isFreeTestSubject && (
             <PyqActionButton
               icon={hasSolution ? (isPaid ? Download : Lock) : Lock}
               label={hasSolution ? (isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19") : "Coming Soon"}

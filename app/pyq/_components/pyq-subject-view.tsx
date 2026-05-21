@@ -135,7 +135,13 @@ export function PyqSubjectView({
                   </p>
                 </div>
               ) : !isPaid ? (
-                <BundleOfferCard onPaymentSuccess={refreshAccess} />
+                <BundleOfferCard
+                  subjectId={subjectSlug}
+                  subjectTitle={subject.title}
+                  amount={19}
+                  description={`Unlock all premium ${subject.title} solutions for just ₹19.`}
+                  onPaymentSuccess={refreshAccess}
+                />
               ) : (
                 <div className="rounded-2xl border border-green-500/20 bg-green-500/5 p-6 text-center">
                   <Sparkles className="mx-auto mb-2 text-green-400" size={24} />

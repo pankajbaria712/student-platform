@@ -33,11 +33,49 @@ export function PyqSubjectView({
 }) {
   const freeTestSubject =
     subjectSlug === "integrated-personality-development-course";
+  const isIoTSubject = subjectSlug === "iot-and-applications";
   const allSolutionsComingSoon =
     !freeTestSubject &&
     subject.papers.every((paper) => !paper.solutionAvailable);
   const [isPaid, setIsPaid] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(true);
+  const [iotCountdown, setIotCountdown] = useState("01:30:00");
+
+  useEffect(() => {
+    if (!isIoTSubject) return;
+
+    const getTargetDate = () => {
+      const now = new Date();
+      const target = new Date(now);
+      target.setHours(13, 30, 0, 0);
+      if (target <= now) {
+        target.setDate(target.getDate() + 1);
+      }
+      return target;
+    };
+
+    const updateCountdown = () => {
+      const target = getTargetDate();
+      const diff = target.getTime() - Date.now();
+      if (diff <= 0) {
+        setIotCountdown("00:00:00");
+        return;
+      }
+
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      setIotCountdown(
+        `${String(hours).padStart(2, "0")}:
+        ${String(minutes).padStart(2, "0")}:
+        ${String(seconds).padStart(2, "0")}`.replace(/\s+/g, ""),
+      );
+    };
+
+    updateCountdown();
+    const timer = window.setInterval(updateCountdown, 1000);
+    return () => window.clearInterval(timer);
+  }, [isIoTSubject]);
 
   const refreshAccess = useCallback(async () => {
     if (freeTestSubject) {
@@ -113,6 +151,18 @@ export function PyqSubjectView({
               <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
                 {subject.description}
               </p>
+
+              {isIoTSubject ? (
+                <div className="mt-6 rounded-3xl border border-indigo-500/20 bg-indigo-500/10 p-5 text-sm text-indigo-100">
+                  <p className="font-black text-indigo-200">Note</p>
+                  <p className="mt-2 text-sm text-indigo-100">
+                    Other paper solutions will be added at 1:30 PM soon.
+                  </p>
+                  <p className="mt-3 text-xs text-indigo-300">
+                    Countdown: {iotCountdown}
+                  </p>
+                </div>
+              ) : null}
             </div>
 
             <div className="lg:justify-self-end">

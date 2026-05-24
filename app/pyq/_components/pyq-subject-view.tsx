@@ -201,19 +201,29 @@ export function PyqSubjectView({
           </div>
 
           {subject.papers.length > 0 ? (
-            subject.papers.map((paper) => (
-              <PyqPaperCard
-                key={`${paper.code}-${paper.year}-${paper.type}`}
-                paper={paper}
-                subjectSlug={subjectSlug}
-                isPaid={isPaid}
-                onRequestUnlock={() => {
-                  document
-                    .getElementById("bundle-offer-card")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              />
-            ))
+            (() => {
+              const papers =
+                subjectSlug === "iot-and-applications"
+                  ? subject.papers.map((p) => ({
+                      ...p,
+                      title: p.title.replace(/^WP\s+/i, "IOT "),
+                    }))
+                  : subject.papers;
+
+              return papers.map((paper) => (
+                <PyqPaperCard
+                  key={`${paper.code}-${paper.year}-${paper.type}`}
+                  paper={paper}
+                  subjectSlug={subjectSlug}
+                  isPaid={isPaid}
+                  onRequestUnlock={() => {
+                    document
+                      .getElementById("bundle-offer-card")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                />
+              ));
+            })()
           ) : (
             <div className="rounded-3xl border border-white/5 bg-white/[0.02] p-10 text-center">
               <p className="text-lg font-semibold text-gray-400">

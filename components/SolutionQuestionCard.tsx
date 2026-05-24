@@ -1,5 +1,7 @@
 "use client";
 
+import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
+
 type SolutionQuestionCardProps = {
   id: number;
   question: string;
@@ -24,6 +26,8 @@ export default function SolutionQuestionCard({
   unlockLabel,
 }: SolutionQuestionCardProps) {
   const showBlur = locked && !hasAccess;
+
+  
 
   return (
     <article className="group overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950/95 p-6 shadow-2xl shadow-black/20 transition hover:border-slate-700 sm:p-8">
@@ -58,7 +62,7 @@ export default function SolutionQuestionCard({
                 🔒 Premium Solution Locked
               </p>
               <p className="max-w-md text-sm leading-6 text-slate-300">
-                Unlock the remaining MPI solved paper for ₹19 to reveal full answers immediately.
+                Unlock the remaining MPI solved paper for ₹{PYQ_BUNDLE_PRICE} to reveal full answers immediately.
               </p>
             </div>
             {onUnlock ? (

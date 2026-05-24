@@ -1,5 +1,8 @@
-/** ₹19 PYQ bundle — stored in payments.subject_id */
+/** PYQ bundle subject id and price (in INR) — stored in payments.subject_id */
 export const PYQ_BUNDLE_SUBJECT_ID = "bundle";
+
+/** Price (INR) for unlocking a subject's PYQ solutions */
+export const PYQ_BUNDLE_PRICE = 10;
 
 /** Public free PYQ papers only */
 export const PYQ_PDF_BASE = "/pdfs/pyq";

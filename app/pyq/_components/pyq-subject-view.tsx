@@ -14,6 +14,7 @@ import { checkPyqAccess } from "@/lib/pyq/client";
 
 import Disclaimer from "@/components/Disclaimer";
 import BundleOfferCard from "@/components/BundleOfferCard";
+import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 import Navbar from "@/components/Navbar";
 import PyqPaperCard from "@/components/PyqPaperCard";
 import type { Subject } from "../_data/subjects";
@@ -188,8 +189,8 @@ export function PyqSubjectView({
                 <BundleOfferCard
                   subjectId={subjectSlug}
                   subjectTitle={subject.title}
-                  amount={19}
-                  description={`Unlock all premium ${subject.title} solutions for just ₹19.`}
+                  amount={PYQ_BUNDLE_PRICE}
+                  description={`Unlock all premium ${subject.title} solutions for just ₹${PYQ_BUNDLE_PRICE}.`}
                   onPaymentSuccess={refreshAccess}
                 />
               ) : (

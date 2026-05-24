@@ -13,6 +13,7 @@ import {
 import type { Paper } from "@/app/pyq/_data/subjects";
 import { getFreePdfUrl, getIpdcTestUrl } from "@/lib/pyq/paths";
 import { getSupabaseClient } from "@/lib/supabase";
+import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 
 type ActionButtonProps = {
   icon: LucideIcon;
@@ -216,7 +217,7 @@ export default function PyqPaperCard({
           {!isDemoPaper && !isFreeTestSubject && (
             <PyqActionButton
               icon={hasSolution ? (isPaid ? Download : Lock) : Lock}
-              label={hasSolution ? (isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19") : "Coming Soon"}
+              label={hasSolution ? (isPaid ? "DOWNLOAD SOLUTION PDF" : `Unlock Solution ₹${PYQ_BUNDLE_PRICE}`) : "Coming Soon"}
               onClick={hasSolution ? (isPaid ? handleDownloadSolution : scrollToOffer) : undefined}
               loading={opening && hasSolution}
               premium={hasSolution}

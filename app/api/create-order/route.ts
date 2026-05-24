@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
+import { PYQ_BUNDLE_SUBJECT_ID, PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 
 const buildCookieStore = (request: NextRequest) => ({
   getAll: async () =>
@@ -48,11 +48,11 @@ export async function POST(request: NextRequest) {
     }
 
     const isBundle =
-      subjectId === PYQ_BUNDLE_SUBJECT_ID && Number(amount) === 19;
+      subjectId === PYQ_BUNDLE_SUBJECT_ID && Number(amount) === PYQ_BUNDLE_PRICE;
     const isSubject =
       subjectId &&
       subjectId !== PYQ_BUNDLE_SUBJECT_ID &&
-      [19, 33].includes(Number(amount));
+      [PYQ_BUNDLE_PRICE, 33].includes(Number(amount));
 
     if (!isBundle && !isSubject) {
       return NextResponse.json(

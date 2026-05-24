@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
+import { PYQ_BUNDLE_SUBJECT_ID, PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 
 const buildCookieStore = (request: NextRequest) => ({
   getAll: async () =>
@@ -13,7 +13,7 @@ const buildCookieStore = (request: NextRequest) => ({
   setAll: async () => {},
 });
 
-/** Legacy alias — same as POST /api/create-order with bundle + ₹19 */
+/** Legacy alias — same as POST /api/create-order with bundle */
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization");
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     }
 
     const razorpay = new Razorpay({ key_id, key_secret });
-    const amount = 19;
+    const amount = PYQ_BUNDLE_PRICE;
 
     const order = await razorpay.orders.create({
       amount: amount * 100,

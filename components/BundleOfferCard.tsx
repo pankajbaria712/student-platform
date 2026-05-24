@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase";
-import { PYQ_BUNDLE_SUBJECT_ID } from "@/lib/pyq/constants";
+import { PYQ_BUNDLE_SUBJECT_ID, PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 
 type BundleOfferCardProps = {
   subjectId?: string;
@@ -16,7 +16,7 @@ type BundleOfferCardProps = {
 export default function BundleOfferCard({
   subjectId = PYQ_BUNDLE_SUBJECT_ID,
   subjectTitle = "this subject",
-  amount = 19,
+  amount = PYQ_BUNDLE_PRICE,
   description = "Unlock premium solutions for this subject.",
   onPaymentSuccess,
 }: BundleOfferCardProps) {

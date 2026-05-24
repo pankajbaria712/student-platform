@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 import Navbar from "@/components/Navbar";
 import {
   BookOpen,
@@ -159,7 +160,7 @@ export default function HomePage() {
           <p className="mt-1 text-xs text-gray-400 sm:text-sm">
             Open any semester, pick a subject, then use{" "}
             <span className="font-semibold text-indigo-300">Papers</span> for
-            PYQs or grab the ₹19 bundle on subject PYQ pages.
+            PYQs or grab the ₹{PYQ_BUNDLE_PRICE} bundle on subject PYQ pages.
           </p>
         </div>
       </div>

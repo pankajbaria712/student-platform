@@ -1,5 +1,7 @@
 "use client";
 
+import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
+
 type PremiumLockCardProps = {
   onUnlock: () => void;
   loading: boolean;
@@ -23,14 +25,14 @@ export default function PremiumLockCard({
               Unlock all MPI Winter 2025 answers
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-              Login, pay ₹19, and get instant access to the complete set of solved MPI questions. No PDF viewer, no signed links — just web-native answers.
+              Login, pay ₹{PYQ_BUNDLE_PRICE}, and get instant access to the complete set of solved MPI questions. No PDF viewer, no signed links — just web-native answers.
             </p>
           </div>
         </div>
 
         <div className="flex flex-col items-start gap-3 sm:items-end">
           <span className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white ring-1 ring-slate-700">
-            ₹19 only
+            ₹{PYQ_BUNDLE_PRICE} only
           </span>
           <button
             type="button"

@@ -102,11 +102,10 @@ export default function PyqPaperCard({
 }: PyqPaperCardProps) {
   const [opening, setOpening] = useState(false);
 
-  const freePdfUrl = paper.pdf ? getFreePdfUrl(paper.pdf) : undefined;
+  const freePdfUrl = getFreePdfUrl(paper.pdf);
   const isFreeTestSubject =
     subjectSlug === "integrated-personality-development-course";
   const hasSolution = paper.solutionAvailable && Boolean(paper.solutionFile);
-  const isComingSoon = Boolean(paper.comingSoon);
   const freeTestHref = paper.testSlug
     ? getIpdcTestUrl(paper.testSlug)
     : isFreeTestSubject
@@ -181,17 +180,7 @@ export default function PyqPaperCard({
   const Actions = "div" as const;
 
   return (
-    <Card className={`relative rounded-3xl p-6 transition-hover ${isDemoPaper ? "border border-cyan-400/30 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900/80 shadow-[0_20px_60px_rgba(14,165,233,0.16)]" : "border border-white/5 bg-white/[0.02] hover:bg-white/[0.04]"}`}>
-      {/* Badge */}
-      {hasSolution ? (
-        <span className="absolute right-4 top-4 inline-flex items-center rounded-full bg-green-500/10 px-3 py-1 text-[10px] font-black text-green-300 border border-green-500/20">
-          Ready
-        </span>
-      ) : isComingSoon ? (
-        <span className="absolute right-4 top-4 inline-flex items-center rounded-full bg-amber-500/10 px-3 py-1 text-[10px] font-black text-amber-300 border border-amber-500/20">
-          Coming Soon
-        </span>
-      ) : null}
+    <Card className={`rounded-3xl p-6 transition-hover ${isDemoPaper ? "border border-cyan-400/30 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900/80 shadow-[0_20px_60px_rgba(14,165,233,0.16)]" : "border border-white/5 bg-white/[0.02] hover:bg-white/[0.04]"}`}>
       <Row className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <Col>
           <div className="flex flex-wrap items-center gap-3">
@@ -205,26 +194,15 @@ export default function PyqPaperCard({
           <p className="mt-1 text-sm text-gray-400">
             Subject Code: {paper.code} • {paper.type} {paper.year}
           </p>
-          {isComingSoon ? (
-            <p className="mt-3 text-xs text-gray-400">Solution currently being prepared.</p>
-          ) : null}
         </Col>
 
         <Actions className="flex flex-wrap gap-3">
-          {!isComingSoon ? (
-            <PyqActionButton
-              icon={Eye}
-              label={isDemoPaper ? "View Demo" : "View Paper"}
-              href={freePdfUrl}
-              primary
-            />
-          ) : (
-            <PyqActionButton
-              icon={Eye}
-              label="Coming Soon"
-              disabled
-            />
-          )}
+          <PyqActionButton
+            icon={Eye}
+            label={isDemoPaper ? "View Demo" : "View Paper"}
+            href={freePdfUrl}
+            primary
+          />
 
           {isFreeTestSubject && freeTestHref ? (
             <PyqActionButton
@@ -236,33 +214,14 @@ export default function PyqPaperCard({
           ) : null}
 
           {!isDemoPaper && !isFreeTestSubject && (
-            // Three states:
-            // 1) hasSolution -> show download/unlock
-            // 2) coming soon -> show disabled coming soon button
-            // 3) no access yet -> show normal premium unlock button
-            hasSolution ? (
-              <PyqActionButton
-                icon={isPaid ? Download : Lock}
-                label={isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19"}
-                onClick={isPaid ? handleDownloadSolution : scrollToOffer}
-                loading={opening && hasSolution}
-                premium
-                download={isPaid}
-              />
-            ) : isComingSoon ? (
-              <PyqActionButton
-                icon={Lock}
-                label="Coming Soon"
-                disabled
-              />
-            ) : (
-              <PyqActionButton
-                icon={Lock}
-                label="Unlock Solution ₹19"
-                onClick={scrollToOffer}
-                premium
-              />
-            )
+            <PyqActionButton
+              icon={hasSolution ? (isPaid ? Download : Lock) : Lock}
+              label={hasSolution ? (isPaid ? "DOWNLOAD SOLUTION PDF" : "Unlock Solution ₹19") : "Coming Soon"}
+              onClick={hasSolution ? (isPaid ? handleDownloadSolution : scrollToOffer) : undefined}
+              loading={opening && hasSolution}
+              premium={hasSolution}
+              disabled={!hasSolution}
+            />
           )}
         </Actions>
       </Row>

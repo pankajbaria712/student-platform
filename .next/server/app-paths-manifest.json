@@ -1,5 +1,8 @@
 {
-  "/semester/[semester]/page": "app/semester/[semester]/page.js",
   "/page": "app/page.js",
-  "/pyq/[slug]/page": "app/pyq/[slug]/page.js"
+  "/semester/[semester]/page": "app/semester/[semester]/page.js",
+  "/pyq/[slug]/page": "app/pyq/[slug]/page.js",
+  "/login/page": "app/login/page.js",
+  "/api/check-access/route": "app/api/check-access/route.js",
+  "/api/download-solution/route": "app/api/download-solution/route.js"
 }

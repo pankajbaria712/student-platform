@@ -10,12 +10,10 @@ export type Paper = {
   year: string;
   type: "Summer" | "Winter" | string;
   /** e.g. /pdfs/pyq/web-programming/wp-summer-2025.pdf */
-  pdf?: string;
+  pdf: string;
   solutionAvailable: boolean;
   /** e.g. wp-summer-2025-solution.pdf (bucket: premium-pdfs) */
   solutionFile?: string;
-  /** When true, this paper is a placeholder and should show a Coming Soon state */
-  comingSoon?: boolean;
   /** Optional free test route slug for IPDC papers */
   testSlug?: string;
 };
@@ -73,51 +71,49 @@ export const subjectData: SubjectData = {
       "Full-stack development techniques including modern frameworks and responsive design.",
     papers: [
       {
-        title: "IoT Summer 2025",
+        title: "WP Summer 2025",
         code: "3160713",
         year: "2025",
         type: "Summer",
-        pdf: "/pdfs/pyq/internet-of-things/iot-summer-2025.pdf",
-        solutionAvailable: true,
-        solutionFile: "iot-summer-2025-solution.pdf",
-        comingSoon: false,
+        pdf: "/pdfs/pyq/web-programming/wp-summer-2025.pdf",
+        solutionAvailable: false,
+        solutionFile: "wp-summer-2025-solution.pdf",
       },
       {
-        title: "IoT Winter 2024",
+        title: "WP Winter 2024",
         code: "3160713",
         year: "2024",
         type: "Winter",
-        // Placeholder — solution being prepared
-        pdf: "/pdfs/pyq/internet-of-things/iot-winter-2024.pdf",
+        pdf: "/pdfs/pyq/web-programming/wp-winter-2024.pdf",
         solutionAvailable: false,
-        comingSoon: true,
+        solutionFile: "wp-winter-2024-solution.pdf",
       },
       {
-        title: "IoT Summer 2024",
+        title: "WP Summer 2024",
         code: "3160713",
         year: "2024",
         type: "Summer",
-        pdf: "/pdfs/pyq/internet-of-things/iot-summer-2024.pdf",
+        pdf: "/pdfs/pyq/web-programming/wp-summer-2024.pdf",
         solutionAvailable: false,
-        comingSoon: true,
+        solutionFile: "wp-summer-2024-solution.pdf",
       },
       {
-        title: "IoT Winter 2023",
+        title: "WP Winter 2023",
         code: "3160713",
         year: "2023",
         type: "Winter",
-        pdf: "/pdfs/pyq/internet-of-things/iot-winter-2023.pdf",
+        pdf: "/pdfs/pyq/web-programming/wp-winter-2023.pdf",
         solutionAvailable: false,
-        comingSoon: true,
+        solutionFile: "wp-winter-2023-solution.pdf",
       },
       {
-        title: "IoT Summer 2023",
+        title: "WP Summer 2023",
         code: "3160713",
         year: "2023",
         type: "Summer",
-        pdf: "/pdfs/pyq/internet-of-things/iot-summer-2023.pdf",
+        pdf: "/pdfs/pyq/web-programming/wp-summer-2023.pdf",
         solutionAvailable: false,
-        comingSoon: true,
+        solutionFile: "wp-summer-2023-solution.pdf",
       },
     ],
   },
@@ -273,58 +269,39 @@ export const subjectData: SubjectData = {
       },
     ],
   },
-  // Alias: allow `/pyq/iot-and-applications` to reuse Web Programming data
+  // IoT & Applications: PYQ collection
   "iot-and-applications": {
-    title: "IOT & Applications",
+    title: "IoT & Applications",
     code: "3160713",
     semester: 6,
     description:
-      "Full-stack development techniques including modern frameworks and responsive design.",
+      "Internet of Things architecture, protocols, embedded systems, and real-world IoT applications.",
     papers: [
       {
-        title: "WP Summer 2025",
+        title: "IoT Free Demo Solution",
+        code: "3160713",
+        year: "Demo",
+        type: "Demo",
+        pdf: "/pdfs/pyq/iot-and-applications/iot-demo.pdf",
+        solutionAvailable: false,
+      },
+      {
+        title: "IoT Summer 2025",
         code: "3160713",
         year: "2025",
         type: "Summer",
-        pdf: "/pdfs/pyq/web-programming/wp-summer-2025.pdf",
-        solutionAvailable: false,
-        solutionFile: "wp-summer-2025-solution.pdf",
+        pdf: "/pdfs/pyq/iot-and-applications/iot-summer-2025.pdf",
+        solutionAvailable: true,
+        solutionFile: "iot-summer-2025-solution.pdf",
       },
       {
-        title: "WP Winter 2024",
+        title: "IoT Winter 2025",
         code: "3160713",
-        year: "2024",
+        year: "2025",
         type: "Winter",
-        pdf: "/pdfs/pyq/web-programming/wp-winter-2024.pdf",
-        solutionAvailable: false,
-        solutionFile: "wp-winter-2024-solution.pdf",
-      },
-      {
-        title: "WP Summer 2024",
-        code: "3160713",
-        year: "2024",
-        type: "Summer",
-        pdf: "/pdfs/pyq/web-programming/wp-summer-2024.pdf",
-        solutionAvailable: false,
-        solutionFile: "wp-summer-2024-solution.pdf",
-      },
-      {
-        title: "WP Winter 2023",
-        code: "3160713",
-        year: "2023",
-        type: "Winter",
-        pdf: "/pdfs/pyq/web-programming/wp-winter-2023.pdf",
-        solutionAvailable: false,
-        solutionFile: "wp-winter-2023-solution.pdf",
-      },
-      {
-        title: "WP Summer 2023",
-        code: "3160713",
-        year: "2023",
-        type: "Summer",
-        pdf: "/pdfs/pyq/web-programming/wp-summer-2023.pdf",
-        solutionAvailable: false,
-        solutionFile: "wp-summer-2023-solution.pdf",
+        pdf: "/pdfs/pyq/iot-and-applications/iot-winter-2025.pdf",
+        solutionAvailable: true,
+        solutionFile: "iot-winter-2025-solution.pdf",
       },
     ],
   },

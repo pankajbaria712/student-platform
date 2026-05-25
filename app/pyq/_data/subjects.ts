@@ -331,6 +331,14 @@ export const subjectData: SubjectData = {
       "GTU Data Visualization previous year question papers and expert solutions for Semester 6 Computer Engineering.",
     papers: [
       {
+        title: "DV Demo Paper",
+        code: "DV",
+        year: "Demo",
+        type: "Demo",
+        pdf: "/pdfs/pyq/data-visualization/dv-demo.pdf",
+        solutionAvailable: false,
+      },
+      {
         title: "DV Summer 2025",
         code: "DV",
         year: "2025",

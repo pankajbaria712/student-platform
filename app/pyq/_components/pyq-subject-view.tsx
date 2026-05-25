@@ -10,7 +10,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabase";
-import { getFreePdfUrl } from "@/lib/pyq/paths";
 import { checkPyqAccess } from "@/lib/pyq/client";
 
 import Disclaimer from "@/components/Disclaimer";
@@ -191,46 +190,6 @@ export function PyqSubjectView({
         </section>
 
         <section className="space-y-4">
-          {subjectSlug === "data-visualization" ? (
-            (() => {
-              const demoPaper = subject.papers.find(
-                (p) => p.type === "Demo" || p.year === "Demo",
-              );
-
-              if (!demoPaper) return null;
-
-              const demoUrl = getFreePdfUrl(demoPaper.pdf);
-
-              return (
-                <div className="rounded-3xl border border-cyan-400/30 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900/80 p-6 shadow-[0_20px_60px_rgba(14,165,233,0.08)]">
-                  <div className="flex flex-col items-start gap-4 sm:flex-row sm:justify-between">
-                    <div>
-                      <p className="text-xs font-black uppercase tracking-[0.3em] text-cyan-200">
-                        Try Free Demo
-                      </p>
-                      <h3 className="mt-1 text-lg font-black text-white">
-                        Preview Solution Quality Before Purchase
-                      </h3>
-                      <p className="mt-2 text-sm text-gray-300">
-                        View a free demo paper and sample solution excerpts to evaluate the premium content for Data Visualization.
-                      </p>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-3 sm:mt-0">
-                      <a
-                        href={demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-[11px] font-black text-black"
-                      >
-                        View Demo PDF
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()
-          ) : null}
           {allSolutionsComingSoon ? (
             <div className="rounded-3xl border border-amber-400/20 bg-amber-400/10 p-6 text-amber-100 shadow-lg shadow-amber-500/10">
               <p className="text-sm font-black uppercase tracking-[0.3em] text-amber-200">

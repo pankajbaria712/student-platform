@@ -323,5 +323,41 @@ export const subjectData: SubjectData = {
       },
     ],
   },
+  "data-visualization": {
+    title: "Data Visualization",
+    code: "DV",
+    semester: 6,
+    description:
+      "GTU Data Visualization previous year question papers and expert solutions for Semester 6 Computer Engineering.",
+    papers: [
+      {
+        title: "DV Summer 2025",
+        code: "DV",
+        year: "2025",
+        type: "Summer",
+        pdf: "/pdfs/pyq/data-visualization/dv-summer-2025.pdf",
+        solutionAvailable: true,
+        solutionFile: "dv-summer-2025-solution.pdf",
+      },
+      {
+        title: "DV Summer 2024",
+        code: "DV",
+        year: "2024",
+        type: "Summer",
+        pdf: "/pdfs/pyq/data-visualization/dv-summer-2024.pdf",
+        solutionAvailable: true,
+        solutionFile: "dv-summer-2024-solution.pdf",
+      },
+      {
+        title: "DV Winter 2025",
+        code: "DV",
+        year: "2025",
+        type: "Winter",
+        pdf: "/pdfs/pyq/data-visualization/dv-winter-2025.pdf",
+        solutionAvailable: true,
+        solutionFile: "dv-winter-2025-solution.pdf",
+      },
+    ],
+  },
 };
 

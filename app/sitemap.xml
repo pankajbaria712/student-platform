@@ -1,78 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://gtustudenthub.vercel.app/</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/contact</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/login</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/register</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/privacy-policy</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/refund-policy</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/terms</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/test/ipdc</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/semester/3</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/semester/4</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/semester/5</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/semester/6</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/semester/7</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/subject/theory-of-computation</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/subject/theory-of-computation/unit-1</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/theory-of-computation</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/microprocessor-and-interfacing</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/web-programming</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/effective-technical-communication</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/data-structures</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/integrated-personality-development-course</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/iot-and-applications</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/pyq/data-visualization</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/solutions/microprocessor-and-interfacing/mpi-winter-2025-solution</loc>
-  </url>
-  <url>
-    <loc>https://gtustudenthub.vercel.app/premium/web-programming-solution</loc>
-  </url>
-</urlset>
+export default function sitemap() {
+  return [
+    {
+      url: "https://gtustudenthub.vercel.app",
+      lastModified: new Date(),
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/semester/6",
+      lastModified: new Date(),
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/microprocessor-and-interfacing",
+      lastModified: new Date(),
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/iot-and-applications",
+      lastModified: new Date(),
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/data-visualization",
+      lastModified: new Date(),
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/integrated-personality-development-course",
+      lastModified: new Date(),
+    },
+  ];
+}

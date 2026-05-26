@@ -1,36 +1,78 @@
-const BASE_URL = "https://gtustudenthub.vercel.app";
-
-export default function sitemap() {
-  const now = new Date();
-
-  return [
-    { url: `${BASE_URL}/`, lastModified: now },
-    { url: `${BASE_URL}/contact`, lastModified: now },
-    { url: `${BASE_URL}/login`, lastModified: now },
-    { url: `${BASE_URL}/register`, lastModified: now },
-    { url: `${BASE_URL}/privacy-policy`, lastModified: now },
-    { url: `${BASE_URL}/refund-policy`, lastModified: now },
-    { url: `${BASE_URL}/terms`, lastModified: now },
-
-    { url: `${BASE_URL}/test/ipdc`, lastModified: now },
-
-    { url: `${BASE_URL}/semester/3`, lastModified: now },
-    { url: `${BASE_URL}/semester/4`, lastModified: now },
-    { url: `${BASE_URL}/semester/5`, lastModified: now },
-    { url: `${BASE_URL}/semester/6`, lastModified: now },
-    { url: `${BASE_URL}/semester/7`, lastModified: now },
-
-    { url: `${BASE_URL}/subject/theory-of-computation`, lastModified: now },
-    { url: `${BASE_URL}/subject/theory-of-computation/unit-1`, lastModified: now },
-
-    { url: `${BASE_URL}/pyq/theory-of-computation`, lastModified: now },
-    { url: `${BASE_URL}/pyq/microprocessor-and-interfacing`, lastModified: now },
-    { url: `${BASE_URL}/pyq/web-programming`, lastModified: now },
-    { url: `${BASE_URL}/pyq/effective-technical-communication`, lastModified: now },
-    { url: `${BASE_URL}/pyq/data-structures`, lastModified: now },
-    { url: `${BASE_URL}/pyq/integrated-personality-development-course`, lastModified: now },
-
-    { url: `${BASE_URL}/solutions/microprocessor-and-interfacing/mpi-winter-2025-solution`, lastModified: now },
-    { url: `${BASE_URL}/premium/web-programming-solution`, lastModified: now },
-  ];
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://gtustudenthub.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/contact</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/login</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/register</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/privacy-policy</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/refund-policy</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/terms</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/test/ipdc</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/semester/3</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/semester/4</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/semester/5</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/semester/6</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/semester/7</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/subject/theory-of-computation</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/subject/theory-of-computation/unit-1</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/theory-of-computation</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/microprocessor-and-interfacing</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/web-programming</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/effective-technical-communication</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/data-structures</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/integrated-personality-development-course</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/iot-and-applications</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/pyq/data-visualization</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/solutions/microprocessor-and-interfacing/mpi-winter-2025-solution</loc>
+  </url>
+  <url>
+    <loc>https://gtustudenthub.vercel.app/premium/web-programming-solution</loc>
+  </url>
+</urlset>

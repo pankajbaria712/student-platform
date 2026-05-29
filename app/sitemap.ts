@@ -31,6 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: "https://gtustudenthub.vercel.app/pyq/advanced-java-programming",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+
+    {
       url: "https://gtustudenthub.vercel.app/pyq/data-visualization",
       lastModified: new Date(),
       changeFrequency: "daily",

@@ -6,6 +6,21 @@ export function generateStaticParams() {
   return Object.keys(subjectData).map((slug) => ({ slug }));
 }
 
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  if (params.slug === "advanced-java-programming") {
+    return {
+      title: "GTU Advanced Java Programming PYQ Solutions",
+      description:
+        "Download GTU Advanced Java Programming previous year paper solutions for Semester 6 Computer Engineering students.",
+    };
+  }
+
+  return {
+    title: subjectData[params.slug]?.title || "GTU PYQ Solutions",
+    description: subjectData[params.slug]?.description || undefined,
+  };
+}
+
 export default function SubjectPYQPage({
   params,
 }: {

@@ -55,7 +55,7 @@ export default function RegisterPage() {
               Register for GTUStudentHub.
             </h1>
             <p className="mt-3 text-sm text-gray-400">
-              Start reading free notes and unlock premium content with one
+              Start reading free notes and access solution PDFs with one
               account.
             </p>
           </div>

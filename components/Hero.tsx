@@ -9,10 +9,10 @@ export default function Hero() {
             BE Computer Engineering
           </p>
           <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-            Semester Notes + PYQs + Premium PDF Downloads
+            Semester Notes + PYQs + PDF Downloads
           </h1>
           <p className="mt-5 text-lg text-gray-600">
-            Read notes for free. Download premium PDFs for just ₹33. Fast,
+            Read notes for free. Download solution PDFs instantly. Fast,
             simple, and built for students.
           </p>
 
@@ -24,10 +24,10 @@ export default function Hero() {
               Explore Notes
             </Link>
             <Link
-              href="#premium"
+              href="#notes"
               className="rounded-2xl border border-gray-300 px-6 py-3 transition hover:bg-gray-50"
             >
-              Unlock Premium
+              Browse Papers
             </Link>
           </div>
         </div>

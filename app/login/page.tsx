@@ -59,7 +59,7 @@ export default function LoginPage() {
               Login to GTUStudentHub.
             </h1>
             <p className="mt-3 text-sm text-gray-400">
-              Access your saved purchases, premium downloads and notes.
+              Access your saved notes, downloads, and account settings.
             </p>
           </div>
 

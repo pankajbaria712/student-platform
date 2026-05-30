@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthenticatedUser } from "@/lib/pyq/auth";
-import { hasPaymentAccess } from "@/lib/pyq/payments-access";
 import { downloadPremiumPdf } from "@/lib/pyq/storage";
 import { subjectData } from "@/app/pyq/_data/subjects";
 
@@ -22,25 +20,6 @@ export async function GET(request: NextRequest) {
     const subject = subjectData[String(subjectSlug)];
     if (!subject) {
       return NextResponse.json({ error: "Unknown subject" }, { status: 400 });
-    }
-
-    const user = await getAuthenticatedUser(request);
-    if (!user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const access = await hasPaymentAccess({
-      email: user.email,
-      userId: user.id,
-      subjectSlug: String(subjectSlug),
-      subjectCode: subject.code,
-    });
-
-    if (!access) {
-      return NextResponse.json(
-        { error: "Premium access required" },
-        { status: 403 },
-      );
     }
 
     const result = await downloadPremiumPdf(file);

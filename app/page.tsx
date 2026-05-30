@@ -1,19 +1,8 @@
 "use client";
 
 import React from "react";
-import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 import Navbar from "@/components/Navbar";
-import {
-  BookOpen,
-  Download,
-  Crown,
-  ChevronRight,
-  Search,
-  ShieldCheck,
-  FileText,
-  Star,
-  Users,
-} from "lucide-react";
+import { BookOpen, ChevronRight, Search, ShieldCheck, FileText, Star, Users } from "lucide-react";
 
 const FeatureBadge = ({ icon: Icon, text }: { icon: any; text: string }) => (
   <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-gray-300">
@@ -106,13 +95,13 @@ export default function HomePage() {
           </h1>
 
           <p className="mx-auto mb-8 max-w-2xl px-1 text-base leading-relaxed text-gray-400 sm:mb-10 sm:text-lg md:text-xl">
-            PYQs, premium solutions, and IPDC tests built for GTU Computer Engineering students — with a polished, startup-ready experience.
+            PYQs, solved solutions, and IPDC tests built for GTU Computer Engineering students — with a polished, startup-ready experience.
           </p>
 
           <div className="mx-auto mb-8 flex max-w-2xl flex-wrap items-center justify-center gap-3">
             {[
               "PYQs",
-              "Premium Solutions",
+              "Solved Papers",
               "IPDC Tests",
               "Upcoming Subjects",
             ].map((item) => (
@@ -160,7 +149,7 @@ export default function HomePage() {
           <p className="mt-1 text-xs text-gray-400 sm:text-sm">
             Open any semester, pick a subject, then use{" "}
             <span className="font-semibold text-indigo-300">Papers</span> for
-            PYQs or grab the ₹{PYQ_BUNDLE_PRICE} bundle on subject PYQ pages.
+            PYQs and open solved solutions directly from subject pages.
           </p>
         </div>
       </div>
@@ -184,7 +173,7 @@ export default function HomePage() {
             </div>
 
             <p className="max-w-md text-sm text-gray-400 md:text-right">
-              Choose your semester for syllabus, notes, PYQs, and premium PDFs.
+              Choose your semester for syllabus, notes, PYQs, and solution bundles.
             </p>
           </div>
 
@@ -196,60 +185,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Premium */}
-      <section
-        id="premium"
-        className="scroll-mt-28 px-page py-16 sm:scroll-mt-32 sm:py-24"
-      >
-        <div className="mx-auto max-w-7xl rounded-3xl border border-indigo-500/20 bg-[#0a0a0a] p-6 shadow-[0_0_40px_rgba(79,70,229,0.2)] sm:rounded-[2.5rem] sm:p-10 md:p-14">
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
-            <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-indigo-400 sm:mb-4 sm:text-sm">
-                Premium Access
-              </p>
-
-              <h3 className="mb-5 text-3xl font-black leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-                Download premium PDF for only ₹33
-              </h3>
-
-              <p className="mb-6 text-base text-gray-400 sm:mb-8 sm:text-lg">
-                Printable PDFs, revision notes, exam important questions, and
-                ad-free reading experience.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  "Fast PDF Downloads",
-                  "Exam Revision Notes",
-                  "Printable Format",
-                  "Important Questions Included",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-3">
-                    <Download size={16} className="text-indigo-400" />
-                    <span className="text-gray-300">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-6 text-center sm:rounded-[2rem] sm:p-8">
-              <p className="mb-2 text-sm text-gray-500 line-through">MRP ₹99</p>
-              <div className="mb-3 text-5xl font-black sm:text-6xl">₹33</div>
-              <p className="mb-6 text-sm text-gray-500 sm:mb-8">
-                Per subject only
-              </p>
-
-              <button
-                type="button"
-                className="flex min-h-[3.5rem] w-full items-center justify-center gap-3 rounded-2xl bg-indigo-600 px-4 text-base font-bold text-white transition hover:bg-indigo-500 sm:text-lg"
-              >
-                <Crown size={20} fill="currentColor" />
-                Buy Now
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer

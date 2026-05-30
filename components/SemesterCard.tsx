@@ -19,7 +19,7 @@ export default function SemesterCard({ semester }: SemesterCardProps) {
       </div>
       <div className="mt-4">
         <p className="text-sm text-gray-500">
-          Access notes, PYQs, and premium content
+          Access notes, PYQs, and solution PDFs
         </p>
       </div>
     </Link>

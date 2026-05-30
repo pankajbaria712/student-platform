@@ -29,7 +29,7 @@ export default function SubjectCard({
       </div>
       <div className="mt-4">
         <p className="text-sm text-gray-500">
-          Notes, PYQs, and premium PDF download
+          Notes, PYQs, and downloadable solution PDFs
         </p>
       </div>
     </Link>

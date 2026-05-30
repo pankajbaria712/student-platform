@@ -1,4 +1,3 @@
-import PremiumButton from "@/components/PremiumButton";
 import Navbar from "@/components/Navbar";
 
 type Chapter = {
@@ -11,7 +10,7 @@ const subjectData = {
   name: "Theory of Computation",
   semester: "Semester 6",
   description:
-    "Unit-wise syllabus, chapter notes, important questions, PYQs, and premium PDF access.",
+    "Unit-wise syllabus, chapter notes, important questions, and PYQs.",
   chapters: [
     {
       title: "Unit 1: Introduction to Automata",
@@ -125,31 +124,6 @@ export default function SubjectPage({ params }: SubjectPageProps) {
                 </a>
               </div>
             ))}
-          </div>
-        </section>
-
-        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-black/20 sm:mt-14 sm:rounded-[2rem] sm:p-8">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h3 className="text-2xl font-bold text-white sm:text-3xl">
-                Premium PDF download
-              </h3>
-              <p className="mt-3 max-w-2xl text-sm text-slate-400 sm:text-base">
-                Download complete printable notes, revision highlights, and exam
-                support for only ₹33.
-              </p>
-              <ul className="mt-6 space-y-2 text-sm text-slate-300 sm:text-base">
-                <li>✔ Full Subject PDF</li>
-                <li>✔ Printable Download</li>
-                <li>✔ Revision Notes Included</li>
-                <li>✔ Accessible Anytime</li>
-              </ul>
-            </div>
-
-            <PremiumButton
-              subjectId={params.slug}
-              subjectTitle={subjectData.name}
-            />
           </div>
         </section>
       </main>

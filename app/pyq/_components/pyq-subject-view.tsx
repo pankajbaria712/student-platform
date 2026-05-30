@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -9,12 +8,7 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import { getSupabaseClient } from "@/lib/supabase";
-import { checkPyqAccess } from "@/lib/pyq/client";
-
 import Disclaimer from "@/components/Disclaimer";
-import BundleOfferCard from "@/components/BundleOfferCard";
-import { PYQ_BUNDLE_PRICE } from "@/lib/pyq/constants";
 import Navbar from "@/components/Navbar";
 import PyqPaperCard from "@/components/PyqPaperCard";
 import type { Subject } from "../_data/subjects";
@@ -38,41 +32,7 @@ export function PyqSubjectView({
   const allSolutionsComingSoon =
     !freeTestSubject &&
     subject.papers.every((paper) => !paper.solutionAvailable);
-  const [isPaid, setIsPaid] = useState(false);
-  const [checkingAccess, setCheckingAccess] = useState(true);
-
-  const refreshAccess = useCallback(async () => {
-    if (freeTestSubject) {
-      setIsPaid(true);
-      setCheckingAccess(false);
-      return;
-    }
-
-    setCheckingAccess(true);
-    try {
-      const supabase = getSupabaseClient();
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (!session) {
-        setIsPaid(false);
-        return;
-      }
-
-      const access = await checkPyqAccess(subjectSlug, subject.code);
-      setIsPaid(access);
-    } catch (err) {
-      console.error("Error checking payment:", err);
-      setIsPaid(false);
-    } finally {
-      setCheckingAccess(false);
-    }
-  }, [freeTestSubject, subjectSlug, subject.code]);
-
-  useEffect(() => {
-    refreshAccess();
-  }, [refreshAccess]);
+  const isPaid = true;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] pb-40 font-sans text-white antialiased selection:bg-indigo-500/30 sm:pb-24">
@@ -126,45 +86,6 @@ export function PyqSubjectView({
               ) : null}
             </div>
 
-            <div className="lg:justify-self-end">
-              {checkingAccess ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center text-sm text-gray-500">
-                  Checking access...
-                </div>
-              ) : freeTestSubject ? (
-                <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-6 text-center">
-                  <Sparkles
-                    className="mx-auto mb-2 text-indigo-400"
-                    size={24}
-                  />
-                  <p className="text-sm font-bold text-indigo-200">
-                    IPDC Test Access
-                  </p>
-                  <p className="text-xs text-indigo-300/80">
-                    Free access to all IPDC practice tests — no payment
-                    required.
-                  </p>
-                </div>
-              ) : !isPaid ? (
-                <BundleOfferCard
-                  subjectId={subjectSlug}
-                  subjectTitle={subject.title}
-                  amount={PYQ_BUNDLE_PRICE}
-                  description={`Unlock all premium ${subject.title} solutions for just ₹${PYQ_BUNDLE_PRICE}.`}
-                  onPaymentSuccess={refreshAccess}
-                />
-              ) : (
-                <div className="rounded-2xl border border-green-500/20 bg-green-500/5 p-6 text-center">
-                  <Sparkles className="mx-auto mb-2 text-green-400" size={24} />
-                  <p className="text-sm font-bold text-green-400">
-                    Premium Access Active
-                  </p>
-                  <p className="text-xs text-green-500/70">
-                    All solutions unlocked for you.
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
         </header>
 
@@ -196,7 +117,7 @@ export function PyqSubjectView({
                 ⚠️ Solutions Coming Soon
               </p>
               <p className="mt-3 text-sm leading-6 text-gray-100">
-                {subject.title} premium solutions are currently under preparation and will be uploaded soon.
+                {subject.title} solution sets are currently under preparation and will be uploaded soon.
               </p>
               <p className="mt-3 text-xs text-gray-300">
                 Currently only IPDC interactive tests and selected subjects are fully available.

@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "GTUStudentHub - GTU Paper Solutions",
   description:
-    "Access semester notes, PYQs, and premium PDF downloads for BE Computer Engineering students.",
+    "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
 };
 
 export default function RootLayout({

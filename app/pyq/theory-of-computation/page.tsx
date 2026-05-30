@@ -1,14 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, Sparkles, ShieldCheck, Zap } from "lucide-react";
-import { getSupabaseClient } from "@/lib/supabase";
-import { checkPyqAccess } from "@/lib/pyq/client";
 import type { Paper } from "@/app/pyq/_data/subjects";
 import Disclaimer from "@/components/Disclaimer";
 import Navbar from "@/components/Navbar";
-import BundleOfferCard from "@/components/BundleOfferCard";
 import PyqPaperCard from "@/components/PyqPaperCard";
 
 const subjectSlug = "theory-of-computation";
@@ -59,30 +55,7 @@ const scrollToUnlock = () =>
     ?.scrollIntoView({ behavior: "smooth" });
 
 export default function PYQPage() {
-  const [isPaid, setIsPaid] = useState(false);
-  const [checkingAccess, setCheckingAccess] = useState(true);
-
-  const refreshAccess = useCallback(async () => {
-    setCheckingAccess(true);
-    const supabase = getSupabaseClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-      setIsPaid(false);
-      setCheckingAccess(false);
-      return;
-    }
-
-    const access = await checkPyqAccess(subjectSlug, subjectCode);
-    setIsPaid(access);
-    setCheckingAccess(false);
-  }, []);
-
-  useEffect(() => {
-    refreshAccess();
-  }, [refreshAccess]);
+  const isPaid = true;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30 pb-safe">
@@ -117,26 +90,8 @@ export default function PYQPage() {
                 PYQ Solution
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
-                Access verified previous year question papers and unlock
-                verified solutions of PYQ Papers curated by university gold
-                medalists.
+                Access verified previous year question papers and verified solutions curated by university gold medalists.
               </p>
-            </div>
-            <div className="lg:justify-self-end">
-              {checkingAccess ? (
-                <div className="rounded-[2rem] border border-white/10 bg-white/5 px-6 py-6 text-sm text-gray-300 shadow-lg shadow-indigo-500/10">
-                  Checking access...
-                </div>
-              ) : isPaid ? (
-                <div className="rounded-[2rem] border border-emerald-400/20 bg-emerald-500/10 px-6 py-6 text-sm text-emerald-100 shadow-lg shadow-emerald-500/10">
-                  <div className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-emerald-200">
-                    Access Active
-                  </div>
-                  <div className="text-base font-bold">Premium solutions unlocked</div>
-                </div>
-              ) : (
-                <BundleOfferCard onPaymentSuccess={refreshAccess} />
-              )}
             </div>
           </div>
         </header>

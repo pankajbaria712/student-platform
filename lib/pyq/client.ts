@@ -25,19 +25,7 @@ export async function checkPyqAccess(
   subjectSlug: string,
   subjectCode: string,
 ): Promise<boolean> {
-  const headers = await getAuthHeaders();
-  if (!headers) return false;
-
-  const res = await fetch("/api/check-access", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ subjectSlug, subjectCode }),
-  });
-
-  if (!res.ok) return false;
-
-  const data = (await res.json()) as { access?: boolean };
-  return Boolean(data.access);
+  return true;
 }
 
 export function getSolutionDownloadPath(

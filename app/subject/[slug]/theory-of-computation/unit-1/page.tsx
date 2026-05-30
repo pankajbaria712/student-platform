@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import PremiumButton from "@/components/PremiumButton";
 
 type NoteSection = {
   heading: string;
@@ -78,8 +77,7 @@ export default function FullNotesPage({ params }: UnitPageProps) {
             {noteData.unitTitle}
           </h1>
           <p className="mt-3 text-sm text-slate-400 sm:text-base">
-            Read complete chapter-wise notes for free. Premium users can
-            download the full printable PDF for ₹33.
+            Read complete chapter-wise notes directly on the website.
           </p>
         </div>
 
@@ -127,38 +125,6 @@ export default function FullNotesPage({ params }: UnitPageProps) {
           </ul>
         </section>
 
-        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:mt-14 sm:rounded-3xl sm:p-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-white sm:text-2xl">
-                Premium PDF download
-              </h3>
-              <p className="mt-3 text-sm text-slate-400 sm:text-base">
-                Full printable PDF, revision notes, PYQ support, and exam-focused
-                important questions for ₹33.
-              </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Full subject PDF",
-                  "Printable version",
-                  "Revision notes",
-                  "Important questions",
-                ].map((label) => (
-                  <div
-                    key={label}
-                    className="rounded-2xl border border-slate-700/80 bg-slate-950/50 px-4 py-3 text-sm text-slate-300"
-                  >
-                    ✔ {label}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <PremiumButton
-              subjectId={subjectSlug}
-              subjectTitle={noteData.subjectName}
-            />
-          </div>
-        </section>
       </main>
     </div>
   );

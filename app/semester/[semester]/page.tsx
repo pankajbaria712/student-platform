@@ -6,7 +6,6 @@ import {
   Crown,
   GraduationCap,
   ChevronRight,
-  ArrowUpRight,
   Cpu,
   Code,
   Binary,
@@ -648,7 +647,7 @@ export default function SemesterPage({ params }: SemesterPageProps) {
                 Semester {params.semester} is on the roadmap.
               </h2>
               <p className="mt-3 text-sm leading-6 text-gray-200">
-                Semester 6 is the current focus. Upcoming semesters are being prepared with premium notes, PYQs, and solution packs.
+                Semester 6 is the current focus. Upcoming semesters are being prepared with notes, PYQs, and solution packs.
               </p>
             </div>
           ) : null}
@@ -684,71 +683,6 @@ export default function SemesterPage({ params }: SemesterPageProps) {
           <Disclaimer />
         </div>
 
-        {/* Premium Banner */}
-        <section className="relative">
-          <div className="absolute inset-0 rounded-[3rem] bg-indigo-600/10 blur-3xl" />
-          <div className="relative flex flex-col items-center justify-between gap-10 overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] p-6 sm:rounded-[3rem] sm:p-10 md:gap-12 md:p-16 lg:flex-row">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8">
-                <Crown size={12} fill="currentColor" /> Premium Access
-              </div>
-              <h2 className="mb-5 text-3xl font-black leading-tight tracking-tight sm:mb-6 sm:text-4xl md:text-5xl">
-                Unlock the{" "}
-                <span className="italic text-indigo-500 underline decoration-indigo-500/30 underline-offset-8">
-                  Ultimate
-                </span>{" "}
-                <br /> Exam PDF Bundle.
-              </h2>
-              <ul className="space-y-4 mb-4">
-                {[
-                  "Complete handwritten high-res PDFs",
-                  "Verified solved PYQs (2018-2023)",
-                  "Print-optimized high-contrast layout",
-                ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-3 text-sm text-gray-400 font-medium"
-                  >
-                    <div className="h-5 w-5 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                      <ChevronRight size={10} className="text-indigo-400" />
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="w-full lg:w-[340px]">
-              <div className="relative rounded-3xl border border-white/10 bg-[#0a0a0a] p-6 text-center shadow-2xl sm:rounded-[2.5rem] sm:p-10">
-                <div className="text-gray-500 text-xs mb-1 font-bold line-through tracking-widest">
-                  MRP ₹99
-                </div>
-                <div className="mb-6 flex items-center justify-center gap-2">
-                  <span className="text-5xl font-black tracking-tighter sm:text-6xl">
-                    ₹33
-                  </span>
-                  <div className="text-left leading-none">
-                    <div className="text-[10px] font-black text-gray-500 uppercase tracking-tighter">
-                      Final Price
-                    </div>
-                    <div className="text-[10px] font-black text-indigo-400">
-                      per subject
-                    </div>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-white text-sm font-black text-black transition-all hover:bg-indigo-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-95 sm:h-16"
-                >
-                  Unlock All Subjects <ArrowUpRight size={18} />
-                </button>
-                <p className="text-[10px] text-gray-600 mt-6 font-bold uppercase tracking-widest">
-                  Instant Email Delivery
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="relative z-10 border-t border-white/5 px-page py-10 pb-safe sm:py-12">

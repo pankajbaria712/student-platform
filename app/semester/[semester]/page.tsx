@@ -271,7 +271,7 @@ const semesterData = {
         credits: 4,
         category: "Professional Elective",
         icon: <Code className="text-orange-400" />,
-        notesLink: "#",
+        notesLink: "/notes/advanced-java-programming",
         syllabusPdf: "/pdfs/syllabus/advanced-java-programming-syllabus.pdf",
         pyqLink: "/pyq/advanced-java-programming",
         description:

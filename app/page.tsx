@@ -2,7 +2,8 @@
 
 import React from "react";
 import Navbar from "@/components/Navbar";
-import { BookOpen, ChevronRight, Search, ShieldCheck, FileText, Star, Users } from "lucide-react";
+import GlobalSearch from "@/components/GlobalSearch";
+import { BookOpen, ChevronRight, ShieldCheck, FileText, Star, Users } from "lucide-react";
 
 const FeatureBadge = ({ icon: Icon, text }: { icon: any; text: string }) => (
   <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-gray-300">
@@ -114,26 +115,8 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="relative mx-auto max-w-2xl px-0">
-            <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md sm:flex-row sm:items-center sm:gap-0">
-              <div className="flex min-h-[48px] flex-1 items-center px-2 sm:px-0">
-                <Search
-                  className="ml-2 shrink-0 text-gray-500 sm:ml-3"
-                  size={20}
-                />
-                <input
-                  type="search"
-                  placeholder="Search subject, notes, PYQ…"
-                  className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-gray-500 sm:text-base"
-                />
-              </div>
-              <button
-                type="button"
-                className="shrink-0 rounded-xl bg-indigo-600 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-indigo-500 sm:mr-1 sm:py-3"
-              >
-                Search
-              </button>
-            </div>
+          <div className="mx-auto max-w-2xl px-0">
+            <GlobalSearch />
           </div>
         </div>
       </section>

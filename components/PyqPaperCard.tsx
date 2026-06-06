@@ -103,8 +103,10 @@ export default function PyqPaperCard({
   const [opening, setOpening] = useState(false);
 
   const freePdfUrl = getFreePdfUrl(paper.pdf);
-  const isFreeTestSubject =
-    subjectSlug === "integrated-personality-development-course";
+  const isFreeTestSubject = [
+    "integrated-personality-development-course",
+    "ipdc-1",
+  ].includes(subjectSlug);
   const hasSolution = paper.solutionAvailable && Boolean(paper.solutionFile);
   const freeTestHref = paper.testSlug
     ? getIpdcTestUrl(paper.testSlug)

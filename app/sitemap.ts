@@ -15,6 +15,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 0.9,
     },
+    {
+      url: "https://gtustudenthub.vercel.app/semester/5",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/software-engineering",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/python-for-data-science",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/professional-ethics",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/ipdc-1",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/computer-networks",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://gtustudenthub.vercel.app/pyq/analysis-and-design-of-algorithms",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
 
     {
       url: "https://gtustudenthub.vercel.app/pyq/microprocessor-and-interfacing",

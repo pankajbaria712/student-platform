@@ -7,17 +7,24 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }) {
-  if (params.slug === "advanced-java-programming") {
-    return {
-      title: "GTU Advanced Java Programming PYQ Solutions",
-      description:
-        "Download GTU Advanced Java Programming previous year paper solutions for Semester 6 Computer Engineering students.",
-    };
-  }
+  const subject = subjectData[params.slug];
+  const title = subject
+    ? `GTU ${subject.title} PYQ Papers - Semester ${subject.semester}`
+    : "GTU PYQ Solutions";
+  const description = subject?.description ||
+    "Access GTU previous year question papers and solution briefs for core engineering subjects.";
 
   return {
-    title: subjectData[params.slug]?.title || "GTU PYQ Solutions",
-    description: subjectData[params.slug]?.description || undefined,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://gtustudenthub.vercel.app/pyq/${params.slug}`,
+    },
+    alternates: {
+      canonical: `https://gtustudenthub.vercel.app/pyq/${params.slug}`,
+    },
   };
 }
 

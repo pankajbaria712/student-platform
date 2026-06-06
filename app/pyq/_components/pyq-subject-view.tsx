@@ -26,8 +26,10 @@ export function PyqSubjectView({
   subject: Subject;
   subjectSlug: string;
 }) {
-  const freeTestSubject =
-    subjectSlug === "integrated-personality-development-course";
+  const freeTestSubject = [
+    "integrated-personality-development-course",
+    "ipdc-1",
+  ].includes(subjectSlug);
   const isIoTSubject = subjectSlug === "iot-and-applications";
   const allSolutionsComingSoon =
     !freeTestSubject &&
@@ -46,6 +48,21 @@ export function PyqSubjectView({
       </div>
 
       <main className="relative z-10 mx-auto max-w-6xl px-4 pb-12 pt-8 sm:pb-20 sm:pt-12">
+        <nav className="mb-6 text-sm text-gray-400" aria-label="Breadcrumb">
+          <Link href="/" className="text-indigo-400 hover:text-indigo-300">
+            Home
+          </Link>
+          <span className="mx-2">/</span>
+          <Link
+            href={`/semester/${subject.semester}`}
+            className="text-indigo-400 hover:text-indigo-300"
+          >
+            Semester {subject.semester}
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-white">{subject.title}</span>
+        </nav>
+
         <Link
           href={`/semester/${subject.semester}`}
           className="mb-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 transition-colors hover:text-indigo-400"

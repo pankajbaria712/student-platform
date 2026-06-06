@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import React from "react";
 import {
   Book,
@@ -23,6 +25,23 @@ import {
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
 import Navbar from "@/components/Navbar";
+
+export function generateMetadata({ params }: { params: { semester: string } }): Metadata {
+  const data = semesterData[params.semester] || semesterData["6"];
+
+  return {
+    title: `GTU Semester ${params.semester} — Computer Engineering`,
+    description: `GTU Semester ${params.semester} resources for Computer Engineering students. Access syllabus PDFs, PYQs, and exam-ready subject guides.`,
+    openGraph: {
+      title: `GTU Semester ${params.semester} — Computer Engineering`,
+      description: data.subtitle,
+      url: `https://gtustudenthub.vercel.app/semester/${params.semester}`,
+    },
+    alternates: {
+      canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}`,
+    },
+  };
+}
 
 const semesterData = {
   "3": {
@@ -186,66 +205,93 @@ const semesterData = {
   },
   "5": {
     heading: "Semester 5",
-    subtitle: "Advanced programming, web systems, and computing theory.",
+    subtitle:
+      "Software design, data science, ethics, and communication for GTU Computer Engineering.",
     subjects: [
       {
-        code: "3160501",
-        name: "Theory of Computation",
+        code: "3150711",
+        name: "Software Engineering",
+        credits: 4,
+        category: "Core",
+        icon: <Code className="text-orange-400" />,
+        notesLink: "/notes/software-engineering",
+        syllabusPdf: "/pdfs/syllabus/software-engineering-syllabus.pdf",
+        pyqLink: "/pyq/software-engineering",
+        description:
+          "Software lifecycle, requirements, agile design, testing, and delivery.",
+      },
+      {
+        code: "3150713",
+        name: "Python for Data Science",
+        credits: 4,
+        category: "Elective",
+        icon: <Cloud className="text-sky-400" />,
+        notesLink: "/notes/python-for-data-science",
+        syllabusPdf: "/pdfs/syllabus/python-for-data-science-syllabus.pdf",
+        pyqLink: "/pyq/python-for-data-science",
+        description:
+          "Python data science libraries, analysis, visualization, and model building.",
+      },
+      {
+        code: "3150709",
+        name: "Professional Ethics",
+        credits: 2,
+        category: "Humanities",
+        icon: <ShieldCheck className="text-cyan-400" />,
+        notesLink: "/notes/professional-ethics",
+        syllabusPdf: "/pdfs/syllabus/professional-ethics-syllabus.pdf",
+        pyqLink: "/pyq/professional-ethics",
+        description:
+          "Ethical decision-making, professional conduct, and engineering responsibility.",
+      },
+      {
+        code: "3150005",
+        name: "Integrated Personality Development Course - I",
+        credits: 2,
+        category: "Humanities",
+        icon: <Heart className="text-rose-400" />,
+        notesLink: "/notes/ipdc-1",
+        syllabusPdf:
+          "/pdfs/syllabus/integrated-personality-development-course-1-syllabus.pdf",
+        pyqLink: "/pyq/ipdc-1",
+        description:
+          "Professional growth, communication, leadership, and life skills for engineers.",
+      },
+      {
+        code: "3150001",
+        name: "Design Engineering IIA",
+        credits: 1,
+        category: "Project Work",
+        icon: <Palette className="text-purple-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/design-engineering-IIA-syllabus.pdf",
+        pyqLink: "#",
+        description:
+          "Design modeling, prototype planning, and engineering creativity. Resources coming soon.",
+      },
+      {
+        code: "3150710",
+        name: "Computer Networks",
+        credits: 4,
+        category: "Core",
+        icon: <Wifi className="text-indigo-400" />,
+        notesLink: "/notes/computer-networks",
+        syllabusPdf: "/pdfs/syllabus/computer-networks-syllabus.pdf",
+        pyqLink: "/pyq/computer-networks",
+        description:
+          "Network architectures, routing, protocols, and secure data communication.",
+      },
+      {
+        code: "3150703",
+        name: "Analysis and Design of Algorithms",
         credits: 5,
         category: "Core",
         icon: <Binary className="text-blue-400" />,
-        notesLink: "/subject/theory-of-computation",
-        syllabusPdf: "/pdfs/syllabus/theory-of-computation-syllabus.pdf",
-        pyqLink: "/pyq/theory-of-computation",
+        notesLink: "/notes/analysis-and-design-of-algorithms",
+        syllabusPdf: "/pdfs/syllabus/analysis-and-design-of-algorithms-syllabus.pdf",
+        pyqLink: "/pyq/analysis-and-design-of-algorithms",
         description:
-          "Master automata theory, formal languages, and mathematical foundations.",
-      },
-      {
-        code: "3160502",
-        name: "Advanced Java Programming",
-        credits: 4,
-        category: "Elective",
-        icon: <Code className="text-orange-400" />,
-        notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/advanced-java-programming-syllabus.pdf",
-        pyqLink: "#",
-        description:
-          "Enterprise Java concepts, concurrency, and advanced API usage.",
-      },
-      {
-        code: "3160503",
-        name: "Web Programming",
-        credits: 4,
-        category: "Core",
-        icon: <Globe className="text-pink-400" />,
-        notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
-        description:
-          "Modern web apps, front-end frameworks, RESTful services, and UX.",
-      },
-      {
-        code: "3160504",
-        name: "Microprocessors & Interfacing",
-        credits: 4,
-        category: "Core",
-        icon: <Cpu className="text-emerald-400" />,
-        notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
-        description:
-          "Processor architecture, assembly, and hardware interfacing techniques.",
-      },
-      {
-        code: "3160505",
-        name: "Data Mining",
-        credits: 4,
-        category: "Elective",
-        icon: <Database className="text-yellow-400" />,
-        notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
-        description: "Discovering patterns and knowledge from large datasets.",
+          "Algorithm design techniques, complexity analysis, and optimization strategies.",
       },
     ],
   },
@@ -621,7 +667,7 @@ const SubjectCard = ({ subject, activeSemester = true }) => (
 
 export default function SemesterPage({ params }: SemesterPageProps) {
   const data = semesterData[params.semester] || semesterData["6"];
-  const isActiveSemester = params.semester === "6";
+  const isActiveSemester = ["5", "6"].includes(params.semester);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">
@@ -652,6 +698,14 @@ export default function SemesterPage({ params }: SemesterPageProps) {
             </div>
           ) : null}
 
+          <div className="mb-4 text-sm text-gray-400">
+            <Link href="/" className="text-indigo-400 hover:text-indigo-300">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="font-semibold text-white">Semester {params.semester}</span>
+          </div>
+
           <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400">
             <GraduationCap size={14} className="shrink-0" />
             <span>BE Computer Engineering</span>
@@ -659,7 +713,7 @@ export default function SemesterPage({ params }: SemesterPageProps) {
             <span className="text-gray-500">{data.heading}</span>
           </div>
           <h1 className="mb-4 bg-gradient-to-r from-white via-white to-gray-500 bg-clip-text text-4xl font-black leading-[1.1] tracking-tighter text-transparent sm:text-5xl md:mb-6 md:text-6xl lg:text-7xl">
-            Academic <span className="text-indigo-500 italic">Inventory</span>
+            Semester {params.semester} <span className="text-indigo-500 italic">Academic Inventory</span>
           </h1>
           <p className="max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
             {data.subtitle}

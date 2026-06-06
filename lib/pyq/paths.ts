@@ -8,8 +8,8 @@ export function normalizeStorageFile(file: string): string {
 
 /** Public URL for a free PYQ paper PDF in /public */
 export function getFreePdfUrl(pdfPath: string): string {
-  if (pdfPath.startsWith("/")) return pdfPath;
-  return `${PYQ_PDF_BASE}/${pdfPath.replace(/^\/+/, "")}`;
+  if (pdfPath.startsWith("/")) return encodeURI(pdfPath);
+  return encodeURI(`${PYQ_PDF_BASE}/${pdfPath.replace(/^\/+/, "")}`);
 }
 
 export function getIpdcTestUrl(testSlug: string): string {

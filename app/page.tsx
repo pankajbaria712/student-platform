@@ -12,7 +12,7 @@ const FeatureBadge = ({ icon: Icon, text }: { icon: any; text: string }) => (
 );
 
 const SemesterCard = ({ semester }: { semester: number }) => {
-  const isActive = semester === 6;
+  const isActive = [5, 6].includes(semester);
   const cardClasses = isActive
     ? "group relative block overflow-hidden rounded-3xl border border-indigo-500/40 bg-gradient-to-br from-indigo-600/10 via-slate-950/80 to-transparent p-6 shadow-[0_0_35px_rgba(99,102,241,0.3)] transition duration-500 hover:scale-[1.02]"
     : "group relative block overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 opacity-70 transition duration-500 hover:scale-[1.01]";

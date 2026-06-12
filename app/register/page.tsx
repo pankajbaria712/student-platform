@@ -1,9 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
-import Navbar from "@/components/Navbar";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -44,8 +43,7 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <Navbar />
-      <div className="mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col justify-center px-page py-8 sm:max-w-3xl sm:py-16">
+            <div className="mx-auto flex min-h-[calc(100dvh-4rem)] max-w-lg flex-col justify-center px-page py-8 sm:max-w-3xl sm:py-16">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-indigo-500/10 backdrop-blur-xl sm:rounded-[2rem] sm:p-10">
           <div className="mb-8">
             <p className="text-sm uppercase tracking-[0.3em] text-indigo-400">
@@ -117,3 +115,4 @@ export default function RegisterPage() {
     </main>
   );
 }
+

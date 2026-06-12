@@ -1,10 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { ChevronLeft, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import type { Paper } from "@/app/pyq/_data/subjects";
 import Disclaimer from "@/components/Disclaimer";
-import Navbar from "@/components/Navbar";
 import PyqPaperCard from "@/components/PyqPaperCard";
 
 const subjectSlug = "theory-of-computation";
@@ -65,8 +64,7 @@ export default function PYQPage() {
       </div>
 
       <div className="relative z-10">
-        <Navbar />
-      </div>
+              </div>
 
       <main className="relative z-10 mx-auto max-w-6xl px-page pb-16 pt-6 sm:pb-20 sm:pt-10">
         <Link
@@ -161,3 +159,4 @@ export default function PYQPage() {
     </div>
   );
 }
+

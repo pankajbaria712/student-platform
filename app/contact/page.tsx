@@ -1,13 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white">
-      <Navbar />
-
+      
       <main className="mx-auto max-w-4xl px-page py-12 sm:py-16 md:py-20">
         <div className="mb-10 text-center sm:mb-16">
           <h1 className="mb-3 text-3xl font-black tracking-tight sm:mb-4 sm:text-4xl md:text-5xl">
@@ -156,3 +154,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

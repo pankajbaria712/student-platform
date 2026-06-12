@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import { subjectPageData } from "@/app/subject/_data/subjects";
 
 const BASE_URL = "https://gtustudenthub.vercel.app";
@@ -54,8 +53,6 @@ export default function NotesPage({ params }: NotesPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Navbar />
-
       <main className="mx-auto max-w-6xl px-page py-8 sm:py-10">
         <div className="mb-8 rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-10">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">

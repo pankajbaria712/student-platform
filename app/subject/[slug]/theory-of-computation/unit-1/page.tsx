@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 
 type NoteSection = {
   heading: string;
@@ -51,7 +50,6 @@ export default function FullNotesPage({ params }: UnitPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Navbar />
       <main className="mx-auto max-w-4xl px-page py-8 pb-safe sm:py-10">
         <nav className="text-xs text-slate-400 sm:text-sm" aria-label="Breadcrumb">
           <Link href="/" className="text-indigo-400 hover:text-indigo-300">

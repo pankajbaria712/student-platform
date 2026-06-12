@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import {
@@ -9,7 +9,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
-import Navbar from "@/components/Navbar";
 import PyqPaperCard from "@/components/PyqPaperCard";
 import type { Subject } from "../_data/subjects";
 
@@ -44,8 +43,7 @@ export function PyqSubjectView({
       </div>
 
       <div className="relative z-10">
-        <Navbar />
-      </div>
+              </div>
 
       <main className="relative z-10 mx-auto max-w-6xl px-4 pb-12 pt-8 sm:pb-20 sm:pt-12">
         <nav className="mb-6 text-sm text-gray-400" aria-label="Breadcrumb">
@@ -131,7 +129,7 @@ export function PyqSubjectView({
           {allSolutionsComingSoon ? (
             <div className="rounded-3xl border border-amber-400/20 bg-amber-400/10 p-6 text-amber-100 shadow-lg shadow-amber-500/10">
               <p className="text-sm font-black uppercase tracking-[0.3em] text-amber-200">
-                ⚠️ Solutions Coming Soon
+                âš ï¸ Solutions Coming Soon
               </p>
               <p className="mt-3 text-sm leading-6 text-gray-100">
                 {subject.title} solution sets are currently under preparation and will be uploaded soon.
@@ -195,3 +193,4 @@ export function PyqSubjectView({
     </div>
   );
 }
+

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import Navbar from "@/components/Navbar";
+﻿import Link from "next/link";
 import { ipdcMcqData } from "@/lib/ipdc/mcqs";
 
 export default function Page() {
@@ -8,8 +7,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-[#050505] text-white">
       <div className="relative z-10">
-        <Navbar />
-      </div>
+              </div>
 
       <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-8">
@@ -82,7 +80,7 @@ export default function Page() {
                 </span>
               </div>
               <p className="mt-4 text-sm leading-6 text-gray-300">
-                {test.totalQuestions} questions • {test.totalMarks} marks •
+                {test.totalQuestions} questions â€¢ {test.totalMarks} marks â€¢
                 Instant answer review.
               </p>
             </Link>
@@ -92,3 +90,4 @@ export default function Page() {
     </div>
   );
 }
+

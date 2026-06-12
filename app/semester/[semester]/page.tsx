@@ -24,7 +24,6 @@ import {
   Zap,
 } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
-import Navbar from "@/components/Navbar";
 
 export function generateMetadata({ params }: { params: { semester: string } }): Metadata {
   const data = semesterData[params.semester] || semesterData["6"];
@@ -675,10 +674,6 @@ export default function SemesterPage({ params }: SemesterPageProps) {
       <div className="fixed inset-0 z-0">
         <div className="absolute top-[-10%] right-[-10%] h-[50%] w-[50%] animate-pulse rounded-full bg-indigo-600/5 blur-[120px]" />
         <div className="absolute bottom-[-5%] left-[-5%] h-[40%] w-[40%] rounded-full bg-purple-600/5 blur-[100px]" />
-      </div>
-
-      <div className="relative z-10">
-        <Navbar />
       </div>
 
       <main className="relative z-10 mx-auto max-w-7xl px-page py-12 sm:py-16 md:py-20">

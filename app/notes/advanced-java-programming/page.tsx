@@ -1,7 +1,6 @@
-import { Metadata } from "next";
+﻿import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, Zap } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Disclaimer from "@/components/Disclaimer";
 import NotesChapterCard from "@/components/NotesChapterCard";
 
@@ -63,8 +62,7 @@ export default function AdvancedJavaProgrammingNotesPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Navbar />
-
+      
       <main className="relative z-10 mx-auto max-w-6xl px-4 pb-12 pt-8 sm:pb-20 sm:pt-12">
         {/* Back button */}
         <Link
@@ -183,3 +181,4 @@ export default function AdvancedJavaProgrammingNotesPage() {
     </div>
   );
 }
+

@@ -5,7 +5,6 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
 import { GoogleAnalytics } from "@next/third-parties/google";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +36,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-dvh overflow-x-hidden bg-slate-950 text-slate-100 antialiased`}
       >
+        <Navbar />
         {children}
         <Script src="https://checkout.razorpay.com/v1/checkout.js" />
         <Analytics />

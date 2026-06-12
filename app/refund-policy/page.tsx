@@ -1,12 +1,10 @@
-import React from "react";
-import Navbar from "@/components/Navbar";
+﻿import React from "react";
 import Footer from "@/components/Footer";
 
 export default function RefundPolicyPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white">
-      <Navbar />
-
+      
       <main className="mx-auto max-w-4xl px-page py-12 sm:py-16 md:py-20">
         <div className="mb-10 sm:mb-16">
           <h1 className="mb-3 text-3xl font-black tracking-tight sm:mb-4 sm:text-4xl md:text-5xl">
@@ -124,3 +122,4 @@ export default function RefundPolicyPage() {
     </div>
   );
 }
+

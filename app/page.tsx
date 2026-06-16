@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import Footer from "@/components/Footer";
-import GlobalSearch from "@/components/GlobalSearch";
 import HomeHero from "@/components/HomeHero";
 import HomeSections from "@/components/HomeSections";
 
@@ -14,12 +13,8 @@ export default function HomePage() {
         <div className="absolute right-0 bottom-8 h-[35vh] w-[55vw] translate-x-1/4 translate-y-1/4 rounded-full bg-gradient-to-tr from-fuchsia-500/15 to-sky-500/10 blur-3xl" />
       </div>
 
-      <main className="relative mx-auto max-w-7xl px-page pt-6 pb-20 sm:pt-8 lg:pb-28">
-        <HomeHero>
-          <div className="mt-8">
-            <GlobalSearch />
-          </div>
-        </HomeHero>
+      <main className="relative mx-auto w-full px-0 pt-0 pb-20 lg:pb-28">
+        <HomeHero />
 
         <HomeSections />
       </main>

@@ -1,66 +1,62 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
-export default function HomeHero({ children }: { children?: React.ReactNode }) {
+export default function HomeHero() {
   return (
-    <section className="relative overflow-hidden bg-slate-950/90 px-6 py-8 shadow-[0_25px_80px_rgba(15,23,42,0.35)] sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.26em] text-indigo-300">
-            <Sparkles className="h-4 w-4 text-indigo-300" />
-            GTU Study Resources
-          </div>
+    <section className="relative w-full overflow-hidden rounded-[2rem] bg-slate-950/90 shadow-[0_20px_60px_rgba(15,23,42,0.3)]">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 md:py-8 lg:px-8 xl:px-10 lg:py-10">
+        <div className="grid w-full gap-4 sm:gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-8">
+          <div className="space-y-3 sm:space-y-4 md:space-y-5 text-center lg:text-left lg:max-w-[620px]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-300">
+              <Sparkles className="h-4 w-4 text-indigo-300" />
+              GTU Study Resources
+            </div>
 
-          <h1 className="max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
-            GTU Study Resources.
-            <span className="block text-transparent bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text">
-              All In One Place.
-            </span>
-          </h1>
+            <h1 className="text-[1.75rem] font-black leading-snug tracking-[-0.03em] text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3.75rem] lg:leading-tight">
+              Find GTU Notes, PYQs, MCQs, and Study Resources Faster.
+            </h1>
 
-          <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-            Access GTU Notes, Previous Year Papers, MCQ Tests, Syllabus PDFs and Study Materials organized semester-wise.
-          </p>
+            <p className="mx-auto max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7 md:text-[1.02rem] md:leading-8 lg:mx-0">
+              Access semester-wise notes, previous year papers, MCQ practice, and verified GTU study materials in one premium mobile-first hub.
+            </p>
 
-          <div className="space-y-5">
-            <div className="w-full">{children}</div>
-
-            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
+              <Link
+                href="/semester/5"
+                className="inline-flex min-h-[44px] w-full items-center justify-center rounded-2xl bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 sm:text-base"
+              >
+                Browse Semesters
+              </Link>
               <Link
                 href="/notes"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition duration-300 hover:-translate-y-0.5 hover:bg-indigo-400"
+                className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 sm:text-base"
               >
                 Explore Resources
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                href="/semester/5"
-                className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-slate-100 transition hover:border-indigo-300/40 hover:bg-white/10"
-              >
-                Browse Semesters
-              </Link>
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-2 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
               {[
-                "Semester-wise Resources",
-                "Free Access",
-                "Mobile Friendly",
-                "Regularly Updated",
+                "Subjects",
+                "Notes",
+                "PYQs",
+                "Semesters",
               ].map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/80 px-2 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-slate-200">
+                <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-200 sm:px-4 sm:py-3 sm:text-[11px]">
                   {item}
                 </div>
               ))}
             </div>
           </div>
-        </div>
-        <div className="relative overflow-hidden rounded-2xl p-1 shadow-[0_35px_90px_rgba(15,23,42,0.3)]">
-          <img
-            src="/image.png"
-            alt="GTU Notes and PYQs"
-            className="w-full rounded-3xl object-cover"
-          />
+
+          <div className="hidden lg:block relative overflow-hidden rounded-[1.75rem]">
+            <img
+              src="/image.png"
+              alt="GTU Notes and PYQs"
+              className="h-full w-full min-h-[260px] max-h-[600px] rounded-[1.5rem] object-fit object-center transition-transform duration-300 hover:scale-105"
+            />
+          </div>
         </div>
       </div>
     </section>

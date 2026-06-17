@@ -156,4 +156,3 @@ const HomeSections = () => {
   );
 };
 
-export default HomeSections;

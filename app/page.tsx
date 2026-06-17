@@ -2,7 +2,6 @@
 
 import Footer from "@/components/Footer";
 import HomeHero from "@/components/HomeHero";
-// @ts-ignore: Allow unresolved import during development
 import HomeSections from "@/components/HomeSections";
 
 export default function HomePage() {

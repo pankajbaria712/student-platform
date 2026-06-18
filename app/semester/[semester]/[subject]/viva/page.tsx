@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, BookOpen, CheckSquare } from "lucide-react";
-import { getVivaStaticParams, getVivaSubject } from "@/lib/viva";
-import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
+import { getVivaData, getVivaStaticParams, getVivaSubject } from "@/lib/viva";
 
 export function generateStaticParams() {
   return getVivaStaticParams();
@@ -33,9 +32,10 @@ export default function VivaPage({ params }: VivaPageProps) {
   const vivaSubject = getVivaSubject(params.subject);
   if (!vivaSubject || String(vivaSubject.semester) !== params.semester) notFound();
 
+  const vivaData = getVivaData(params.subject);
   const totalChapters = vivaSubject.chapters.length;
-  const totalQuestions = webProgrammingViva.reduce((sum, c) => sum + (c.questions?.length ?? 0), 0);
-  const totalMcqs = webProgrammingViva.reduce((sum, c) => sum + (c.mcqs?.length ?? 0), 0);
+  const totalQuestions = vivaData.reduce((sum, c) => sum + (c.questions?.length ?? 0), 0);
+  const totalMcqs = vivaData.reduce((sum, c) => sum + (c.mcqs?.length ?? 0), 0);
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -54,7 +54,7 @@ export default function VivaPage({ params }: VivaPageProps) {
             <h1 className="text-3xl sm:text-4xl font-bold text-white">
               {vivaSubject.title}
             </h1>
-            <p className="mt-1 text-sm font-medium text-slate-400">(3160713)</p>
+            <p className="mt-1 text-sm font-medium text-slate-400">({vivaSubject.code ?? "3160713"})</p>
           </div>
 
           <p className="max-w-2xl text-base text-slate-300">
@@ -94,7 +94,7 @@ export default function VivaPage({ params }: VivaPageProps) {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {vivaSubject.chapters.map((chapter, index) => {
             const chapterNumber = Number(String(chapter.slug).split("-").pop());
-            const chapterData = webProgrammingViva.find((c) => c.chapterNumber === chapterNumber);
+            const chapterData = vivaData.find((c) => c.chapterNumber === chapterNumber);
             return (
               <article
                 key={chapter.id}

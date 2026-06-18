@@ -1,14 +1,15 @@
-import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
 import Link from "next/link";
 import Accordion from "@/components/Accordion";
+import { getVivaData } from "@/lib/viva";
 
 interface Props {
   params: { semester: string; subject: string; chapterNumber: string };
 }
 
 export default function QuestionsPage({ params }: Props) {
+  const vivaData = getVivaData(params.subject);
   const chapNum = Number(params.chapterNumber);
-  const chapter = webProgrammingViva.find((c) => c.chapterNumber === chapNum);
+  const chapter = vivaData.find((c) => c.chapterNumber === chapNum);
 
   if (!chapter) {
     return (

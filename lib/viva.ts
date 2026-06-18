@@ -1,3 +1,24 @@
+import { dataVisualizationViva } from "@/lib/viva/data-visualization-viva";
+import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
+
+export interface VivaChapterData {
+  chapterNumber: number;
+  chapterName: string;
+  questions: Array<{ question: string; answer: string }>;
+  mcqs: Array<{ question: string; options: string[]; correctAnswer: string }>;
+}
+
+export const getVivaData = (slug: string): VivaChapterData[] => {
+  switch (slug) {
+    case "web-programming":
+      return webProgrammingViva;
+    case "data-visualization":
+      return dataVisualizationViva;
+    default:
+      return [];
+  }
+};
+
 export interface VivaChapter {
   id: string;
   slug: string;
@@ -26,6 +47,7 @@ export interface VivaSubject {
   slug: string;
   title: string;
   semester: number;
+  code?: string;
   description: string;
   chapters: VivaChapter[];
   vivaQuestions: VivaQuestion[];
@@ -57,6 +79,7 @@ export const vivaSubjects: Record<string, VivaSubject> = {
     slug: "web-programming",
     title: "Web Programming",
     semester: 6,
+    code: "3160713",
     description:
       "Viva questions and objective practice for the Web Programming subject.",
     chapters: [
@@ -81,6 +104,24 @@ export const vivaSubjects: Record<string, VivaSubject> = {
       options: ["Option A", "Option B", "Option C", "Option D"],
       correctOptionIndex: 0,
     })),
+  },
+  "data-visualization": {
+    slug: "data-visualization",
+    title: "Data Visualization",
+    semester: 6,
+    code: "3160717",
+    description:
+      "Viva questions and MCQ practice for the Data Visualization subject.",
+    chapters: [
+      { id: "dv-01", slug: "chapter-01", title: "Introduction to Data Visualization" },
+      { id: "dv-02", slug: "chapter-02", title: "Basics of Data Visualization - Tables" },
+      { id: "dv-03", slug: "chapter-03", title: "Visualizing data Programmatically" },
+      { id: "dv-04", slug: "chapter-04", title: "Introduction to D3.js" },
+      { id: "dv-05", slug: "chapter-05", title: "Advanced Data Visualization" },
+      { id: "dv-06", slug: "chapter-06", title: "Information Dashboard Design" },
+    ],
+    vivaQuestions: [],
+    vivaMcqs: [],
   },
 };
 

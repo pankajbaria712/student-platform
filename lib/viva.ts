@@ -1,6 +1,7 @@
 import { dataVisualizationViva } from "@/lib/viva/data-visualization-viva";
 import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
 import { ipdc2Viva } from "@/lib/viva/ipdc-2-viva";
+import { iotAndApplicationsViva } from "@/lib/viva/iot-and-applications-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -18,6 +19,9 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
     case "ipdc-2":
     case "ipdc-course":
       return ipdc2Viva;
+    case "iot-and-applications":
+    case "iot-applications":
+      return iotAndApplicationsViva;
     default:
       return [];
   }
@@ -57,6 +61,72 @@ export interface VivaSubject {
   vivaQuestions: VivaQuestion[];
   vivaMcqs: VivaMcq[];
 }
+
+const buildVivaSubject = (
+  slug: string,
+  title: string,
+  code: string | undefined,
+  description: string,
+  data: VivaChapterData[]
+): VivaSubject => ({
+  slug,
+  title,
+  semester: 6,
+  code,
+  description,
+  chapters: data.map((c) => ({
+    id: `${slug}-${String(c.chapterNumber).padStart(2, "0")}`,
+    slug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+    title: c.chapterName,
+  })),
+  vivaQuestions: data.flatMap((c) =>
+    (c.questions || []).map((q, idx) => ({
+      id: `${slug}q-${c.chapterNumber}-${idx + 1}`,
+      chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      type: "analysis",
+      question: q.question,
+      answer: q.answer,
+    }))
+  ),
+  vivaMcqs: data.flatMap((c) =>
+    (c.mcqs || []).map((m, idx) => ({
+      id: `${slug}m-${c.chapterNumber}-${idx + 1}`,
+      chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      question: m.question,
+      options: m.options,
+      correctOptionIndex: ((): number => {
+        const idx = m.options.findIndex((o) => o === m.correctAnswer);
+        return idx === -1 ? 0 : idx;
+      })(),
+    }))
+  ),
+});
+
+const ipdcVivaSubject = buildVivaSubject(
+  "ipdc-2",
+  "Integrated Personality Development Course-II",
+  "3160001",
+  "Viva questions and MCQ practice for Integrated Personality Development Course-II.",
+  ipdc2Viva
+);
+
+const ipdcCourseVivaSubject: VivaSubject = {
+  ...ipdcVivaSubject,
+  slug: "ipdc-course",
+};
+
+const iotVivaSubject = buildVivaSubject(
+  "iot-and-applications",
+  "IOT & Applications",
+  "3160716",
+  "Viva questions and MCQ practice for IOT & Applications.",
+  iotAndApplicationsViva
+);
+
+const iotApplicationsVivaSubject: VivaSubject = {
+  ...iotVivaSubject,
+  slug: "iot-applications",
+};
 
 export const vivaSubjects: Record<string, VivaSubject> = {
   "software-engineering": {
@@ -184,6 +254,72 @@ export const vivaSubjects: Record<string, VivaSubject> = {
     vivaMcqs: ipdc2Viva.flatMap((c) =>
       (c.mcqs || []).map((m, idx) => ({
         id: `ipdcm-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        question: m.question,
+        options: m.options,
+        correctOptionIndex: ((): number => {
+          const idx = m.options.findIndex((o) => o === m.correctAnswer);
+          return idx === -1 ? 0 : idx;
+        })(),
+      }))
+    ),
+  },
+  "iot-and-applications": {
+    slug: "iot-and-applications",
+    title: "IOT & Applications",
+    semester: 6,
+    code: "3160716",
+    description: "Viva questions and MCQ practice for IOT & Applications.",
+    chapters: iotAndApplicationsViva.map((c) => ({
+      id: `iot-${String(c.chapterNumber).padStart(2, "0")}`,
+      slug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      title: c.chapterName,
+    })),
+    vivaQuestions: iotAndApplicationsViva.flatMap((c) =>
+      (c.questions || []).map((q, idx) => ({
+        id: `iotq-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        type: "analysis",
+        question: q.question,
+        answer: q.answer,
+      }))
+    ),
+    vivaMcqs: iotAndApplicationsViva.flatMap((c) =>
+      (c.mcqs || []).map((m, idx) => ({
+        id: `iotm-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        question: m.question,
+        options: m.options,
+        correctOptionIndex: ((): number => {
+          const idx = m.options.findIndex((o) => o === m.correctAnswer);
+          return idx === -1 ? 0 : idx;
+        })(),
+      }))
+    ),
+  },
+  "iot-applications": {
+    slug: "iot-applications",
+    title: "IOT & Applications",
+    semester: 6,
+    code: "3160716",
+    description: "Viva questions and MCQ practice for IOT & Applications.",
+    chapters: iotAndApplicationsViva.map((c) => ({
+      id: `iot-${String(c.chapterNumber).padStart(2, "0")}`,
+      slug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      title: c.chapterName,
+    })),
+    vivaQuestions: iotAndApplicationsViva.flatMap((c) =>
+      (c.questions || []).map((q, idx) => ({
+        id: `iotq-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        type: "analysis",
+        question: q.question,
+        answer: q.answer,
+      }))
+    ),
+    vivaMcqs: iotAndApplicationsViva.flatMap((c) =>
+      (c.mcqs || []).map((m, idx) => ({
+        id: `iotm-${c.chapterNumber}-${idx + 1}`,
         chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
         question: m.question,
         options: m.options,

@@ -21,8 +21,10 @@ import {
   Heart,
   Cloud,
   ShieldCheck,
+  Sparkles,
   Zap,
 } from "lucide-react";
+import ActionButton from "@/components/ActionButton";
 import Disclaimer from "@/components/Disclaimer";
 
 export function generateMetadata({ params }: { params: { semester: string } }): Metadata {
@@ -575,41 +577,13 @@ interface SemesterPageProps {
   };
 }
 
-const ActionButton = ({ icon: Icon, label, href, primary = false }) => {
-  const isPdf = typeof href === "string" && href.toLowerCase().endsWith(".pdf");
-  const isDisabled = !href || href === "#";
-  const baseClasses = `flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[11px] font-bold transition-all sm:flex-1 ${
-    primary
-      ? "bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 border border-indigo-400/20"
-      : "bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10 hover:border-white/30 hover:text-white"
-  }`;
+const createSubjectSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
-  if (isDisabled) {
-    return (
-      <div
-        className={`${baseClasses} cursor-not-allowed opacity-40`}
-        aria-disabled="true"
-      >
-        <Icon size={14} />
-        {label}
-      </div>
-    );
-  }
-
-  return (
-    <a
-      href={href}
-      target={isPdf ? "_blank" : undefined}
-      rel={isPdf ? "noopener noreferrer" : undefined}
-      className={baseClasses}
-    >
-      <Icon size={14} />
-      {label}
-    </a>
-  );
-};
-
-const SubjectCard = ({ subject, activeSemester = true }) => (
+const SubjectCard = ({ subject, semester, activeSemester = true }) => (
   <div className={`group relative rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-500 hover:border-indigo-500/30 hover:bg-white/[0.04] sm:rounded-[2rem] sm:p-7 ${activeSemester ? "" : "opacity-75 saturate-50"}`}>
     <div className="relative z-10">
       <div className="flex items-start justify-between mb-5">
@@ -646,8 +620,14 @@ const SubjectCard = ({ subject, activeSemester = true }) => (
           href={subject.syllabusPdf}
         />
         <ActionButton icon={History} label="Papers" href={subject.pyqLink} />
+        <ActionButton
+          icon={Sparkles}
+          label="Viva Questions"
+          href={`/semester/${semester}/${subject.slug ?? createSubjectSlug(subject.name)}/viva`}
+          highlight
+        />
       </div>
-      {(subject.syllabusPdf !== "#" || subject.pyqLink !== "#") && (
+      {(subject.syllabusPdf !== "#" || subject.pyqLink !== "#" || subject.slug) && (
         <p className="mt-4 text-[10px] text-gray-400">
           Source:{" "}
           <a
@@ -721,6 +701,7 @@ export default function SemesterPage({ params }: SemesterPageProps) {
             <SubjectCard
               key={sub.code}
               subject={sub}
+              semester={params.semester}
               activeSemester={isActiveSemester}
             />
           ))}

@@ -1,5 +1,6 @@
 import { dataVisualizationViva } from "@/lib/viva/data-visualization-viva";
 import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
+import { ipdc2Viva } from "@/lib/viva/ipdc-2-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -14,6 +15,9 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
       return webProgrammingViva;
     case "data-visualization":
       return dataVisualizationViva;
+    case "ipdc-2":
+    case "ipdc-course":
+      return ipdc2Viva;
     default:
       return [];
   }
@@ -122,6 +126,73 @@ export const vivaSubjects: Record<string, VivaSubject> = {
     ],
     vivaQuestions: [],
     vivaMcqs: [],
+  },
+  "ipdc-2": {
+    slug: "ipdc-2",
+    title: "Integrated Personality Development Course-II",
+    semester: 6,
+    code: "3160001",
+    description: "Viva questions and MCQ practice for Integrated Personality Development Course-II.",
+    chapters: ipdc2Viva.map((c) => ({
+      id: `ipdc-2-${String(c.chapterNumber).padStart(2, "0")}`,
+      slug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      title: c.chapterName,
+    })),
+    vivaQuestions: ipdc2Viva.flatMap((c) =>
+      (c.questions || []).map((q, idx) => ({
+        id: `ipdcq-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        type: "analysis",
+        question: q.question,
+        answer: q.answer,
+      }))
+    ),
+    vivaMcqs: ipdc2Viva.flatMap((c) =>
+      (c.mcqs || []).map((m, idx) => ({
+        id: `ipdcm-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        question: m.question,
+        options: m.options,
+        correctOptionIndex: ((): number => {
+          const idx = m.options.findIndex((o) => o === m.correctAnswer);
+          return idx === -1 ? 0 : idx;
+        })(),
+      }))
+    ),
+  },
+  "ipdc-course": {
+    // Alias for subject listings that generate 'ipdc-course' slug from subject name
+    slug: "ipdc-course",
+    title: "Integrated Personality Development Course-II",
+    semester: 6,
+    code: "3160001",
+    description: "Viva questions and MCQ practice for Integrated Personality Development Course-II.",
+    chapters: ipdc2Viva.map((c) => ({
+      id: `ipdc-2-${String(c.chapterNumber).padStart(2, "0")}`,
+      slug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+      title: c.chapterName,
+    })),
+    vivaQuestions: ipdc2Viva.flatMap((c) =>
+      (c.questions || []).map((q, idx) => ({
+        id: `ipdcq-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        type: "analysis",
+        question: q.question,
+        answer: q.answer,
+      }))
+    ),
+    vivaMcqs: ipdc2Viva.flatMap((c) =>
+      (c.mcqs || []).map((m, idx) => ({
+        id: `ipdcm-${c.chapterNumber}-${idx + 1}`,
+        chapterSlug: `chapter-${String(c.chapterNumber).padStart(2, "0")}`,
+        question: m.question,
+        options: m.options,
+        correctOptionIndex: ((): number => {
+          const idx = m.options.findIndex((o) => o === m.correctAnswer);
+          return idx === -1 ? 0 : idx;
+        })(),
+      }))
+    ),
   },
 };
 

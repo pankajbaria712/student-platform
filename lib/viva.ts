@@ -2,6 +2,7 @@ import { dataVisualizationViva } from "@/lib/viva/data-visualization-viva";
 import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
 import { ipdc2Viva } from "@/lib/viva/ipdc-2-viva";
 import { iotAndApplicationsViva } from "@/lib/viva/iot-and-applications-viva";
+import { advanceJavaProgrammingViva } from "@/lib/viva/advance-java-programming-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -14,6 +15,8 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
   switch (slug) {
     case "web-programming":
       return webProgrammingViva;
+    case "advanced-java-programming":
+      return advanceJavaProgrammingViva;
     case "data-visualization":
       return dataVisualizationViva;
     case "ipdc-2":
@@ -128,6 +131,14 @@ const iotApplicationsVivaSubject: VivaSubject = {
   slug: "iot-applications",
 };
 
+const advancedJavaVivaSubject = buildVivaSubject(
+  "advanced-java-programming",
+  "Advanced Java Programming",
+  "3160707",
+  "Viva questions and MCQ practice for Advanced Java Programming.",
+  advanceJavaProgrammingViva
+);
+
 export const vivaSubjects: Record<string, VivaSubject> = {
   "software-engineering": {
     slug: "software-engineering",
@@ -179,6 +190,7 @@ export const vivaSubjects: Record<string, VivaSubject> = {
       correctOptionIndex: 0,
     })),
   },
+  "advanced-java-programming": advancedJavaVivaSubject,
   "data-visualization": {
     slug: "data-visualization",
     title: "Data Visualization",

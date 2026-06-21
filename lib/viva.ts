@@ -4,6 +4,8 @@ import { ipdc2Viva } from "@/lib/viva/ipdc-2-viva";
 import { iotAndApplicationsViva } from "@/lib/viva/iot-and-applications-viva";
 import { advanceJavaProgrammingViva } from "@/lib/viva/advance-java-programming-viva";
 import { microprocessorAndInterfacingViva } from "@/lib/viva/microprocessor-and-interfacing-viva";
+import { theoryOfComputationViva } from "@/lib/viva/theory-of-computation-viva";
+import { dataMiningViva } from "@/lib/viva/data-mining-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -21,6 +23,10 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
     case "microprocessor-and-interfacing":
     case "microprocessor-interfacing":
       return microprocessorAndInterfacingViva;
+    case "theory-of-computation":
+      return theoryOfComputationViva;
+    case "data-mining":
+      return dataMiningViva;
     case "data-visualization":
       return dataVisualizationViva;
     case "ipdc-2":
@@ -151,6 +157,22 @@ const microprocessorVivaSubject = buildVivaSubject(
   microprocessorAndInterfacingViva
 );
 
+const theoryOfComputationVivaSubject = buildVivaSubject(
+  "theory-of-computation",
+  "Theory of Computation",
+  "3160704",
+  "Viva questions and MCQs for Theory of Computation.",
+  theoryOfComputationViva
+);
+
+const dataMiningVivaSubject = buildVivaSubject(
+  "data-mining",
+  "Data Mining",
+  "3160714",
+  "Viva questions and MCQs for Data Mining.",
+  dataMiningViva
+);
+
 export const vivaSubjects: Record<string, VivaSubject> = {
   "software-engineering": {
     slug: "software-engineering",
@@ -172,6 +194,8 @@ export const vivaSubjects: Record<string, VivaSubject> = {
     vivaQuestions: [],
     vivaMcqs: [],
   },
+  "theory-of-computation": theoryOfComputationVivaSubject,
+  "data-mining": dataMiningVivaSubject,
   "web-programming": {
     slug: "web-programming",
     title: "Web Programming",

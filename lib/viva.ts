@@ -3,6 +3,7 @@ import { webProgrammingViva } from "@/lib/viva/web-programming-viva";
 import { ipdc2Viva } from "@/lib/viva/ipdc-2-viva";
 import { iotAndApplicationsViva } from "@/lib/viva/iot-and-applications-viva";
 import { advanceJavaProgrammingViva } from "@/lib/viva/advance-java-programming-viva";
+import { microprocessorAndInterfacingViva } from "@/lib/viva/microprocessor-and-interfacing-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -17,6 +18,9 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
       return webProgrammingViva;
     case "advanced-java-programming":
       return advanceJavaProgrammingViva;
+    case "microprocessor-and-interfacing":
+    case "microprocessor-interfacing":
+      return microprocessorAndInterfacingViva;
     case "data-visualization":
       return dataVisualizationViva;
     case "ipdc-2":
@@ -139,6 +143,14 @@ const advancedJavaVivaSubject = buildVivaSubject(
   advanceJavaProgrammingViva
 );
 
+const microprocessorVivaSubject = buildVivaSubject(
+  "microprocessor-and-interfacing",
+  "Microprocessor & Interfacing",
+  "3160710",
+  "Viva questions and MCQ practice for Microprocessor and Interfacing.",
+  microprocessorAndInterfacingViva
+);
+
 export const vivaSubjects: Record<string, VivaSubject> = {
   "software-engineering": {
     slug: "software-engineering",
@@ -191,6 +203,8 @@ export const vivaSubjects: Record<string, VivaSubject> = {
     })),
   },
   "advanced-java-programming": advancedJavaVivaSubject,
+  "microprocessor-and-interfacing": microprocessorVivaSubject,
+  "microprocessor-interfacing": microprocessorVivaSubject,
   "data-visualization": {
     slug: "data-visualization",
     title: "Data Visualization",

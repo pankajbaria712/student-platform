@@ -1,6 +1,43 @@
 import Link from "next/link";
 import Accordion from "@/components/Accordion";
-import { getVivaData } from "@/lib/viva";
+import VivaChapterNavigation from "@/components/VivaChapterNavigation";
+import { getVivaData, getVivaSubject } from "@/lib/viva";
+
+export function generateMetadata({ params }: { params: { semester: string; subject: string; chapterNumber: string } }) {
+  const vivaSubject = getVivaSubject(params.subject);
+  const vivaData = getVivaData(params.subject);
+  const chapNum = Number(params.chapterNumber);
+  const chapter = vivaData.find((c) => c.chapterNumber === chapNum);
+
+  const title = vivaSubject
+    ? `${vivaSubject.title} — Chapter ${chapNum} Viva Questions — Semester ${params.semester} | GTU`
+    : "GTU Viva Questions";
+
+  const description = chapter
+    ? `${chapter.questions?.length ?? 0} viva questions for ${chapter.chapterName}. Learn concise answers and chapter-wise revision.`
+    : `Chapter ${chapNum} viva questions.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva/chapter/${params.chapterNumber}/questions`,
+      siteName: "GTU Student Hub",
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/image.png"],
+    },
+    alternates: {
+      canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva/chapter/${params.chapterNumber}/questions`,
+    },
+  } as any;
+}
 
 interface Props {
   params: { semester: string; subject: string; chapterNumber: string };
@@ -49,6 +86,20 @@ export default function QuestionsPage({ params }: Props) {
             </Accordion>
           ))}
         </div>
+        {/* Chapter navigation: start MCQ, next/previous chapter */}
+        <VivaChapterNavigation
+          currentChapter={Number(params.chapterNumber)}
+          totalChapters={getVivaSubject(params.subject)?.chapters?.length ?? 0}
+          semester={params.semester}
+          subject={params.subject}
+          chapters={(getVivaSubject(params.subject)?.chapters ?? []).map((c, idx) => ({
+            number: idx + 1,
+            title: c.title,
+            questionsCount: 0,
+            mcqCount: 0,
+          }))}
+          type="questions"
+        />
       </div>
     </div>
   );

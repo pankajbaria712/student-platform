@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useQuiz from "@/lib/hooks/useQuiz";
 import Link from "next/link";
-import { getVivaData } from "@/lib/viva";
+import { getVivaData, getVivaSubject } from "@/lib/viva";
 
 interface Props {
   params: { semester: string; subject: string; chapterNumber: string };
@@ -112,6 +112,18 @@ export default function McqPage({ params }: Props) {
               <div className="mt-4 flex gap-2">
                 <button onClick={() => { quiz.reset(); setSubmitted(false); }} className="px-3 py-2 rounded bg-slate-800 border border-slate-700">Retake</button>
                 <Link href={`/semester/${params.semester}/${params.subject}/viva`} className="px-3 py-2 rounded bg-slate-700 text-slate-100">Back to Hub</Link>
+              </div>
+
+              {/* Smart links after submission */}
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <Link href={`/semester/${params.semester}/${params.subject}/viva/chapter/${params.chapterNumber}/questions`} className="rounded-lg bg-indigo-500 px-4 py-2.5 text-center text-sm font-semibold text-white">Review Chapter Questions</Link>
+                <Link
+                  href={Number(params.chapterNumber) < (getVivaSubject(params.subject)?.chapters?.length ?? 0) ? `/semester/${params.semester}/${params.subject}/viva/chapter/${Number(params.chapterNumber)+1}/mcq` : `/semester/${params.semester}/${params.subject}/viva`}
+                  className="rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2.5 text-center text-sm font-semibold text-slate-200"
+                >
+                  Start Next Chapter MCQ
+                </Link>
+                <Link href={`/semester/${params.semester}/${params.subject}/viva`} className="rounded-lg border border-slate-700 bg-slate-900/80 px-4 py-2.5 text-center text-sm font-semibold text-slate-200">Continue Viva Preparation</Link>
               </div>
             </div>
           )}

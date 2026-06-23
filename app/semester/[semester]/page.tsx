@@ -722,6 +722,20 @@ export default function SemesterPage({ params }: SemesterPageProps) {
 
           
         </div>
+        <div className="mb-12">
+          <h3 className="mb-4 text-lg font-bold text-white">Explore Other Semesters</h3>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
+            {['1','2','3','4','5','6'].map((s) => (
+              <a
+                key={s}
+                href={`/semester/${s}`}
+                className="rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-sm text-slate-200 transition hover:bg-indigo-500/10 hover:border-indigo-500/30"
+              >
+                Semester {s}
+              </a>
+            ))}
+          </div>
+        </div>
 
         <div className="mb-24">
           <Disclaimer />

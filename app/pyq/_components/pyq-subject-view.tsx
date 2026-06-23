@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { subjectData as allPyqSubjects } from "../_data/subjects";
 import {
   ChevronLeft,
   ShieldCheck,
@@ -178,6 +179,26 @@ export function PyqSubjectView({
               </p>
             </div>
           )}
+        </section>
+
+        {/* Related PYQ subjects - show 4-6 related previous year paper cards */}
+        <section className="mb-12">
+          <h3 className="mb-4 text-lg font-bold text-white">Related Previous Year Papers</h3>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {Object.entries(allPyqSubjects)
+              .filter(([key, s]) => s.semester === subject.semester && key !== subjectSlug)
+              .slice(0, 6)
+              .map(([key, s]) => (
+                <Link
+                  key={key}
+                  href={`/pyq/${key}`}
+                  className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 transition hover:border-indigo-500/30"
+                >
+                  <div className="text-sm font-semibold text-white">{s.title}</div>
+                  <div className="mt-1 text-xs text-gray-400">Semester {s.semester}</div>
+                </Link>
+              ))}
+          </div>
         </section>
 
         <div className="mb-16 mt-12">

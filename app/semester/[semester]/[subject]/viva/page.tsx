@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, BookOpen, CheckSquare } from "lucide-react";
-import { getVivaData, getVivaStaticParams, getVivaSubject } from "@/lib/viva";
+import { getVivaData, getVivaStaticParams, getVivaSubject, vivaSubjects } from "@/lib/viva";
+import RelatedVivaSubjectsSection from "@/components/RelatedVivaSubjectsSection";
 
 export function generateStaticParams() {
   return getVivaStaticParams();
@@ -10,35 +11,58 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { semester: string; subject: string } }): Metadata {
   const vivaSubject = getVivaSubject(params.subject);
+  const vivaData = vivaSubject ? getVivaData(params.subject) : [];
+  const totalChapters = vivaSubject?.chapters?.length ?? 0;
+  const totalQuestions = vivaData.reduce((sum, c) => sum + (c.questions?.length ?? 0), 0);
+  const totalMcqs = vivaData.reduce((sum, c) => sum + (c.mcqs?.length ?? 0), 0);
 
   const title = vivaSubject
-    ? `${vivaSubject.title} Viva Questions — Semester ${params.semester}`
+    ? `${vivaSubject.title} Viva Questions & MCQ Quiz — Semester ${params.semester} | GTU`
     : "GTU Viva Hub";
+  
   const description = vivaSubject
-    ? `Oral viva and MCQ preparation for ${vivaSubject.title}.`
-    : "GTU Viva Hub for semester subjects.";
+    ? `${vivaSubject.title} Viva Questions (${totalQuestions}) and MCQ Quiz (${totalMcqs}) for GTU Semester ${params.semester}. Practice ${totalChapters} chapters with comprehensive viva preparation.`
+    : "GTU Viva Hub - Prepare for oral viva and MCQ exams with chapter-wise questions.";
+
+  const keywords = [
+    vivaSubject?.title ?? "GTU Viva",
+    "GTU Viva Questions",
+    "GTU MCQ Practice",
+    "GTU Viva Quiz",
+    `Semester ${params.semester}`,
+    "GTU viva preparation",
+    `${vivaSubject?.title} viva`,
+    `${vivaSubject?.title} MCQ`,
+    "Chapter-wise viva questions",
+    "GTU exam preparation",
+    ...(vivaSubject?.chapters?.map(c => `${c.title} viva`) ?? []),
+  ];
 
   return {
     title,
     description,
-    keywords: [
-      vivaSubject?.title ?? "GTU Viva",
-      "GTU Viva Questions",
-      "GTU MCQ Practice",
-      `Semester ${params.semester}`,
-      "GTU viva preparation",
-    ],
+    keywords,
     openGraph: {
       title,
       description,
+      type: "website",
       url: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva`,
-      images: ["/image.png"],
+      siteName: "GTU Student Hub",
+      images: [
+        {
+          url: "/image.png",
+          width: 1200,
+          height: 630,
+          alt: `${vivaSubject?.title} Viva Questions`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: ["/image.png"],
+      creator: "@gtustudenthub",
     },
     alternates: {
       canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva`,
@@ -159,6 +183,16 @@ export default function VivaPage({ params }: VivaPageProps) {
             );
           })}
         </div>
+
+        <RelatedVivaSubjectsSection
+          currentSubjectSlug={params.subject}
+          semester={params.semester}
+          subjects={Object.values(vivaSubjects).map((s) => ({
+            slug: s.slug,
+            title: s.title,
+            semester: s.semester,
+          }))}
+        />
       </div>
     </main>
   );

@@ -7,7 +7,7 @@ const BASE_URL = "https://gtustudenthub.vercel.app";
 // Prefer canonical semesters used on the site. Include 1-6 for crawlability.
 const SEMESTER_ROUTES = ["1", "2", "3", "4", "5", "6"];
 
-function createSitemapEntry(url: string, priority = 0.8): MetadataRoute.SitemapEntry {
+function createSitemapEntry(url: string, priority = 0.8): MetadataRoute.Sitemap[number] {
   return {
     url,
     lastModified: new Date(),

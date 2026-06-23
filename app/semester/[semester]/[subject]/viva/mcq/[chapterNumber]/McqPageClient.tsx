@@ -1,9 +1,12 @@
 "use client";
-import type { Props } from "./page";
 import { useState } from "react";
 import Link from "next/link";
 import useQuiz from "@/lib/hooks/useQuiz";
 import { getVivaData } from "@/lib/viva";
+
+export interface Props {
+  params: { semester: string; subject: string; chapterNumber: string };
+}
 
 export default function McqPageClient({ params }: Props) {
   const vivaData = getVivaData(params.subject);

@@ -17,10 +17,24 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   return {
     title,
     description,
+    keywords: [
+      subject?.title ?? "GTU PYQ Papers",
+      `GTU Semester ${subject?.semester ?? "?"}`,
+      "GTU PYQ papers",
+      "GTU exam prep",
+      "GTU study resources",
+    ],
     openGraph: {
       title,
       description,
       url: `https://gtustudenthub.vercel.app/pyq/${params.slug}`,
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/image.png"],
     },
     alternates: {
       canonical: `https://gtustudenthub.vercel.app/pyq/${params.slug}`,

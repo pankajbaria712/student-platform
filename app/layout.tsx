@@ -15,9 +15,49 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "GTUStudentHub - GTU Paper Solutions",
+  metadataBase: new URL("https://gtustudenthub.vercel.app"),
+  title: {
+    default: "GTUStudentHub - GTU Paper Solutions",
+    template: "%s | GTUStudentHub",
+  },
   description:
     "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
+  keywords: [
+    "GTU",
+    "GTU Student Hub",
+    "GTU Diploma Engineering",
+    "GTU notes",
+    "GTU PYQ papers",
+    "GTU viva questions",
+    "GTU MCQ practice",
+  ],
+  openGraph: {
+    title: "GTUStudentHub - GTU Paper Solutions",
+    description:
+      "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
+    url: "https://gtustudenthub.vercel.app",
+    siteName: "GTUStudentHub",
+    type: "website",
+    images: ["/image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GTUStudentHub - GTU Paper Solutions",
+    description:
+      "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
+    images: ["/image.png"],
+  },
+  icons: {
+    icon: "/image.png",
+    shortcut: "/image.png",
+    apple: "/image.png",
+  },
+  themeColor: "#0f172a",
+  manifest: "/manifest.json",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

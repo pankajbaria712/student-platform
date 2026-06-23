@@ -1,0 +1,16 @@
+{
+  "name": "GTUStudentHub",
+  "short_name": "GTU Hub",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "description": "GTU Student Hub - study materials, PYQs, viva questions, and notes for diploma engineering students.",
+  "icons": [
+    {
+      "src": "/image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

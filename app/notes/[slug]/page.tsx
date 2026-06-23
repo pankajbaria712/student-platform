@@ -23,10 +23,24 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return {
     title: `${subject.title} Notes — GTU Semester ${subject.semester}`,
     description: `Chapter-wise notes and revision planning for ${subject.title}.`,
+    keywords: [
+      `${subject.title} Notes`,
+      `GTU Semester ${subject.semester}`,
+      "GTU notes",
+      "GTU study material",
+      "GTU exam preparation",
+    ],
     openGraph: {
       title: `${subject.title} Notes — GTU Semester ${subject.semester}`,
       description: `Notes preparation and revision support for ${subject.title}.`,
       url: `${BASE_URL}/notes/${subject.slug}`,
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${subject.title} Notes — GTU Semester ${subject.semester}`,
+      description: `Notes preparation and revision support for ${subject.title}.`,
+      images: ["/image.png"],
     },
     alternates: {
       canonical: `${BASE_URL}/notes/${subject.slug}`,

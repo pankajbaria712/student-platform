@@ -33,10 +33,24 @@ export function generateMetadata({ params }: { params: { semester: string } }): 
   return {
     title: `GTU Semester ${params.semester} — Computer Engineering`,
     description: `GTU Semester ${params.semester} resources for Computer Engineering students. Access syllabus PDFs, PYQs, and exam-ready subject guides.`,
+    keywords: [
+      `GTU Semester ${params.semester}`,
+      "GTU study material",
+      "GTU PYQ papers",
+      "GTU viva questions",
+      "GTU notes",
+    ],
     openGraph: {
       title: `GTU Semester ${params.semester} — Computer Engineering`,
       description: data.subtitle,
       url: `https://gtustudenthub.vercel.app/semester/${params.semester}`,
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `GTU Semester ${params.semester} — Computer Engineering`,
+      description: data.subtitle,
+      images: ["/image.png"],
     },
     alternates: {
       canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}`,

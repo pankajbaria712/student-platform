@@ -1,97 +1,66 @@
 import { MetadataRoute } from "next";
+import { subjectPageData } from "@/app/subject/_data/subjects";
+import { subjectData as pyqData } from "@/app/pyq/_data/subjects";
+import { getVivaStaticParams, vivaSubjects } from "@/lib/viva";
+
+const BASE_URL = "https://gtustudenthub.vercel.app";
+const SEMESTER_ROUTES = ["3", "4", "5", "6", "7", "8"];
+
+function createSitemapEntry(url: string, priority = 0.8): MetadataRoute.SitemapEntry {
+  return {
+    url,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority,
+  };
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://gtustudenthub.vercel.app",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/semester/6",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/semester/5",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/software-engineering",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/python-for-data-science",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/professional-ethics",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/ipdc-1",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/computer-networks",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/analysis-and-design-of-algorithms",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/microprocessor-and-interfacing",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/iot-and-applications",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/advanced-java-programming",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/data-visualization",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-
-    {
-      url: "https://gtustudenthub.vercel.app/pyq/integrated-personality-development-course",
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
+  const urls: MetadataRoute.Sitemap = [
+    createSitemapEntry(BASE_URL, 1),
+    ...SEMESTER_ROUTES.map((semester) =>
+      createSitemapEntry(`${BASE_URL}/semester/${semester}`, 0.9)
+    ),
+    ...Object.values(subjectPageData).map((subject) =>
+      createSitemapEntry(`${BASE_URL}/subject/${subject.slug}`, 0.85)
+    ),
+    ...Object.values(subjectPageData)
+      .filter((subject) => subject.notesStatus !== "not-applicable" && subject.notesSlug)
+      .map((subject) =>
+        createSitemapEntry(`${BASE_URL}/notes/${subject.slug}`, 0.8)
+      ),
+    ...Object.keys(pyqData).map((slug) =>
+      createSitemapEntry(`${BASE_URL}/pyq/${slug}`, 0.85)
+    ),
+    ...getVivaStaticParams().map((params) =>
+      createSitemapEntry(
+        `${BASE_URL}/semester/${params.semester}/${params.subject}/viva`,
+        0.85
+      )
+    ),
   ];
+
+  for (const subject of Object.values(vivaSubjects)) {
+    if (!subject.chapters?.length) continue;
+
+    for (const chapter of subject.chapters) {
+      const chapterNumber = String(chapter.slug).split("-").pop();
+      if (!chapterNumber) continue;
+
+      urls.push(
+        createSitemapEntry(
+          `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/questions`,
+          0.7
+        )
+      );
+      urls.push(
+        createSitemapEntry(
+          `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/mcq`,
+          0.7
+        )
+      );
+    }
+  }
+
+  return urls;
 }

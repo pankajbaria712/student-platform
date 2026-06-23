@@ -11,13 +11,38 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { semester: string; subject: string } }): Metadata {
   const vivaSubject = getVivaSubject(params.subject);
 
+  const title = vivaSubject
+    ? `${vivaSubject.title} Viva Questions — Semester ${params.semester}`
+    : "GTU Viva Hub";
+  const description = vivaSubject
+    ? `Oral viva and MCQ preparation for ${vivaSubject.title}.`
+    : "GTU Viva Hub for semester subjects.";
+
   return {
-    title: vivaSubject
-      ? `${vivaSubject.title} Viva Questions — Semester ${params.semester}`
-      : "GTU Viva Hub",
-    description: vivaSubject
-      ? `Oral viva and MCQ preparation for ${vivaSubject.title}.`
-      : "GTU Viva Hub for semester subjects.",
+    title,
+    description,
+    keywords: [
+      vivaSubject?.title ?? "GTU Viva",
+      "GTU Viva Questions",
+      "GTU MCQ Practice",
+      `Semester ${params.semester}`,
+      "GTU viva preparation",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva`,
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/image.png"],
+    },
+    alternates: {
+      canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva`,
+    },
   };
 }
 

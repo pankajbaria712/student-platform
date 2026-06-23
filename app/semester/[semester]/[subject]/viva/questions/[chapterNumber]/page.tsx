@@ -1,9 +1,50 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Accordion from "@/components/Accordion";
-import { getVivaData } from "@/lib/viva";
+import { getVivaData, getVivaSubject } from "@/lib/viva";
 
 interface Props {
   params: { semester: string; subject: string; chapterNumber: string };
+}
+
+export function generateMetadata({ params }: Props): Metadata {
+  const vivaSubject = getVivaSubject(params.subject);
+  const chapterNumber = Number(params.chapterNumber);
+  const chapter = getVivaData(params.subject).find((c) => c.chapterNumber === chapterNumber);
+
+  const title = chapter
+    ? `${chapter.chapterName} — ${vivaSubject?.title ?? "GTU Subject"} Viva Questions`
+    : "GTU Viva Chapter Questions";
+  const description = chapter
+    ? `Practice ${chapter.chapterName} viva questions for GTU ${vivaSubject?.title}.`
+    : "Chapter-wise GTU viva questions and answers.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      vivaSubject?.title ?? "GTU Viva",
+      chapter?.chapterName ?? "Chapter Viva Questions",
+      "GTU viva questions",
+      "GTU exam prep",
+      "GTU MCQ practice",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva/chapter/${params.chapterNumber}/questions`,
+      images: ["/image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/image.png"],
+    },
+    alternates: {
+      canonical: `https://gtustudenthub.vercel.app/semester/${params.semester}/${params.subject}/viva/chapter/${params.chapterNumber}/questions`,
+    },
+  };
 }
 
 export default function QuestionsPage({ params }: Props) {

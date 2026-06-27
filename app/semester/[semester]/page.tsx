@@ -238,6 +238,7 @@ const semesterData = {
       },
       {
         code: "3150713",
+        slug: "python-for-data-science",
         name: "Python for Data Science",
         credits: 4,
         category: "Elective",
@@ -250,6 +251,7 @@ const semesterData = {
       },
       {
         code: "3150709",
+        slug: "professional-ethics",
         name: "Professional Ethics",
         credits: 2,
         category: "Humanities",
@@ -300,6 +302,7 @@ const semesterData = {
       },
       {
         code: "3150703",
+        slug: "analysis-and-design-of-algorithms",
         name: "Analysis and Design of Algorithms",
         credits: 5,
         category: "Core",

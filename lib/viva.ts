@@ -8,6 +8,9 @@ import { theoryOfComputationViva } from "@/lib/viva/theory-of-computation-viva";
 import { dataMiningViva } from "@/lib/viva/data-mining-viva";
 import { gtuSoftwareEngineeringViva } from "@/lib/viva/software-engineering-viva";
 import { gtuComputerNetworksViva } from "@/lib/viva/computer-networks-viva";
+import { gtuPythonForDataScienceViva } from "@/lib/viva/python-for-data-science-viva";
+import { gtuAnalysisAndDesignOfAlgorithmsViva } from "@/lib/viva/analysis-and-design-of-algorithms-viva";
+import { gtuProfessionalEthicsViva } from "@/lib/viva/professional-ethics-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -40,6 +43,42 @@ const transformComputerNetworksViva = (): VivaChapterData[] =>
     })),
   }));
 
+const transformPythonForDataScienceViva = (): VivaChapterData[] =>
+  gtuPythonForDataScienceViva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
+const transformAnalysisAndDesignOfAlgorithmsViva = (): VivaChapterData[] =>
+  gtuAnalysisAndDesignOfAlgorithmsViva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
+const transformProfessionalEthicsViva = (): VivaChapterData[] =>
+  gtuProfessionalEthicsViva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
 export const getVivaData = (slug: string): VivaChapterData[] => {
   switch (slug) {
     case "web-programming":
@@ -48,6 +87,12 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
       return transformSoftwareEngineeringViva();
     case "computer-networks":
       return transformComputerNetworksViva();
+    case "python-for-data-science":
+      return transformPythonForDataScienceViva();
+    case "analysis-and-design-of-algorithms":
+      return transformAnalysisAndDesignOfAlgorithmsViva();
+    case "professional-ethics":
+      return transformProfessionalEthicsViva();
     case "advanced-java-programming":
       return advanceJavaProgrammingViva;
     case "microprocessor-and-interfacing":
@@ -190,6 +235,33 @@ const computerNetworksVivaSubject = buildVivaSubject(
   5
 );
 
+const pythonForDataScienceVivaSubject = buildVivaSubject(
+  "python-for-data-science",
+  "Python for Data Science",
+  "3150713",
+  "Viva questions and MCQ practice for Python for Data Science.",
+  transformPythonForDataScienceViva(),
+  5
+);
+
+const analysisAndDesignOfAlgorithmsVivaSubject = buildVivaSubject(
+  "analysis-and-design-of-algorithms",
+  "Analysis and Design of Algorithms",
+  "3150703",
+  "Viva questions and MCQ practice for Analysis and Design of Algorithms.",
+  transformAnalysisAndDesignOfAlgorithmsViva(),
+  5
+);
+
+const professionalEthicsVivaSubject = buildVivaSubject(
+  "professional-ethics",
+  "Professional Ethics",
+  "3150709",
+  "Viva questions and MCQ practice for Professional Ethics.",
+  transformProfessionalEthicsViva(),
+  5
+);
+
 const advancedJavaVivaSubject = buildVivaSubject(
   "advanced-java-programming",
   "Advanced Java Programming",
@@ -225,6 +297,9 @@ const dataMiningVivaSubject = buildVivaSubject(
 export const vivaSubjects: Record<string, VivaSubject> = {
   "software-engineering": softwareEngineeringVivaSubject,
   "computer-networks": computerNetworksVivaSubject,
+  "python-for-data-science": pythonForDataScienceVivaSubject,
+  "analysis-and-design-of-algorithms": analysisAndDesignOfAlgorithmsVivaSubject,
+  "professional-ethics": professionalEthicsVivaSubject,
   "theory-of-computation": theoryOfComputationVivaSubject,
   "data-mining": dataMiningVivaSubject,
   "web-programming": {

@@ -225,6 +225,7 @@ const semesterData = {
     subjects: [
       {
         code: "3150711",
+        slug: "software-engineering",
         name: "Software Engineering",
         credits: 4,
         category: "Core",
@@ -286,6 +287,7 @@ const semesterData = {
       },
       {
         code: "3150710",
+        slug: "computer-networks",
         name: "Computer Networks",
         credits: 4,
         category: "Core",

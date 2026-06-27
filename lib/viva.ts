@@ -6,6 +6,8 @@ import { advanceJavaProgrammingViva } from "@/lib/viva/advance-java-programming-
 import { microprocessorAndInterfacingViva } from "@/lib/viva/microprocessor-and-interfacing-viva";
 import { theoryOfComputationViva } from "@/lib/viva/theory-of-computation-viva";
 import { dataMiningViva } from "@/lib/viva/data-mining-viva";
+import { gtuSoftwareEngineeringViva } from "@/lib/viva/software-engineering-viva";
+import { gtuComputerNetworksViva } from "@/lib/viva/computer-networks-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -14,10 +16,38 @@ export interface VivaChapterData {
   mcqs: Array<{ question: string; options: string[]; correctAnswer: string }>;
 }
 
+const transformSoftwareEngineeringViva = (): VivaChapterData[] =>
+  gtuSoftwareEngineeringViva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
+const transformComputerNetworksViva = (): VivaChapterData[] =>
+  gtuComputerNetworksViva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
 export const getVivaData = (slug: string): VivaChapterData[] => {
   switch (slug) {
     case "web-programming":
       return webProgrammingViva;
+    case "software-engineering":
+      return transformSoftwareEngineeringViva();
+    case "computer-networks":
+      return transformComputerNetworksViva();
     case "advanced-java-programming":
       return advanceJavaProgrammingViva;
     case "microprocessor-and-interfacing":
@@ -80,11 +110,12 @@ const buildVivaSubject = (
   title: string,
   code: string | undefined,
   description: string,
-  data: VivaChapterData[]
+  data: VivaChapterData[],
+  semester: number = 6
 ): VivaSubject => ({
   slug,
   title,
-  semester: 6,
+  semester,
   code,
   description,
   chapters: data.map((c) => ({
@@ -141,6 +172,24 @@ const iotApplicationsVivaSubject: VivaSubject = {
   slug: "iot-applications",
 };
 
+const softwareEngineeringVivaSubject = buildVivaSubject(
+  "software-engineering",
+  "Software Engineering",
+  "3150711",
+  "Viva questions and MCQ practice for Software Engineering.",
+  transformSoftwareEngineeringViva(),
+  5
+);
+
+const computerNetworksVivaSubject = buildVivaSubject(
+  "computer-networks",
+  "Computer Networks",
+  "3150710",
+  "Viva questions and MCQ practice for Computer Networks.",
+  transformComputerNetworksViva(),
+  5
+);
+
 const advancedJavaVivaSubject = buildVivaSubject(
   "advanced-java-programming",
   "Advanced Java Programming",
@@ -174,26 +223,8 @@ const dataMiningVivaSubject = buildVivaSubject(
 );
 
 export const vivaSubjects: Record<string, VivaSubject> = {
-  "software-engineering": {
-    slug: "software-engineering",
-    title: "Software Engineering",
-    semester: 5,
-    description:
-      "Subject-level viva preparation for oral and MCQ revision in GTU Semester 5.",
-    chapters: [],
-    vivaQuestions: [],
-    vivaMcqs: [],
-  },
-  "computer-networks": {
-    slug: "computer-networks",
-    title: "Computer Networks",
-    semester: 5,
-    description:
-      "Oral question prompts and MCQ practice for Computer Networks.",
-    chapters: [],
-    vivaQuestions: [],
-    vivaMcqs: [],
-  },
+  "software-engineering": softwareEngineeringVivaSubject,
+  "computer-networks": computerNetworksVivaSubject,
   "theory-of-computation": theoryOfComputationVivaSubject,
   "data-mining": dataMiningVivaSubject,
   "web-programming": {

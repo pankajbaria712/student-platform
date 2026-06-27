@@ -264,6 +264,7 @@ const semesterData = {
       },
       {
         code: "3150005",
+        slug: "ipdc-1",
         name: "Integrated Personality Development Course - I",
         credits: 2,
         category: "Humanities",

@@ -11,6 +11,7 @@ import { gtuComputerNetworksViva } from "@/lib/viva/computer-networks-viva";
 import { gtuPythonForDataScienceViva } from "@/lib/viva/python-for-data-science-viva";
 import { gtuAnalysisAndDesignOfAlgorithmsViva } from "@/lib/viva/analysis-and-design-of-algorithms-viva";
 import { gtuProfessionalEthicsViva } from "@/lib/viva/professional-ethics-viva";
+import { gtuIpdc1Viva } from "@/lib/viva/ipdc-1-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -79,6 +80,18 @@ const transformProfessionalEthicsViva = (): VivaChapterData[] =>
     })),
   }));
 
+const transformIpdc1Viva = (): VivaChapterData[] =>
+  gtuIpdc1Viva.chapters.map((chapter) => ({
+    chapterNumber: chapter.chapterNumber,
+    chapterName: chapter.chapterName,
+    questions: chapter.vivaQuestions.map((q) => ({ question: q.question, answer: q.answer })),
+    mcqs: chapter.mcqs.map((m) => ({
+      question: m.question,
+      options: m.options,
+      correctAnswer: m.answer,
+    })),
+  }));
+
 export const getVivaData = (slug: string): VivaChapterData[] => {
   switch (slug) {
     case "web-programming":
@@ -93,6 +106,8 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
       return transformAnalysisAndDesignOfAlgorithmsViva();
     case "professional-ethics":
       return transformProfessionalEthicsViva();
+    case "ipdc-1":
+      return transformIpdc1Viva();
     case "advanced-java-programming":
       return advanceJavaProgrammingViva;
     case "microprocessor-and-interfacing":
@@ -262,6 +277,15 @@ const professionalEthicsVivaSubject = buildVivaSubject(
   5
 );
 
+const ipdc1VivaSubject = buildVivaSubject(
+  "ipdc-1",
+  "Integrated Personality Development Course - I",
+  "3150005",
+  "Viva questions and MCQ practice for IPDC-1.",
+  transformIpdc1Viva(),
+  5
+);
+
 const advancedJavaVivaSubject = buildVivaSubject(
   "advanced-java-programming",
   "Advanced Java Programming",
@@ -300,6 +324,7 @@ export const vivaSubjects: Record<string, VivaSubject> = {
   "python-for-data-science": pythonForDataScienceVivaSubject,
   "analysis-and-design-of-algorithms": analysisAndDesignOfAlgorithmsVivaSubject,
   "professional-ethics": professionalEthicsVivaSubject,
+  "ipdc-1": ipdc1VivaSubject,
   "theory-of-computation": theoryOfComputationVivaSubject,
   "data-mining": dataMiningVivaSubject,
   "web-programming": {

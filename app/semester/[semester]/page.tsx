@@ -23,6 +23,8 @@ import {
   ShieldCheck,
   Sparkles,
   Zap,
+  Briefcase,
+  Smartphone,
 } from "lucide-react";
 import ActionButton from "@/components/ActionButton";
 import Disclaimer from "@/components/Disclaimer";
@@ -459,67 +461,189 @@ const semesterData = {
   },
   "7": {
     heading: "Semester 7",
-    subtitle: "Emerging technologies, cloud, and advanced project preparation.",
+    subtitle: "GTU BE Computer Engineering Semester 7 subjects for advanced electives, systems, and emerging technologies.",
     subjects: [
       {
-        code: "3160701",
+        code: "3170001",
+        slug: "summer-internship",
+        name: "Summer Internship",
+        credits: 2,
+        category: "Internship",
+        icon: <Briefcase className="text-amber-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/summer-internship-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Practical industry exposure and internship reporting aligned with GTU Semester 7 expectations.",
+      },
+      {
+        code: "3170701",
+        slug: "compiler-design",
+        name: "Compiler Design",
+        credits: 4,
+        category: "Core",
+        icon: <Terminal className="text-cyan-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/compiler-design-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Lexical analysis, parsing, semantic processing, and code generation fundamentals.",
+      },
+      {
+        code: "3170710",
+        slug: "mobile-computing-and-wireless-communication",
+        name: "Mobile Computing and Wireless Communication",
+        credits: 4,
+        category: "Elective",
+        icon: <Wifi className="text-indigo-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/mobile-computing-and-wireless-communication-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Wireless networks, mobile architectures, mobility management, and communication systems.",
+      },
+      {
+        code: "3170716",
+        slug: "artificial-intelligence",
+        name: "Artificial Intelligence",
+        credits: 4,
+        category: "Elective",
+        icon: <Cpu className="text-emerald-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/artificial-intelligence-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Search, knowledge representation, logic, planning, and intelligent system reasoning.",
+      },
+      {
+        code: "3170717",
+        slug: "cloud-computing",
         name: "Cloud Computing",
         credits: 4,
         category: "Elective",
         icon: <Cloud className="text-sky-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
+        syllabusPdf: "/pdfs/syllabus/cloud-computing-syllabus.pdf",
         pyqLink: "#",
-        description:
-          "Cloud services, virtualization, deployment, and scalable infrastructure.",
+        vivaLink: "#",
+        description: "Cloud service models, virtualization, deployment strategies, and scalable infrastructure.",
       },
       {
-        code: "3160702",
-        name: "Mobile Computing",
+        code: "3170718",
+        slug: "information-retrieval",
+        name: "Information Retrieval",
         credits: 4,
-        category: "Core",
-        icon: <Wifi className="text-indigo-400" />,
+        category: "Elective",
+        icon: <Database className="text-yellow-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
+        syllabusPdf: "/pdfs/syllabus/information-retrieval-syllabus.pdf",
         pyqLink: "#",
-        description:
-          "Mobile platforms, app development, and wireless communication systems.",
+        vivaLink: "#",
+        description: "Indexing, ranking, retrieval models, and search engine design principles.",
       },
       {
-        code: "3160703",
+        code: "3170719",
+        slug: "distributed-system",
+        name: "Distributed System",
+        credits: 4,
+        category: "Elective",
+        icon: <Globe className="text-pink-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/distributed-system-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Distributed communication, synchronization, consistency, fault tolerance, and coordination.",
+      },
+      {
+        code: "3170720",
+        slug: "information-security",
+        name: "Information Security",
+        credits: 4,
+        category: "Elective",
+        icon: <ShieldCheck className="text-cyan-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/information-security-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Cryptography, secure systems, authentication, and risk mitigation techniques.",
+      },
+      {
+        code: "3170721",
+        slug: "parallel-and-distributed-computing",
+        name: "Parallel and Distributed Computing",
+        credits: 4,
+        category: "Elective",
+        icon: <Binary className="text-blue-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/parallel-and-distributed-computing-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Parallel architectures, concurrency models, scheduling, and distributed execution patterns.",
+      },
+      {
+        code: "3170722",
+        slug: "big-data-analytics",
+        name: "Big Data Analytics",
+        credits: 4,
+        category: "Elective",
+        icon: <BarChart3 className="text-red-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/big-data-analytics-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Big data processing, analytics pipelines, and data-driven decision making.",
+      },
+      {
+        code: "3170723",
+        slug: "natural-language-processing",
+        name: "Natural Language Processing",
+        credits: 4,
+        category: "Elective",
+        icon: <Book className="text-slate-400" />,
+        notesLink: "#",
+        syllabusPdf: "/pdfs/syllabus/natural-language-processing-syllabus.pdf",
+        pyqLink: "#",
+        vivaLink: "#",
+        description: "Language modeling, text processing, NLP pipelines, and semantic interpretation.",
+      },
+      {
+        code: "3170724",
+        slug: "machine-learning",
         name: "Machine Learning",
         credits: 4,
         category: "Elective",
-        icon: <Cpu className="text-emerald-400" />,
+        icon: <Sparkles className="text-violet-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
+        syllabusPdf: "/pdfs/syllabus/machine-learning-syllabus.pdf",
         pyqLink: "#",
-        description:
-          "Foundations of learning algorithms, regression, classification, and models.",
+        vivaLink: "#",
+        description: "Supervised and unsupervised learning, evaluation, and practical model building.",
       },
       {
-        code: "3160704",
-        name: "Cyber Security",
+        code: "3170725",
+        slug: "digital-forensics",
+        name: "Digital Forensics",
         credits: 4,
-        category: "Core",
+        category: "Elective",
         icon: <ShieldCheck className="text-cyan-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
+        syllabusPdf: "/pdfs/syllabus/digital-forensics-syllabus.pdf",
         pyqLink: "#",
-        description:
-          "Security protocols, threat modeling, and safe system design.",
+        vivaLink: "#",
+        description: "Evidence collection, investigation workflows, forensic tools, and legal aspects.",
       },
       {
-        code: "3160705",
-        name: "Project Management",
-        credits: 3,
-        category: "Professional Elective",
-        icon: <Crown className="text-yellow-400" />,
+        code: "3170726",
+        slug: "mobile-application-development",
+        name: "Mobile Application Development",
+        credits: 4,
+        category: "Elective",
+        icon: <Smartphone className="text-emerald-400" />,
         notesLink: "#",
-        syllabusPdf: "#",
+        syllabusPdf: "/pdfs/syllabus/mobile-application-development-syllabus.pdf",
         pyqLink: "#",
-        description:
-          "Project planning, risk management, and team collaboration strategies.",
+        vivaLink: "#",
+        description: "Designing, building, and testing modern mobile apps for current platforms.",
       },
     ],
   },
@@ -638,12 +762,13 @@ const SubjectCard = ({ subject, semester, activeSemester = true }) => (
           icon={FileText}
           label="Syllabus"
           href={subject.syllabusPdf}
+          newTab
         />
         <ActionButton icon={History} label="Papers" href={subject.pyqLink} />
         <ActionButton
           icon={Sparkles}
           label="Viva Questions"
-          href={`/semester/${semester}/${subject.slug ?? createSubjectSlug(subject.name)}/viva`}
+          href={subject.vivaLink ?? `/semester/${semester}/${subject.slug ?? createSubjectSlug(subject.name)}/viva`}
           highlight
         />
       </div>
@@ -666,7 +791,7 @@ const SubjectCard = ({ subject, semester, activeSemester = true }) => (
 
 export default function SemesterPage({ params }: SemesterPageProps) {
   const data = semesterData[params.semester] || semesterData["6"];
-  const isActiveSemester = ["5", "6"].includes(params.semester);
+  const isActiveSemester = ["5", "6", "7"].includes(params.semester);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">

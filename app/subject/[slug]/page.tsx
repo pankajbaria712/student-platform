@@ -159,7 +159,7 @@ export default function SubjectPage({ params }: SubjectPageProps) {
             <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8">
               <h3 className="text-2xl font-semibold text-white">Subject resources</h3>
               <p className="mt-3 text-slate-400">
-                Use the verified syllabus and available PYQ materials to plan your Semester 5 revision.
+                Use the verified syllabus and available PYQ materials to plan your Semester {subject.semester} revision.
               </p>
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -290,7 +290,7 @@ export default function SubjectPage({ params }: SubjectPageProps) {
         <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-semibold text-white">Ready for Semester 5?</h2>
+              <h2 className="text-2xl font-semibold text-white">Ready for Semester {subject.semester}?</h2>
               <p className="mt-2 text-slate-400">
                 Access the verified GTU syllabus, PYQ archive, and study resources for {subject.title}.
               </p>

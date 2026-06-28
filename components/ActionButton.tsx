@@ -7,6 +7,7 @@ interface ActionButtonProps {
   icon?: LucideIcon;
   primary?: boolean;
   highlight?: boolean;
+  newTab?: boolean;
 }
 
 export default function ActionButton({
@@ -15,6 +16,7 @@ export default function ActionButton({
   icon: Icon,
   primary = false,
   highlight = false,
+  newTab = false,
 }: ActionButtonProps) {
   const baseClasses =
     "inline-flex min-w-[170px] items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition duration-200";
@@ -28,6 +30,8 @@ export default function ActionButton({
   return (
     <Link
       href={href}
+      target={newTab ? "_blank" : undefined}
+      rel={newTab ? "noreferrer" : undefined}
       className={`${baseClasses} ${primary ? primaryClasses : highlight ? highlightClasses : normalClasses}`}
     >
       {Icon ? <Icon size={16} className="shrink-0" /> : null}

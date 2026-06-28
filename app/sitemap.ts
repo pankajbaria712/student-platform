@@ -1,72 +1,121 @@
 import { MetadataRoute } from "next";
-import { subjectPageData } from "@/app/subject/_data/subjects";
-import { subjectData as pyqData } from "@/app/pyq/_data/subjects";
-import { getVivaStaticParams, vivaSubjects } from "@/lib/viva";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://gtustudenthub.vercel.app";
-// Prefer canonical semesters used on the site. Include 1-6 for crawlability.
-const SEMESTER_ROUTES = ["1", "2", "3", "4", "5", "6"];
-
-function createSitemapEntry(url: string, priority = 0.8): MetadataRoute.Sitemap[number] {
-  return {
-    url,
-    lastModified: new Date(),
-    changeFrequency: "daily",
-    priority,
-  };
-}
+const BASE_URL = "https://gtustudenthub.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const urls: MetadataRoute.Sitemap = [];
-  const seenUrls = new Set<string>();
+  return [
+    {
+      url: `${BASE_URL}/`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    },
 
-  const addUrl = (url: string, priority = 0.8) => {
-    if (seenUrls.has(url)) return;
-    seenUrls.add(url);
-    urls.push(createSitemapEntry(url, priority));
-  };
+    // Semester Pages
+    {
+      url: `${BASE_URL}/semester/5`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/semester/6`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/semester/7`,
+      lastModified: new Date(),
+      priority: 0.9,
+    },
 
-  addUrl(BASE_URL, 1);
+    // Subject Pages
+    {
+      url: `${BASE_URL}/subject/software-engineering`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/subject/compiler-design`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/subject/artificial-intelligence`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-  SEMESTER_ROUTES.forEach((semester) => {
-    addUrl(`${BASE_URL}/semester/${semester}`, 0.9);
-  });
+    // PYQ Pages
+    {
+      url: `${BASE_URL}/pyq/software-engineering`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/pyq/compiler-design`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/pyq/theory-of-computation`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-  Object.values(subjectPageData).forEach((subject) => {
-    addUrl(`${BASE_URL}/subject/${subject.slug}`, 0.86);
+    // Viva Pages
+    {
+      url: `${BASE_URL}/semester/5/software-engineering/viva`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/semester/5/computer-networks/viva`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/semester/6/web-programming/viva`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/semester/7/compiler-design/viva`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
 
-    if (subject.notesStatus !== "not-applicable" && subject.notesSlug) {
-      addUrl(`${BASE_URL}/notes/${subject.slug}`, 0.8);
-    }
-  });
+    // Notes
+    {
+      url: `${BASE_URL}/notes/software-engineering`,
+      lastModified: new Date(),
+      priority: 0.75,
+    },
+    {
+      url: `${BASE_URL}/notes/web-programming`,
+      lastModified: new Date(),
+      priority: 0.75,
+    },
 
-  Object.keys(pyqData).forEach((slug) => {
-    addUrl(`${BASE_URL}/pyq/${slug}`, 0.85);
-  });
-
-  getVivaStaticParams().forEach((params) => {
-    addUrl(`${BASE_URL}/semester/${params.semester}/${params.subject}/viva`, 0.85);
-  });
-
-  Object.values(vivaSubjects).forEach((subject) => {
-    if (!subject.chapters?.length) return;
-
-    subject.chapters.forEach((chapter) => {
-      const chapterNumber = String(chapter.slug).split("-").pop();
-      if (!chapterNumber) return;
-
-      addUrl(
-        `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/questions`,
-        0.7
-      );
-      addUrl(
-        `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/mcq`,
-        0.7
-      );
-    });
-
-    addUrl(`${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva`, 0.78);
-  });
-
-  return urls;
+    // Static Pages
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: new Date(),
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/privacy-policy`,
+      lastModified: new Date(),
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/refund-policy`,
+      lastModified: new Date(),
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified: new Date(),
+      priority: 0.5,
+    },
+  ];
 }

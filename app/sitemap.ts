@@ -17,63 +17,56 @@ function createSitemapEntry(url: string, priority = 0.8): MetadataRoute.Sitemap[
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const urls: MetadataRoute.Sitemap = [
-    createSitemapEntry(BASE_URL, 1),
-    ...SEMESTER_ROUTES.map((semester) =>
-      createSitemapEntry(`${BASE_URL}/semester/${semester}`, 0.9)
-    ),
-    // Subject landing pages
-    ...Object.values(subjectPageData).map((subject) =>
-      createSitemapEntry(`${BASE_URL}/subject/${subject.slug}`, 0.86)
-    ),
-    ...Object.values(subjectPageData)
-      .filter((subject) => subject.notesStatus !== "not-applicable" && subject.notesSlug)
-      .map((subject) =>
-        createSitemapEntry(`${BASE_URL}/notes/${subject.slug}`, 0.8)
-      ),
-    ...Object.keys(pyqData).map((slug) =>
-      createSitemapEntry(`${BASE_URL}/pyq/${slug}`, 0.85)
-    ),
-    // Notes pages for subjects where notes are applicable
-    ...Object.values(subjectPageData)
-      .filter((subject) => subject.notesStatus !== "not-applicable" && subject.notesSlug)
-      .map((subject) => createSitemapEntry(`${BASE_URL}/notes/${subject.slug}`, 0.82)),
-    ...getVivaStaticParams().map((params) =>
-      createSitemapEntry(
-        `${BASE_URL}/semester/${params.semester}/${params.subject}/viva`,
-        0.85
-      )
-    ),
-  ];
+  const urls: MetadataRoute.Sitemap = [];
+  const seenUrls = new Set<string>();
 
-  for (const subject of Object.values(vivaSubjects)) {
-    if (!subject.chapters?.length) continue;
+  const addUrl = (url: string, priority = 0.8) => {
+    if (seenUrls.has(url)) return;
+    seenUrls.add(url);
+    urls.push(createSitemapEntry(url, priority));
+  };
 
-    for (const chapter of subject.chapters) {
-      const chapterNumber = String(chapter.slug).split("-").pop();
-      if (!chapterNumber) continue;
+  addUrl(BASE_URL, 1);
 
-      urls.push(
-        createSitemapEntry(
-          `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/questions`,
-          0.7
-        )
-      );
-      urls.push(
-        createSitemapEntry(
-          `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/mcq`,
-          0.7
-        )
-      );
+  SEMESTER_ROUTES.forEach((semester) => {
+    addUrl(`${BASE_URL}/semester/${semester}`, 0.9);
+  });
+
+  Object.values(subjectPageData).forEach((subject) => {
+    addUrl(`${BASE_URL}/subject/${subject.slug}`, 0.86);
+
+    if (subject.notesStatus !== "not-applicable" && subject.notesSlug) {
+      addUrl(`${BASE_URL}/notes/${subject.slug}`, 0.8);
     }
-    // Add viva landing page for subject
-    urls.push(
-      createSitemapEntry(
-        `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva`,
-        0.78
-      )
-    );
-  }
+  });
+
+  Object.keys(pyqData).forEach((slug) => {
+    addUrl(`${BASE_URL}/pyq/${slug}`, 0.85);
+  });
+
+  getVivaStaticParams().forEach((params) => {
+    addUrl(`${BASE_URL}/semester/${params.semester}/${params.subject}/viva`, 0.85);
+  });
+
+  Object.values(vivaSubjects).forEach((subject) => {
+    if (!subject.chapters?.length) return;
+
+    subject.chapters.forEach((chapter) => {
+      const chapterNumber = String(chapter.slug).split("-").pop();
+      if (!chapterNumber) return;
+
+      addUrl(
+        `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/questions`,
+        0.7
+      );
+      addUrl(
+        `${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva/chapter/${chapterNumber}/mcq`,
+        0.7
+      );
+    });
+
+    addUrl(`${BASE_URL}/semester/${subject.semester}/${subject.slug}/viva`, 0.78);
+  });
 
   return urls;
 }

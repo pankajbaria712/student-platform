@@ -12,6 +12,23 @@ import { gtuPythonForDataScienceViva } from "@/lib/viva/python-for-data-science-
 import { gtuAnalysisAndDesignOfAlgorithmsViva } from "@/lib/viva/analysis-and-design-of-algorithms-viva";
 import { gtuProfessionalEthicsViva } from "@/lib/viva/professional-ethics-viva";
 import { gtuIpdc1Viva } from "@/lib/viva/ipdc-1-viva";
+// Semester 7 viva data imports
+import { gtuCompilerDesignViva } from "@/lib/viva/compiler-design-viva";
+import { gtuMobileComputingAndWirelessCommunicationViva } from "@/lib/viva/mobile-computing-and-wireless-communication-viva";
+import { gtuArtificialIntelligenceViva } from "@/lib/viva/artificial-intelligence-viva";
+import { cloudComputingVivaData } from "@/lib/viva/cloud-computing-viva";
+// require used for these two modules due to resolution differences
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { informationRetrievalVivaData } = require("./viva/information-retrieval-viva");
+import { distributedSystemVivaData } from "@/lib/viva/distributed-system-viva";
+import { gtuInformationSecurityViva } from "@/lib/viva/information-security-viva";
+import { gtuParallelAndDistributedComputingViva } from "@/lib/viva/parallel-and-distributed-computing-viva";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { gtuBigDataAnalyticsViva } = require("./viva/big-data-analytics-viva");
+import { gtuNaturalLanguageProcessingViva } from "@/lib/viva/natural-language-processing-viva";
+import { gtuMachineLearningViva } from "@/lib/viva/machine-learning-viva";
+import { gtuDigitalForensicsViva } from "@/lib/viva/digital-forensics-viva";
+import { gtuMobileApplicationDevelopmentViva } from "@/lib/viva/mobile-application-development-viva";
 
 export interface VivaChapterData {
   chapterNumber: number;
@@ -92,6 +109,38 @@ const transformIpdc1Viva = (): VivaChapterData[] =>
     })),
   }));
 
+// Generic normalizers for Semester 7 viva data which come in a few shapes.
+const normalizeSubjectDataFromObject = (subject: any): VivaChapterData[] =>
+  (subject?.chapters || []).map((c: any) => ({
+    chapterNumber: c.chapterNumber,
+    chapterName: c.chapterName,
+    questions: (c.vivaQuestions || c.questions || []).map((q: any) => ({ question: q.question, answer: q.answer })),
+    mcqs: (c.mcqs || []).map((m: any) => ({ question: m.question, options: m.options || [], correctAnswer: m.answer ?? m.correctAnswer })),
+  }));
+
+const normalizeSubjectDataFromArray = (arr: any[]): VivaChapterData[] =>
+  (arr || []).map((c: any, idx: number) => ({
+    chapterNumber: c.chapterNumber ?? idx + 1,
+    chapterName: c.chapterName ?? c.chapterTitle ?? `Chapter ${idx + 1}`,
+    questions: (c.vivaQuestions || c.questions || []).map((q: any) => ({ question: q.question, answer: q.answer })),
+    mcqs: (c.mcqs || []).map((m: any) => ({ question: m.question, options: m.options || [], correctAnswer: m.answer ?? m.correctAnswer })),
+  }));
+
+// Prepare Semester 7 viva arrays
+const compilerDesignViva = normalizeSubjectDataFromObject(gtuCompilerDesignViva);
+const mobileComputingViva = normalizeSubjectDataFromObject(gtuMobileComputingAndWirelessCommunicationViva);
+const artificialIntelligenceViva = normalizeSubjectDataFromObject(gtuArtificialIntelligenceViva);
+const cloudComputingViva = normalizeSubjectDataFromArray(cloudComputingVivaData);
+const informationRetrievalViva = normalizeSubjectDataFromArray(informationRetrievalVivaData);
+const distributedSystemViva = normalizeSubjectDataFromArray(distributedSystemVivaData);
+const informationSecurityViva = normalizeSubjectDataFromObject(gtuInformationSecurityViva);
+const parallelAndDistributedComputingViva = normalizeSubjectDataFromObject(gtuParallelAndDistributedComputingViva);
+const bigDataAnalyticsViva = normalizeSubjectDataFromObject(gtuBigDataAnalyticsViva);
+const nlpViva = normalizeSubjectDataFromObject(gtuNaturalLanguageProcessingViva);
+const machineLearningViva = normalizeSubjectDataFromObject(gtuMachineLearningViva);
+const digitalForensicsViva = normalizeSubjectDataFromObject(gtuDigitalForensicsViva);
+const mobileAppDevViva = normalizeSubjectDataFromObject(gtuMobileApplicationDevelopmentViva);
+
 export const getVivaData = (slug: string): VivaChapterData[] => {
   switch (slug) {
     case "web-programming":
@@ -119,6 +168,33 @@ export const getVivaData = (slug: string): VivaChapterData[] => {
       return dataMiningViva;
     case "data-visualization":
       return dataVisualizationViva;
+    // Semester 7 subjects
+    case "compiler-design":
+      return compilerDesignViva;
+    case "mobile-computing-and-wireless-communication":
+      return mobileComputingViva;
+    case "artificial-intelligence":
+      return artificialIntelligenceViva;
+    case "cloud-computing":
+      return cloudComputingViva;
+    case "information-retrieval":
+      return informationRetrievalViva;
+    case "distributed-system":
+      return distributedSystemViva;
+    case "information-security":
+      return informationSecurityViva;
+    case "parallel-and-distributed-computing":
+      return parallelAndDistributedComputingViva;
+    case "big-data-analytics":
+      return bigDataAnalyticsViva;
+    case "natural-language-processing":
+      return nlpViva;
+    case "machine-learning":
+      return machineLearningViva;
+    case "digital-forensics":
+      return digitalForensicsViva;
+    case "mobile-application-development":
+      return mobileAppDevViva;
     case "ipdc-2":
     case "ipdc-course":
       return ipdc2Viva;
@@ -511,6 +587,111 @@ export const vivaSubjects: Record<string, VivaSubject> = {
       }))
     ),
   },
+  // Semester 7 subjects
+  "compiler-design": buildVivaSubject(
+    "compiler-design",
+    "Compiler Design",
+    "3170701",
+    "Viva questions and MCQ practice for Compiler Design.",
+    compilerDesignViva,
+    7
+  ),
+  "mobile-computing-and-wireless-communication": buildVivaSubject(
+    "mobile-computing-and-wireless-communication",
+    "Mobile Computing and Wireless Communication",
+    "3170710",
+    "Viva questions and MCQ practice for Mobile Computing and Wireless Communication.",
+    mobileComputingViva,
+    7
+  ),
+  "artificial-intelligence": buildVivaSubject(
+    "artificial-intelligence",
+    "Artificial Intelligence",
+    "3170716",
+    "Viva questions and MCQ practice for Artificial Intelligence.",
+    artificialIntelligenceViva,
+    7
+  ),
+  "cloud-computing": buildVivaSubject(
+    "cloud-computing",
+    "Cloud Computing",
+    "3170717",
+    "Viva questions and MCQ practice for Cloud Computing.",
+    cloudComputingViva,
+    7
+  ),
+  "information-retrieval": buildVivaSubject(
+    "information-retrieval",
+    "Information Retrieval",
+    "3170718",
+    "Viva questions and MCQ practice for Information Retrieval.",
+    informationRetrievalViva,
+    7
+  ),
+  "distributed-system": buildVivaSubject(
+    "distributed-system",
+    "Distributed System",
+    "3170719",
+    "Viva questions and MCQ practice for Distributed System.",
+    distributedSystemViva,
+    7
+  ),
+  "information-security": buildVivaSubject(
+    "information-security",
+    "Information Security",
+    "3170720",
+    "Viva questions and MCQ practice for Information Security.",
+    informationSecurityViva,
+    7
+  ),
+  "parallel-and-distributed-computing": buildVivaSubject(
+    "parallel-and-distributed-computing",
+    "Parallel and Distributed Computing",
+    "3170721",
+    "Viva questions and MCQ practice for Parallel and Distributed Computing.",
+    parallelAndDistributedComputingViva,
+    7
+  ),
+  "big-data-analytics": buildVivaSubject(
+    "big-data-analytics",
+    "Big Data Analytics",
+    "3170722",
+    "Viva questions and MCQ practice for Big Data Analytics.",
+    bigDataAnalyticsViva,
+    7
+  ),
+  "natural-language-processing": buildVivaSubject(
+    "natural-language-processing",
+    "Natural Language Processing",
+    "3170723",
+    "Viva questions and MCQ practice for Natural Language Processing.",
+    nlpViva,
+    7
+  ),
+  "machine-learning": buildVivaSubject(
+    "machine-learning",
+    "Machine Learning",
+    "3170724",
+    "Viva questions and MCQ practice for Machine Learning.",
+    machineLearningViva,
+    7
+  ),
+  "digital-forensics": buildVivaSubject(
+    "digital-forensics",
+    "Digital Forensics",
+    "3170725",
+    "Viva questions and MCQ practice for Digital Forensics.",
+    digitalForensicsViva,
+    7
+  ),
+  "mobile-application-development": buildVivaSubject(
+    "mobile-application-development",
+    "Mobile Application Development",
+    "3170726",
+    "Viva questions and MCQ practice for Mobile Application Development.",
+    mobileAppDevViva,
+    7
+  ),
 };
 
 export const getVivaSubject = (slug: string) => vivaSubjects[slug];

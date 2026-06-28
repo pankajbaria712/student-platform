@@ -486,7 +486,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/compiler-design-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/compiler-design/viva",
         description: "Lexical analysis, parsing, semantic processing, and code generation fundamentals.",
       },
       {
@@ -499,7 +499,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/mobile-computing-and-wireless-communication-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/mobile-computing-and-wireless-communication/viva",
         description: "Wireless networks, mobile architectures, mobility management, and communication systems.",
       },
       {
@@ -512,7 +512,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/artificial-intelligence-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/artificial-intelligence/viva",
         description: "Search, knowledge representation, logic, planning, and intelligent system reasoning.",
       },
       {
@@ -525,7 +525,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/cloud-computing-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/cloud-computing/viva",
         description: "Cloud service models, virtualization, deployment strategies, and scalable infrastructure.",
       },
       {
@@ -538,7 +538,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/information-retrieval-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/information-retrieval/viva",
         description: "Indexing, ranking, retrieval models, and search engine design principles.",
       },
       {
@@ -551,7 +551,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/distributed-system-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/distributed-system/viva",
         description: "Distributed communication, synchronization, consistency, fault tolerance, and coordination.",
       },
       {
@@ -564,7 +564,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/information-security-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/information-security/viva",
         description: "Cryptography, secure systems, authentication, and risk mitigation techniques.",
       },
       {
@@ -577,7 +577,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/parallel-and-distributed-computing-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/parallel-and-distributed-computing/viva",
         description: "Parallel architectures, concurrency models, scheduling, and distributed execution patterns.",
       },
       {
@@ -590,7 +590,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/big-data-analytics-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/big-data-analytics/viva",
         description: "Big data processing, analytics pipelines, and data-driven decision making.",
       },
       {
@@ -603,7 +603,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/natural-language-processing-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/natural-language-processing/viva",
         description: "Language modeling, text processing, NLP pipelines, and semantic interpretation.",
       },
       {
@@ -616,7 +616,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/machine-learning-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/machine-learning/viva",
         description: "Supervised and unsupervised learning, evaluation, and practical model building.",
       },
       {
@@ -629,7 +629,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/digital-forensics-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/digital-forensics/viva",
         description: "Evidence collection, investigation workflows, forensic tools, and legal aspects.",
       },
       {
@@ -642,7 +642,7 @@ const semesterData = {
         notesLink: "#",
         syllabusPdf: "/pdfs/syllabus/mobile-application-development-syllabus.pdf",
         pyqLink: "#",
-        vivaLink: "#",
+        vivaLink: "/semester/7/mobile-application-development/viva",
         description: "Designing, building, and testing modern mobile apps for current platforms.",
       },
     ],

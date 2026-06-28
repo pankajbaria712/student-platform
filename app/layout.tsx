@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gtustudenthub.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://gtustudenthub.vercel.app"),
   title: {
     default: "GTUStudentHub - GTU Paper Solutions",
     template: "%s | GTUStudentHub",

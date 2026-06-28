@@ -3,7 +3,7 @@ import { subjectPageData } from "@/app/subject/_data/subjects";
 import { subjectData as pyqData } from "@/app/pyq/_data/subjects";
 import { getVivaStaticParams, vivaSubjects } from "@/lib/viva";
 
-const BASE_URL = "https://gtustudenthub.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://gtustudenthub.vercel.app";
 // Prefer canonical semesters used on the site. Include 1-6 for crawlability.
 const SEMESTER_ROUTES = ["1", "2", "3", "4", "5", "6"];
 

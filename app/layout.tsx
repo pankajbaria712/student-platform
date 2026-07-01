@@ -8,6 +8,9 @@ import Navbar from "@/components/Navbar";
 import { GoogleAnalytics } from "@next/third-parties/google";
 const inter = Inter({ subsets: ["latin"] });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://gtustudenthub.vercel.app");
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -15,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://gtustudenthub.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "GTUStudentHub - GTU Paper Solutions",
     template: "%s | GTUStudentHub",
@@ -31,11 +34,14 @@ export const metadata: Metadata = {
     "GTU viva questions",
     "GTU MCQ practice",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "GTUStudentHub - GTU Paper Solutions",
     description:
       "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
-    url: "https://gtustudenthub.vercel.app",
+    url: siteUrl,
     siteName: "GTUStudentHub",
     type: "website",
     images: ["/image.png"],
@@ -52,11 +58,18 @@ export const metadata: Metadata = {
     shortcut: "/image.png",
     apple: "/image.png",
   },
-  themeColor: "#0f172a",
   manifest: "/manifest.json",
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

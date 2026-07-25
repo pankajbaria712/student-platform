@@ -8,6 +8,7 @@ interface ActionButtonProps {
   primary?: boolean;
   highlight?: boolean;
   newTab?: boolean;
+  className?: string;
 }
 
 export default function ActionButton({
@@ -17,9 +18,10 @@ export default function ActionButton({
   primary = false,
   highlight = false,
   newTab = false,
+  className,
 }: ActionButtonProps) {
   const baseClasses =
-    "inline-flex min-w-[170px] items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition duration-200";
+    "inline-flex min-w-0 items-center justify-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition duration-200";
   const normalClasses =
     "border-white/10 bg-slate-950/80 text-slate-200 hover:border-indigo-500 hover:bg-slate-900";
   const primaryClasses =
@@ -32,7 +34,7 @@ export default function ActionButton({
       href={href}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noreferrer" : undefined}
-      className={`${baseClasses} ${primary ? primaryClasses : highlight ? highlightClasses : normalClasses}`}
+      className={`${baseClasses} ${primary ? primaryClasses : highlight ? highlightClasses : normalClasses} ${className ?? ""}`}
     >
       {Icon ? <Icon size={16} className="shrink-0" /> : null}
       {label}

@@ -751,26 +751,40 @@ const SubjectCard = ({ subject, semester, activeSemester = true }) => (
         {subject.description}
       </p>
 
-      <div className="flex flex-col gap-2 border-t border-white/5 pt-5 sm:flex-row sm:flex-wrap">
-        <ActionButton
-          icon={Book}
-          label="Notes"
-          href={subject.notesLink}
-          primary
-        />
-        <ActionButton
-          icon={FileText}
-          label="Syllabus"
-          href={subject.syllabusPdf}
-          newTab
-        />
-        <ActionButton icon={History} label="Papers" href={subject.pyqLink} />
-        <ActionButton
-          icon={Sparkles}
-          label="Viva Questions"
-          href={subject.vivaLink ?? `/semester/${semester}/${subject.slug ?? createSubjectSlug(subject.name)}/viva`}
-          highlight
-        />
+      <div className="grid grid-cols-1 gap-2 border-t border-white/5 pt-5 sm:grid-cols-2">
+        <div className="w-full">
+          <ActionButton
+            icon={Book}
+            label="Notes"
+            href={subject.notesLink}
+            primary
+            className="w-full"
+          />
+        </div>
+
+        <div className="w-full">
+          <ActionButton
+            icon={FileText}
+            label="Syllabus"
+            href={subject.syllabusPdf}
+            newTab
+            className="w-full"
+          />
+        </div>
+
+        <div className="w-full">
+          <ActionButton icon={History} label="Papers" href={subject.pyqLink} className="w-full" />
+        </div>
+
+        <div className="w-full">
+          <ActionButton
+            icon={Sparkles}
+            label="Viva Questions"
+            href={subject.vivaLink ?? `/semester/${semester}/${subject.slug ?? createSubjectSlug(subject.name)}/viva`}
+            highlight
+            className="w-full"
+          />
+        </div>
       </div>
       {(subject.syllabusPdf !== "#" || subject.pyqLink !== "#" || subject.slug) && (
         <p className="mt-4 text-[10px] text-gray-400">

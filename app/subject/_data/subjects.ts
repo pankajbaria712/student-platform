@@ -330,7 +330,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "GTU Semester 7 Compiler Design overview covering lexical analysis, parsing, and code generation.",
     syllabusPdf: "/pdfs/syllabus/compiler-design-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "compiler-design",
     heroBadge: "Systems & Translators",
     features: [
       "Compiler theory overview",
@@ -360,7 +361,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 resources for wireless communication, mobility management, and mobile network systems.",
     syllabusPdf: "/pdfs/syllabus/mobile-computing-and-wireless-communication-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "mobile-computing-and-wireless-communication",
     heroBadge: "Wireless Systems",
     features: [
       "Wireless communication overview",
@@ -390,7 +392,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 AI fundamentals covering reasoning, planning, and intelligent system concepts.",
     syllabusPdf: "/pdfs/syllabus/artificial-intelligence-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "artificial-intelligence",
     heroBadge: "Future Tech",
     features: [
       "AI concept overview",
@@ -416,7 +419,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 cloud computing overview covering virtualized infrastructure and delivery models.",
     syllabusPdf: "/pdfs/syllabus/cloud-computing-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "cloud-computing",
     heroBadge: "Scalable Systems",
     features: [
       "Virtualization overview",
@@ -442,7 +446,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "GTU Semester 7 Information Retrieval overview for search, ranking, and indexing concepts.",
     syllabusPdf: "/pdfs/syllabus/information-retrieval-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "information-retrieval",
     heroBadge: "Search Systems",
     features: [
       "Search engine fundamentals",
@@ -468,7 +473,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 distributed systems overview covering coordination, consistency, and fault tolerance.",
     syllabusPdf: "/pdfs/syllabus/distributed-system-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "distributed-system",
     heroBadge: "Coordination & Scaling",
     features: [
       "Distributed communication concepts",
@@ -494,7 +500,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 cyber security concepts covering cryptography, authentication, and secure systems.",
     syllabusPdf: "/pdfs/syllabus/information-security-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "information-security",
     heroBadge: "Security Foundations",
     features: [
       "Security principles overview",
@@ -520,7 +527,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 coverage of concurrency, parallelism, scheduling, and distributed execution patterns.",
     syllabusPdf: "/pdfs/syllabus/parallel-and-distributed-computing-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "parallel-and-distributed-computing",
     heroBadge: "Parallel Systems",
     features: [
       "Concurrency and scheduling",
@@ -546,7 +554,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 big data analytics overview for large-scale data processing and insights.",
     syllabusPdf: "/pdfs/syllabus/big-data-analytics-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "big-data-analytics",
     heroBadge: "Data-Driven Insights",
     features: [
       "Analytics pipeline overview",
@@ -572,7 +581,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 NLP overview for text processing, language models, and semantic understanding.",
     syllabusPdf: "/pdfs/syllabus/natural-language-processing-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "natural-language-processing",
     heroBadge: "Language Intelligence",
     features: [
       "Text processing overview",
@@ -598,7 +608,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 machine learning overview for common models, evaluation, and practical workflows.",
     syllabusPdf: "/pdfs/syllabus/machine-learning-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "machine-learning",
     heroBadge: "Model Building",
     features: [
       "Learning algorithm overview",
@@ -624,7 +635,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 digital forensics overview for evidence handling, investigation, and legal processes.",
     syllabusPdf: "/pdfs/syllabus/digital-forensics-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "digital-forensics",
     heroBadge: "Investigation & Evidence",
     features: [
       "Forensic workflow overview",
@@ -650,7 +662,8 @@ export const subjectPageData: Record<string, SubjectPageData> = {
       "Semester 7 mobile app development overview for interface design, coding, and testing.",
     syllabusPdf: "/pdfs/syllabus/mobile-application-development-syllabus.pdf",
     notesStatus: "not-applicable",
-    pyqStatus: "not-applicable",
+    pyqStatus: "available",
+    pyqSlug: "mobile-application-development",
     heroBadge: "App Development",
     features: [
       "Mobile app fundamentals",

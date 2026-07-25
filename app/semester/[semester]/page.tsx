@@ -791,7 +791,7 @@ const SubjectCard = ({ subject, semester, activeSemester = true }) => (
 
 export default function SemesterPage({ params }: SemesterPageProps) {
   const data = semesterData[params.semester] || semesterData["6"];
-  const isActiveSemester = ["5", "6", "7"].includes(params.semester);
+  const isActiveSemester = ["3", "4", "5", "6", "7"].includes(params.semester);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">

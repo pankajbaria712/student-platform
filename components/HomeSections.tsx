@@ -142,7 +142,7 @@ const HomeSections = () => {
         {sectionHeading("Explore by semester", "Choose your semester and start with materials for your current year.")}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {[3, 4, 5, 6, 7, 8].map((semester) => (
-            <SemesterCard key={semester} number={semester} status={semester >= 5 && semester <= 6 ? "Live" : "Coming Soon"} />
+            <SemesterCard key={semester} number={semester} status={semester >= 3 && semester <= 7 ? "Live" : "Coming Soon"} />
           ))}
         </div>
       </section>

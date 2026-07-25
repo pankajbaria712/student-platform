@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   keywords: [
     "GTU",
     "GTU Student Hub",
-    "GTU Diploma Engineering",
+    "GTU Bachelor of Engineering",
     "GTU notes",
     "GTU PYQ papers",
     "GTU viva questions",

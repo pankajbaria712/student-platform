@@ -94,6 +94,7 @@ export default function Navbar() {
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const navRef = useRef<HTMLElement | null>(null);
   const lastScrollY = useRef(0);
   const frameId = useRef<number | null>(null);
   const isScrolledRef = useRef(isScrolled);
@@ -144,6 +145,18 @@ export default function Navbar() {
       document.body.style.overflow = "";
     };
   }, [drawerOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!navRef.current || activeDesktopMenu === null) return;
+      if (event.target instanceof Node && !navRef.current.contains(event.target)) {
+        setActiveDesktopMenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [activeDesktopMenu]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -207,6 +220,7 @@ export default function Navbar() {
       />
 
       <motion.nav
+        ref={navRef}
         className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 transition-colors duration-300 sm:px-6 lg:px-8 ${
           isScrolled
             ? "backdrop-blur-xl bg-slate-950/85 border-b border-white/10 shadow-[0_24px_80px_rgba(15,23,42,0.28)]"

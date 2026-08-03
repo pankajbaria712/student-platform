@@ -17,6 +17,36 @@ import {
   FileText,
 } from "lucide-react";
 
+type NotificationItem = {
+  id: string;
+  title: string;
+  message: string;
+  unread: boolean;
+  href?: string;
+  createdAt: string;
+};
+
+const STORAGE_KEY = "gtu-studenthub-notifications";
+
+const defaultNotifications: NotificationItem[] = [
+  {
+    id: "welcome",
+    title: "Welcome back!",
+    message: "Your dashboard is ready. New study resources are available for you.",
+    unread: true,
+    href: "/notes",
+    createdAt: "Just now",
+  },
+  {
+    id: "semester-6",
+    title: "New notes published",
+    message: "Fresh notes and PYQs have been added for the latest semester content.",
+    unread: true,
+    href: "/pyq",
+    createdAt: "10 min ago",
+  },
+];
+
 const semesterItems = [
   { label: "Semester 1", href: "/semester/1" },
   { label: "Semester 2", href: "/semester/2" },
@@ -94,7 +124,10 @@ export default function Navbar() {
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const navRef = useRef<HTMLElement | null>(null);
+  const notificationsRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
   const frameId = useRef<number | null>(null);
   const isScrolledRef = useRef(isScrolled);
@@ -135,6 +168,28 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as NotificationItem[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setNotifications(parsed);
+          return;
+        }
+      }
+    } catch {
+      // Ignore malformed storage and fall back to defaults.
+    }
+
+    setNotifications(defaultNotifications);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
+  }, [notifications]);
+
+  useEffect(() => {
     if (drawerOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -157,6 +212,18 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [activeDesktopMenu]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!notificationsOpen) return;
+      if (event.target instanceof Node && notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setNotificationsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [notificationsOpen]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -204,6 +271,32 @@ export default function Navbar() {
 
   const toggleDesktopMenu = (label: string) => {
     setActiveDesktopMenu((current) => (current === label ? null : label));
+  };
+
+  const unreadCount = notifications.filter((item) => item.unread).length;
+
+  const toggleNotifications = () => {
+    setNotificationsOpen((current) => !current);
+  };
+
+  const markNotificationAsRead = (id: string) => {
+    setNotifications((current) => current.map((item) => (item.id === id ? { ...item, unread: false } : item)));
+  };
+
+  const markAllNotificationsAsRead = () => {
+    setNotifications((current) => current.map((item) => ({ ...item, unread: false })));
+  };
+
+  const clearNotifications = () => {
+    setNotifications([]);
+  };
+
+  const handleNotificationClick = (item: NotificationItem) => {
+    if (item.href) {
+      router.push(item.href);
+    }
+    markNotificationAsRead(item.id);
+    setNotificationsOpen(false);
   };
 
   return (
@@ -301,14 +394,87 @@ export default function Navbar() {
             </div>
           ))}
 
-          <button
-            type="button"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
-            aria-label="Notifications"
-          >
-            <Bell className="h-5 w-5 text-slate-200 transition group-hover:text-indigo-300" />
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500 text-[11px] font-semibold text-white">2</span>
-          </button>
+          <div ref={notificationsRef} className="relative">
+            <button
+              type="button"
+              onClick={toggleNotifications}
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
+              aria-label="Notifications"
+              aria-expanded={notificationsOpen}
+              aria-haspopup="true"
+            >
+              <Bell className="h-5 w-5 text-slate-200 transition group-hover:text-indigo-300" />
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500 text-[11px] font-semibold text-white">
+                {unreadCount}
+              </span>
+            </button>
+
+            <AnimatePresence>
+              {notificationsOpen ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 12 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute right-0 top-full z-30 mt-3 w-80 overflow-hidden rounded-3xl border border-white/10 bg-slate-950/95 p-3 shadow-[0_40px_120px_rgba(15,23,42,0.35)]"
+                >
+                  <div className="mb-3 flex items-center justify-between px-1">
+                    <div>
+                      <p className="text-sm font-semibold text-white">Notifications</p>
+                      <p className="text-xs text-slate-500">{unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}</p>
+                    </div>
+                    {notifications.length > 0 ? (
+                      <button
+                        type="button"
+                        onClick={markAllNotificationsAsRead}
+                        className="text-xs font-medium text-indigo-300 transition hover:text-indigo-200"
+                      >
+                        Mark all read
+                      </button>
+                    ) : null}
+                  </div>
+
+                  <div className="max-h-80 space-y-2 overflow-auto">
+                    {notifications.length > 0 ? (
+                      notifications.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => handleNotificationClick(item)}
+                          className="flex w-full items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-3 text-left transition hover:bg-white/10"
+                        >
+                          <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${item.unread ? "bg-indigo-400" : "bg-slate-600"}`} />
+                          <span className="flex-1">
+                            <span className="flex items-center justify-between gap-3">
+                              <span className="text-sm font-semibold text-white">{item.title}</span>
+                              <span className="text-[11px] text-slate-500">{item.createdAt}</span>
+                            </span>
+                            <span className="mt-1 block text-sm text-slate-400">{item.message}</span>
+                          </span>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-3 py-6 text-center text-sm text-slate-400">
+                        No notifications yet.
+                      </div>
+                    )}
+                  </div>
+
+                  {notifications.length > 0 ? (
+                    <div className="mt-3 flex justify-end">
+                      <button
+                        type="button"
+                        onClick={clearNotifications}
+                        className="text-xs font-medium text-slate-400 transition hover:text-slate-200"
+                      >
+                        Clear all
+                      </button>
+                    </div>
+                  ) : null}
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
 
           {!session ? (
             <Link
@@ -332,13 +498,84 @@ export default function Navbar() {
 
         <div className="flex flex-1 items-center justify-end md:hidden">
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 shadow-md shadow-black/10 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
-              aria-label="Open notifications"
-            >
-              <Bell className="h-5 w-5" />
-            </button>
+            <div ref={notificationsRef} className="relative">
+              <button
+                type="button"
+                onClick={toggleNotifications}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 shadow-md shadow-black/10 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
+                aria-label="Open notifications"
+                aria-expanded={notificationsOpen}
+                aria-haspopup="true"
+              >
+                <Bell className="h-5 w-5" />
+              </button>
+
+              <AnimatePresence>
+                {notificationsOpen ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute right-0 top-full z-30 mt-3 w-72 overflow-hidden rounded-3xl border border-white/10 bg-slate-950/95 p-3 shadow-[0_40px_120px_rgba(15,23,42,0.35)]"
+                  >
+                    <div className="mb-3 flex items-center justify-between px-1">
+                      <div>
+                        <p className="text-sm font-semibold text-white">Notifications</p>
+                        <p className="text-xs text-slate-500">{unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}</p>
+                      </div>
+                      {notifications.length > 0 ? (
+                        <button
+                          type="button"
+                          onClick={markAllNotificationsAsRead}
+                          className="text-xs font-medium text-indigo-300 transition hover:text-indigo-200"
+                        >
+                          Mark all read
+                        </button>
+                      ) : null}
+                    </div>
+
+                    <div className="max-h-72 space-y-2 overflow-auto">
+                      {notifications.length > 0 ? (
+                        notifications.map((item) => (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => handleNotificationClick(item)}
+                            className="flex w-full items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-3 text-left transition hover:bg-white/10"
+                          >
+                            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${item.unread ? "bg-indigo-400" : "bg-slate-600"}`} />
+                            <span className="flex-1">
+                              <span className="flex items-center justify-between gap-3">
+                                <span className="text-sm font-semibold text-white">{item.title}</span>
+                                <span className="text-[11px] text-slate-500">{item.createdAt}</span>
+                              </span>
+                              <span className="mt-1 block text-sm text-slate-400">{item.message}</span>
+                            </span>
+                          </button>
+                        ))
+                      ) : (
+                        <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-3 py-6 text-center text-sm text-slate-400">
+                          No notifications yet.
+                        </div>
+                      )}
+                    </div>
+
+                    {notifications.length > 0 ? (
+                      <div className="mt-3 flex justify-end">
+                        <button
+                          type="button"
+                          onClick={clearNotifications}
+                          className="text-xs font-medium text-slate-400 transition hover:text-slate-200"
+                        >
+                          Clear all
+                        </button>
+                      </div>
+                    ) : null}
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
             {session ? (
               <button
                 type="button"

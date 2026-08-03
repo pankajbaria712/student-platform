@@ -25,6 +25,7 @@ import {
   Zap,
   Briefcase,
   Smartphone,
+  Wrench,
 } from "lucide-react";
 import ActionButton from "@/components/ActionButton";
 import Disclaimer from "@/components/Disclaimer";
@@ -61,10 +62,161 @@ export function generateMetadata({ params }: { params: { semester: string } }): 
 }
 
 const semesterData = {
+  "1": {
+    heading: "Semester 1",
+    subtitle:
+      "Foundation subjects for first-year engineering students.",
+    subjects: [
+      {
+        code: "3110002",
+        name: "English",
+        credits: 3,
+        category: "Humanities and Social Science",
+        icon: <Book className="text-sky-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Communication skills, grammar, and technical English for engineering academics.",
+      },
+      {
+        code: "3110003",
+        name: "Programming for Problem Solving",
+        credits: 4,
+        category: "Engineering Science",
+        icon: <Code className="text-orange-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Problem solving techniques, algorithms, and introductory programming concepts.",
+      },
+      {
+        code: "3110005",
+        name: "Basic Electrical Engineering",
+        credits: 4,
+        category: "Engineering Science",
+        icon: <Zap className="text-amber-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Fundamentals of electrical circuits, machines, and power systems.",
+      },
+      {
+        code: "3110006",
+        name: "Basic Mechanical Engineering",
+        credits: 4,
+        category: "Engineering Science",
+        icon: <Cpu className="text-emerald-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Mechanical concepts, manufacturing basics, and engineering fundamentals.",
+      },
+      {
+        code: "3110007",
+        name: "Environmental Sciences",
+        credits: 0,
+        category: "Mandatory",
+        icon: <Cloud className="text-cyan-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Environmental awareness, ecosystems, and sustainable development basics.",
+      },
+      {
+        code: "3110012",
+        name: "Workshop/Manufacturing Practices",
+        credits: 2,
+        category: "Engineering Science",
+        icon: <Wrench className="text-violet-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Hands-on workshop practices, fabrication skills, and manufacturing methods.",
+      },
+      {
+        code: "3110013",
+        name: "Engineering Graphics & Design",
+        credits: 4,
+        category: "Engineering Science",
+        icon: <Palette className="text-purple-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Technical drawing, visualization, and engineering design fundamentals.",
+      },
+      {
+        code: "3110014",
+        name: "Mathematics - 1",
+        credits: 5,
+        category: "Basic Science",
+        icon: <BarChart3 className="text-red-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Calculus, differential equations, and mathematical foundations for engineering.",
+      },
+      {
+        code: "3110015",
+        name: "Mathematics - 2",
+        credits: 5,
+        category: "Basic Science",
+        icon: <BarChart3 className="text-red-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Advanced mathematics concepts including linear algebra and vector calculus.",
+      },
+      {
+        code: "3110016",
+        name: "Basic Electronics",
+        credits: 4,
+        category: "Engineering Science",
+        icon: <Binary className="text-blue-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Electronic devices, circuits, and basic semiconductor concepts.",
+      },
+      {
+        code: "3110017",
+        name: "Induction Program",
+        credits: 0,
+        category: "Mandatory",
+        icon: <UserCheck className="text-emerald-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Orientation and induction activities for a smooth transition into engineering life.",
+      },
+      {
+        code: "3110018",
+        name: "Physics",
+        credits: 4,
+        category: "Basic Science (Elective)",
+        icon: <Globe className="text-pink-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Core physics principles covering mechanics, optics, and modern physics.",
+      },
+    ],
+  },
   "3": {
     heading: "Semester 3",
     subtitle:
-      "Core science and communication subjects for strong foundational learning.",
+      "Subjects from the provided GTU semester 3 syllabus data.",
     subjects: [
       {
         code: "3130004",
@@ -73,9 +225,8 @@ const semesterData = {
         category: "Humanities and Social Science",
         icon: <Book className="text-sky-400" />,
         notesLink: "#",
-        syllabusPdf:
-          "/pdfs/syllabus/effective-technical-communication-syllabus.pdf",
-        pyqLink: "/pyq/effective-technical-communication",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Communication strategies, technical writing, and professional presentation skills.",
       },
@@ -86,8 +237,8 @@ const semesterData = {
         category: "Basic Science",
         icon: <BarChart3 className="text-red-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/probability-and-statistics-syllabus.pdf",
-        pyqLink: "/pyq/probability-and-statistics",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Random variables, distributions, and statistical analysis for engineering.",
       },
@@ -98,8 +249,8 @@ const semesterData = {
         category: "Mandatory",
         icon: <Globe className="text-pink-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/indian-constitution-syllabus.pdf",
-        pyqLink: "/pyq/indian-constitution",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "The Indian Constitution, fundamental rights, duties, and governance structure.",
       },
@@ -110,8 +261,8 @@ const semesterData = {
         category: "Project Work",
         icon: <Palette className="text-purple-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/design-engineering-IA-syllabus.pdf",
-        pyqLink: "/pyq/design-engineering-IA",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Design-thinking, prototype development, and engineering creativity.",
       },
@@ -122,8 +273,8 @@ const semesterData = {
         category: "Professional Core",
         icon: <Cpu className="text-emerald-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/data-structures-syllabus.pdf",
-        pyqLink: "/pyq/data-structures",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Stack, queue, tree, and graph structures with algorithmic performance analysis.",
       },
@@ -134,8 +285,8 @@ const semesterData = {
         category: "Professional Core",
         icon: <Database className="text-yellow-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/database-management-systems-syllabus.pdf",
-        pyqLink: "/pyq/database-management-systems",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Relational databases, SQL, normalization, and transaction processing.",
       },
@@ -146,8 +297,8 @@ const semesterData = {
         category: "Engineering Science",
         icon: <Binary className="text-blue-400" />,
         notesLink: "#",
-        syllabusPdf: "/pdfs/syllabus/digital-fundamentals-syllabus.pdf",
-        pyqLink: "/pyq/digital-fundamentals",
+        syllabusPdf: "#",
+        pyqLink: "#",
         description:
           "Digital logic, number systems, and fundamentals of computer hardware.",
       },
@@ -156,67 +307,79 @@ const semesterData = {
   "4": {
     heading: "Semester 4",
     subtitle:
-      "Systems, networks, databases, and software engineering principles.",
+      "Core engineering and programming subjects from the provided GTU semester 4 syllabus data.",
     subjects: [
       {
-        code: "3160401",
-        name: "Operating Systems",
-        credits: 4,
-        category: "Core",
+        code: "3140005",
+        name: "Design Engineering - I B",
+        credits: 1,
+        category: "Project Work",
+        icon: <Palette className="text-purple-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Design thinking, project development, and engineering problem solving.",
+      },
+      {
+        code: "3140702",
+        name: "Operating System",
+        credits: 5,
+        category: "Professional Core",
         icon: <Cpu className="text-emerald-400" />,
         notesLink: "#",
         syllabusPdf: "#",
         pyqLink: "#",
         description:
-          "Process management, memory organization, file systems, and concurrency.",
+          "Operating system concepts and practical implementation for engineering students.",
       },
       {
-        code: "3160402",
-        name: "Database Management Systems",
-        credits: 4,
-        category: "Core",
-        icon: <Database className="text-yellow-400" />,
-        notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
-        description:
-          "Relational models, SQL, normalization, and transaction processing.",
-      },
-      {
-        code: "3160403",
-        name: "Computer Networks",
-        credits: 4,
-        category: "Core",
-        icon: <Wifi className="text-indigo-400" />,
-        notesLink: "#",
-        syllabusPdf: "#",
-        pyqLink: "#",
-        description:
-          "Network layers, routing, switching, and secure internet protocols.",
-      },
-      {
-        code: "3160404",
-        name: "Software Engineering",
-        credits: 4,
-        category: "Core",
+        code: "3140705",
+        name: "Object Oriented Programming - I",
+        credits: 5,
+        category: "Professional Core",
         icon: <Code className="text-orange-400" />,
         notesLink: "#",
         syllabusPdf: "#",
         pyqLink: "#",
         description:
-          "Software lifecycle, requirements, testing, and agile collaboration.",
+          "Core object-oriented programming concepts with practical implementation.",
       },
       {
-        code: "3160405",
-        name: "Probability & Statistics",
-        credits: 3,
-        category: "Foundation",
+        code: "3140707",
+        name: "Computer Organization & Architecture",
+        credits: 4,
+        category: "Professional Core",
+        icon: <Binary className="text-blue-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "CPU design, memory hierarchy, and instruction cycle fundamentals.",
+      },
+      {
+        code: "3140708",
+        name: "Discrete Mathematics",
+        credits: 5,
+        category: "Basic Science",
         icon: <BarChart3 className="text-red-400" />,
         notesLink: "#",
         syllabusPdf: "#",
         pyqLink: "#",
         description:
-          "Statistical methods, random variables, distributions, and estimation.",
+          "Discrete structures, logic, and mathematical foundations for computer engineering.",
+      },
+      {
+        code: "3140709",
+        name: "Principles of Economics and Management",
+        credits: 3,
+        category: "Humanities and Social Science",
+        icon: <Briefcase className="text-amber-400" />,
+        notesLink: "#",
+        syllabusPdf: "#",
+        pyqLink: "#",
+        description:
+          "Economic principles and management concepts for engineering professionals.",
       },
     ],
   },

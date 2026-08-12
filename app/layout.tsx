@@ -26,13 +26,13 @@ export const metadata: Metadata = {
   description:
     "Access semester notes, PYQs, and downloadable solution PDFs for BE Computer Engineering students.",
   keywords: [
-    "GTU",
-    "GTU Student Hub",
-    "GTU Bachelor of Engineering",
+    "gtu syllabus",
+    "GTURanker",
+    "GTU previous year question papers",
     "GTU notes",
-    "GTU PYQ papers",
-    "GTU viva questions",
-    "GTU MCQ practice",
+    "GTU Papers Solutions",
+    "GTU viva Practice",
+    "IPDC MCQ practice",
   ],
   alternates: {
     canonical: "/",
@@ -91,7 +91,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+        { /*<Script src="https://checkout.razorpay.com/v1/checkout.js" /> */}
         <Analytics />
         <SpeedInsights />
       </body>

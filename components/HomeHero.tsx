@@ -1,63 +1,148 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Layers, Search, Sparkles } from "lucide-react";
+import type { HomepageSubject } from "@/components/HomeSections";
 
-export default function HomeHero() {
+type HomeHeroProps = {
+  subjects: HomepageSubject[];
+};
+
+export default function HomeHero({ subjects }: HomeHeroProps) {
+  const [query, setQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+  const normalizedQuery = submittedQuery.toLowerCase();
+  const results = subjects
+    .filter((subject) =>
+      `${subject.title} ${subject.code} semester ${subject.semester}`
+        .toLowerCase()
+        .includes(normalizedQuery),
+    )
+    .slice(0, 5);
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmittedQuery(query.trim());
+  };
+
   return (
-    <section className="relative w-full overflow-hidden rounded-[2rem] bg-slate-950/90 shadow-[0_20px_60px_rgba(15,23,42,0.3)]">
-      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 md:py-8 lg:px-8 xl:px-10 lg:py-10">
-        <div className="grid w-full gap-4 sm:gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-8">
-          <div className="space-y-3 sm:space-y-4 md:space-y-5 text-center lg:text-left lg:max-w-[620px]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-300">
-              <Sparkles className="h-4 w-4 text-indigo-300" />
-              GTU Study Resources
-            </div>
+    <section className="relative overflow-hidden border-b border-white/10 bg-slate-950">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 -top-48 h-96 w-96 rounded-full bg-indigo-600/10 blur-3xl"
+      />
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-8 lg:py-20">
+        <div>
+          <p className="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-400/10 px-3 py-1.5 text-xs font-semibold text-indigo-200">
+            <Sparkles aria-hidden="true" className="h-4 w-4" />
+            GTU study resources
+          </p>
+          <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Your GTU Preparation Starts Here.
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+            Find semester-wise notes, previous year papers, syllabus PDFs, and
+            practice resources in one easy-to-navigate place.
+          </p>
 
-            <h1 className="text-[1.75rem] font-black leading-snug tracking-[-0.03em] text-white sm:text-[2rem] md:text-[2.5rem] lg:text-[3.75rem] lg:leading-tight">
-              Find GTU Notes, PYQs, MCQs, and Study Resources Faster.
-            </h1>
-
-            <p className="mx-auto max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7 md:text-[1.02rem] md:leading-8 lg:mx-0">
-              Access semester-wise notes, previous year papers, MCQ practice, and verified GTU study materials in one premium mobile-first hub.
-            </p>
-
-            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-              <Link
-                href="/semester/5"
-                className="inline-flex min-h-[44px] w-full items-center justify-center rounded-2xl bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 sm:text-base"
+          <form
+            id="resource-search"
+            className="mt-8 max-w-2xl"
+            role="search"
+            onSubmit={handleSearch}
+          >
+            <label htmlFor="homepage-resource-search" className="sr-only">
+              Search by subject, subject code, or semester
+            </label>
+            <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-slate-900 p-2 sm:flex-row">
+              <div className="flex min-w-0 flex-1 items-center gap-3 px-3">
+                <Search aria-hidden="true" className="h-5 w-5 shrink-0 text-slate-400" />
+                <input
+                  id="homepage-resource-search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                    setSubmittedQuery("");
+                  }}
+                  placeholder="Try “Advanced Java” or a subject code"
+                  className="min-h-11 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-indigo-500 px-5 text-sm font-semibold text-white transition hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
-                Browse Semesters
-              </Link>
-              <Link
-                href="/notes"
-                className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 sm:text-base"
+                Search Resources
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </button>
+            </div>
+            {submittedQuery ? (
+              <div
+                className="mt-3 overflow-hidden rounded-2xl border border-white/10 bg-slate-900"
+                aria-live="polite"
               >
-                Explore Resources
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+                {results.length > 0 ? (
+                  <ul>
+                    {results.map((subject) => (
+                      <li key={subject.slug} className="border-b border-white/5 last:border-0">
+                        <Link
+                          href={`/pyq/${subject.slug}`}
+                          className="flex min-h-14 items-center justify-between gap-4 px-4 py-3 text-sm text-slate-200 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-300"
+                        >
+                          <span>
+                            <span className="block font-medium text-white">{subject.title}</span>
+                            <span className="mt-1 block text-xs text-slate-400">
+                              Semester {subject.semester}
+                              {subject.code ? ` · ${subject.code}` : ""}
+                            </span>
+                          </span>
+                          <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-indigo-300" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="px-4 py-4 text-sm text-slate-300">
+                    No matching subjects were found. Try a subject name or code.
+                  </p>
+                )}
+              </div>
+            ) : null}
+          </form>
 
-            <div className="grid gap-2 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
-              {[
-                "Subjects",
-                "Notes",
-                "PYQs",
-                "Semesters",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-200 sm:px-4 sm:py-3 sm:text-[11px]">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hidden lg:block relative overflow-hidden rounded-[1.75rem]">
-            <img
-              src="/image.png"
-              alt="GTU Notes and PYQs"
-              className="h-full w-full min-h-[260px] max-h-[600px] rounded-[1.5rem] object-fit object-center transition-transform duration-300 hover:scale-105"
-            />
-          </div>
+          <Link
+            href="#semesters"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl px-1 text-sm font-semibold text-slate-200 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+          >
+            Browse Semesters
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
         </div>
+
+        <aside className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 sm:p-8">
+          <h2 className="text-lg font-semibold text-white">A clearer way to prepare</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            Start with your semester, choose a subject, then open the resource
+            that fits your study session.
+          </p>
+          <ul className="mt-6 space-y-4">
+            {[
+              { label: "Chapter-wise notes", icon: BookOpen },
+              { label: "Previous year papers", icon: FileText },
+              { label: "MCQ practice", icon: Sparkles },
+              { label: "Subject syllabus PDFs", icon: Layers },
+            ].map(({ label, icon: Icon }) => (
+              <li key={label} className="flex items-center gap-3 text-sm text-slate-200">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-indigo-300">
+                  <Icon aria-hidden="true" className="h-4 w-4" />
+                </span>
+                {label}
+              </li>
+            ))}
+          </ul>
+        </aside>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import React from "react";
 import {
   Book,
@@ -31,11 +32,12 @@ import ActionButton from "@/components/ActionButton";
 import Disclaimer from "@/components/Disclaimer";
 
 export function generateMetadata({ params }: { params: { semester: string } }): Metadata {
-  const data = semesterData[params.semester] || semesterData["6"];
+  const data = semesterData[params.semester];
 
   return {
     title: `GTU Semester ${params.semester} — Computer Engineering`,
-    description: `GTU Semester ${params.semester} resources for Computer Engineering students. Access syllabus PDFs, PYQs, and exam-ready subject guides.`,
+    description: data?.subtitle ??
+      `GTU Semester ${params.semester} resource catalog for Computer Engineering students.`,
     keywords: [
       `GTU Semester ${params.semester}`,
       "GTU study material",
@@ -212,6 +214,11 @@ const semesterData = {
           "Core physics principles covering mechanics, optics, and modern physics.",
       },
     ],
+  },
+  "2": {
+    heading: "Semester 2",
+    subtitle: "Semester 2 subjects and resources are not listed in the current catalog yet.",
+    subjects: [],
   },
   "3": {
     heading: "Semester 3",
@@ -967,8 +974,9 @@ const SubjectCard = ({ subject, semester, activeSemester = true }) => (
 );
 
 export default function SemesterPage({ params }: SemesterPageProps) {
-  const data = semesterData[params.semester] || semesterData["6"];
-  const isActiveSemester = ["3", "4", "5", "6", "7"].includes(params.semester);
+  const data = semesterData[params.semester];
+  if (!data) notFound();
+  const isActiveSemester = data.subjects.length > 0;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sans text-white antialiased selection:bg-indigo-500/30">
@@ -990,7 +998,7 @@ export default function SemesterPage({ params }: SemesterPageProps) {
                 Semester {params.semester} is on the roadmap.
               </h2>
               <p className="mt-3 text-sm leading-6 text-gray-200">
-                Semester 6 is the current focus. Upcoming semesters are being prepared with notes, PYQs, and solution packs.
+                Subject resources for this semester are not listed in the current catalog yet. Browse another semester to continue.
               </p>
             </div>
           ) : null}
@@ -1018,22 +1026,31 @@ export default function SemesterPage({ params }: SemesterPageProps) {
         </header>
 
         {/* Subjects Grid - Optimized for all 11 subjects */}
-        <div className="mb-16 grid grid-cols-1 gap-4 sm:mb-20 sm:gap-5 md:grid-cols-2 lg:mb-24 lg:grid-cols-3">
-          {data.subjects.map((sub) => (
-            <SubjectCard
-              key={sub.code}
-              subject={sub}
-              semester={params.semester}
-              activeSemester={isActiveSemester}
-            />
-          ))}
-
-          
-        </div>
+        {data.subjects.length > 0 ? (
+          <div className="mb-16 grid grid-cols-1 gap-4 sm:mb-20 sm:gap-5 md:grid-cols-2 lg:mb-24 lg:grid-cols-3">
+            {data.subjects.map((sub) => (
+              <SubjectCard
+                key={sub.code}
+                subject={sub}
+                semester={params.semester}
+                activeSemester={isActiveSemester}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mb-16 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:mb-20 sm:p-8 lg:mb-24">
+            <h2 className="text-xl font-semibold text-white">
+              Semester 2 resources are not listed yet
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              The current subject catalog does not include Semester 2 material. No subjects or resources are shown here.
+            </p>
+          </div>
+        )}
         <div className="mb-12">
           <h3 className="mb-4 text-lg font-bold text-white">Explore Other Semesters</h3>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
-            {['1','2','3','4','5','6','7'].map((s) => (
+            {['1','2','3','4','5','6','7','8'].map((s) => (
               <a
                 key={s}
                 href={`/semester/${s}`}

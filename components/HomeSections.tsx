@@ -2,206 +2,301 @@
 
 import { useState } from "react";
 import Link from "next/link";
-// Use lightweight inline SVGs instead of importing lucide-react to avoid SSR/module issues
-const ArrowRight = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M5 12h14" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M13 5l7 7-7 7" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+import { ArrowRight, BookOpen, ClipboardList, FileText, Layers } from "lucide-react";
 
-const BookOpen = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M3 6a3 3 0 0 1 3-3h12v16a1 1 0 0 1-1 1H6a3 3 0 0 1-3-3V6z" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M21 6v12a3 3 0 0 0-3-3H9" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+export type HomepageSubject = {
+  slug: string;
+  title: string;
+  code: string;
+  semester: number;
+};
 
-const ClipboardList = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M9 2h6v4H9z" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <rect x="3" y="6" width="18" height="16" rx="2" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M8 12h8M8 16h8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+export type HomepageResource = {
+  title: string;
+  subject: string;
+  semester: number;
+  type: string;
+  year: string;
+  term: string;
+  href: string;
+};
 
-const FileText = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M14 2v6h6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M8 12h8M8 16h8" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+type HomeSectionsProps = {
+  subjects: HomepageSubject[];
+  recentResources: HomepageResource[];
+};
 
-const Layers = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M12 2l9 6-9 6-9-6 9-6z" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M3 14l9 6 9-6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+const semesters = Array.from({ length: 8 }, (_, index) => index + 1);
+const curatedSubjectSlugs = [
+  "advanced-java-programming",
+  "data-structures",
+  "computer-networks",
+  "software-engineering",
+  "theory-of-computation",
+];
 
-const Sparkles = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M12 2l1.5 3 3 1.5-3 1.5L12 12l-1.5-3L7 7.5 10 6 11.5 3 12 2z" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const Zap = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-    <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const sectionHeading = (title: string, subtitle: string) => (
-  <div className="max-w-3xl">
-    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">{title}</p>
-    <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl">{subtitle}</h2>
-  </div>
-);
-
-const SemesterCard = ({ number, status }: { number: number; status: string }) => (
-  <Link
-    href={`/semester/${number}`}
-    className="flex min-h-[170px] flex-col justify-between rounded-3xl border border-slate-700/70 bg-slate-950/95 p-5 transition hover:border-slate-500/70 hover:bg-slate-900/95"
-  >
-    <div className="flex items-center justify-between gap-4">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Semester</p>
-        <p className="mt-3 text-3xl font-bold text-white">{number}</p>
-      </div>
-      <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${status === "Live" ? "bg-emerald-500/15 text-emerald-200" : "bg-slate-700/70 text-slate-300"}`}>
-        {status}
-      </span>
-    </div>
-    <p className="mt-5 text-sm leading-6 text-slate-400">Notes, PYQs, solutions, and syllabus resources for semester {number}.</p>
-  </Link>
-);
-
-const ResourceCard = ({ icon: Icon, title, description, href }: { icon: any; title: string; description: string; href: string }) => (
-  <Link
-    href={href}
-    className="flex min-h-[220px] flex-col justify-between rounded-3xl border border-slate-700/70 bg-slate-950/95 p-6 transition hover:border-slate-500/70 hover:bg-slate-900/95"
-  >
-    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-800 text-slate-100">
-      <Icon className="h-5 w-5" />
-    </div>
-    <div className="space-y-3">
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-      <p className="text-sm leading-6 text-slate-400">{description}</p>
-    </div>
-    <span className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-300">
-      Open <ArrowRight className="h-4 w-4" />
-    </span>
-  </Link>
-);
-
-const faqItems = [
+const resourceTypes = [
   {
-    question: "Is GTU Student Hub free?",
-    answer: "Yes. The platform offers free access to notes, PYQs, syllabus guides, and MCQ practice so GTU students can start preparing right away.",
+    title: "Notes",
+    description: "Open the available chapter-wise notes collection.",
+    href: "/notes/advanced-java-programming",
+    icon: BookOpen,
   },
   {
-    question: "How do I access notes?",
-    answer: "Use the search bar, explore semester pages, or choose your subject card to open chapter notes instantly.",
+    title: "Previous year questions",
+    description: "Browse real GTU papers organized by subject and exam.",
+    href: "/pyq/advanced-java-programming",
+    icon: FileText,
   },
   {
-    question: "Can I download PDFs?",
-    answer: "Most notes and solutions are available as downloadable PDFs for offline study.",
+    title: "MCQ practice",
+    description: "Practice with the existing IPDC test library.",
+    href: "/test/ipdc",
+    icon: ClipboardList,
   },
   {
-    question: "How often are resources updated?",
-    answer: "We update GTU resources regularly to keep papers, notes, and practice aligned with the latest syllabus.",
+    title: "Syllabus",
+    description: "Open a subject page with its syllabus PDF.",
+    href: "/subject/software-engineering",
+    icon: Layers,
   },
 ];
 
-const HomeSections = () => {
-  const [expanded, setExpanded] = useState<null | number>(0);
+const faqItems = [
+  {
+    question: "How do I find resources for my subject?",
+    answer:
+      "Search by subject name or code, or choose a semester to browse its available subject pages.",
+  },
+  {
+    question: "How are the latest papers selected?",
+    answer:
+      "The latest papers are ordered by the exam year and session in the catalog. Upload dates are not available in the current resource data.",
+  },
+  {
+    question: "Where can I report a broken resource?",
+    answer:
+      "Use the report link on this page to email the team with the subject and resource link so it can be checked.",
+  },
+];
+
+function SectionHeading({ id, eyebrow, title, description }: {
+  id?: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="max-w-3xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+        {eyebrow}
+      </p>
+      <h2 id={id} className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        {title}
+      </h2>
+      {description ? (
+        <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
+          {description}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export default function HomeSections({ subjects, recentResources }: HomeSectionsProps) {
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const curatedSubjects = curatedSubjectSlugs
+    .map((slug) => subjects.find((subject) => subject.slug === slug))
+    .filter((subject): subject is HomepageSubject => Boolean(subject));
 
   return (
-    <div className="space-y-16 px-4 pb-20 sm:px-6 lg:px-8">
-      <section id="why" className="space-y-8 rounded-3xl border border-slate-700/70 bg-slate-950/95 px-5 py-8 sm:px-7 sm:py-10">
-        {sectionHeading("Why GTU Student Hub", "A clean, reliable study hub built for GTU students.")}
-        <p className="max-w-3xl text-base leading-7 text-slate-300">
-          Find semester notes, past papers, MCQ practice, and syllabus guides in one organized place. The platform is built for quick review, easy access, and confident exam preparation.
-        </p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            { label: "Notes", value: "Chapters and summaries" },
-            { label: "PYQs", value: "Solved previous year papers" },
-            { label: "MCQ", value: "Practice with instant feedback" },
-          ].map((item) => (
-            <div key={item.label} className="rounded-3xl border border-slate-700/70 bg-slate-900/95 p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{item.label}</p>
-              <p className="mt-3 text-base font-semibold text-white">{item.value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="semesters" className="space-y-8">
-        {sectionHeading("Explore by semester", "Choose your semester and start with materials for your current year.")}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {[3, 4, 5, 6, 7, 8].map((semester) => (
-            <SemesterCard key={semester} number={semester} status={semester >= 3 && semester <= 7 ? "Live" : "Coming Soon"} />
-          ))}
-        </div>
-      </section>
-
-      <section id="resources" className="space-y-8">
-        {sectionHeading("Student resources", "Access the study tools GTU students use most.")}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <ResourceCard icon={BookOpen} title="Notes" description="Chapter notes, summaries, and revision guides." href="/notes" />
-          <ResourceCard icon={ClipboardList} title="PYQs" description="Previous year papers and solved answers." href="/pyq" />
-          <ResourceCard icon={Sparkles} title="MCQ Practice" description="Timed quizzes and instant results." href="/mcq" />
-          <ResourceCard icon={Layers} title="Syllabus" description="Semester-wise syllabus and topic mapping." href="/semester/5" />
-          <ResourceCard icon={FileText} title="Solutions" description="Downloadable solution PDFs for fast review." href="/solutions" />
-          <ResourceCard icon={Zap} title="Quick review" description="Find the right material in seconds." href="/notes" />
-        </div>
-      </section>
-
-      <section id="workflow" className="space-y-8 rounded-3xl border border-slate-700/70 bg-slate-950/95 px-5 py-8 sm:px-7 sm:py-10">
-        {sectionHeading("How to use it", "A simple study flow for GTU exam preparation.")}
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            { step: "1", title: "Pick your semester", detail: "Start with your current GTU semester and subject." },
-            { step: "2", title: "Open notes or PYQs", detail: "Use clear navigation to find the exact chapter." },
-            { step: "3", title: "Practice and revise", detail: "Review notes, solve past papers, and test yourself." },
-          ].map((item) => (
-            <div key={item.step} className="rounded-3xl border border-slate-700/70 bg-slate-900/95 p-5">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-800 text-slate-100 font-semibold">{item.step}</div>
-              <h3 className="mt-4 text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-400">{item.detail}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="faq" className="space-y-8">
-        {sectionHeading("Frequently asked questions", "Quick answers for GTU students.")}
-        <div className="space-y-4">
-          {faqItems.map((item, index) => (
-            <div key={item.question} className="overflow-hidden rounded-3xl border border-slate-700/70 bg-slate-950/95">
-              <button
-                type="button"
-                onClick={() => setExpanded(expanded === index ? null : index)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
-              >
-                <span className="text-base font-semibold text-white">{item.question}</span>
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-800 text-slate-300">
-                  {expanded === index ? "−" : "+"}
-                </span>
-              </button>
-              {expanded === index ? (
-                <div className="border-t border-slate-700/70 px-5 py-5 text-sm leading-7 text-slate-300">
-                  {item.answer}
-                </div>
+    <div className="mx-auto max-w-7xl space-y-16 px-4 py-14 sm:px-6 sm:py-16 lg:space-y-20 lg:px-8 lg:py-20">
+      <section id="semesters" aria-labelledby="semesters-heading">
+        <SectionHeading
+          id="semesters-heading"
+          eyebrow="Start with your semester"
+          title="Find your place in the course"
+          description="Choose a semester to open its existing subject and study-material pages."
+        />
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          {semesters.map((semester) => (
+            <Link
+              key={semester}
+              href={`/semester/${semester}`}
+              className="group flex min-h-28 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/70 p-4 transition hover:border-indigo-400/50 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              <span className="text-xs font-medium text-slate-400">Semester</span>
+              <span className="flex items-end justify-between gap-2">
+                <span className="text-2xl font-semibold text-white">{semester}</span>
+                <ArrowRight
+                  aria-hidden="true"
+                  className="mb-1 h-4 w-4 text-slate-500 transition group-hover:translate-x-1 group-hover:text-indigo-300"
+                />
+              </span>
+              {semester === 2 ? (
+                <span className="mt-2 text-xs text-amber-200">Catalog in preparation</span>
               ) : null}
-            </div>
+            </Link>
           ))}
+        </div>
+      </section>
+
+      <section id="resources" aria-labelledby="resources-heading">
+        <SectionHeading
+          id="resources-heading"
+          eyebrow="Study resources"
+          title="Everything you need to revise"
+          description="Go directly to the existing notes, paper, practice, and syllabus pages."
+        />
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {resourceTypes.map(({ title, description, href, icon: Icon }) => (
+            <Link
+              key={title}
+              href={href}
+              className="group rounded-2xl border border-white/10 bg-slate-900/60 p-5 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-400/10 text-indigo-200">
+                <Icon aria-hidden="true" className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 font-semibold text-white">{title}</h3>
+              <p className="mt-2 min-h-12 text-sm leading-6 text-slate-400">{description}</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-indigo-200">
+                Explore
+                <ArrowRight
+                  aria-hidden="true"
+                  className="h-4 w-4 transition group-hover:translate-x-1"
+                />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section id="recent" aria-labelledby="recent-heading">
+        <SectionHeading
+          id="recent-heading"
+          eyebrow="Latest in the catalog"
+          title="Recently added resources"
+          description="Papers are ordered by the exam year and session recorded in the catalog; upload dates are not available."
+        />
+        {recentResources.length > 0 ? (
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+            {recentResources.map((resource) => (
+              <li key={resource.href}>
+                <a
+                  href={resource.href}
+                  className="flex min-h-32 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/60 p-5 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                >
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold leading-6 text-white">{resource.title}</span>
+                    <ArrowRight aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-indigo-300" />
+                  </span>
+                  <span className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+                    <span>{resource.subject}</span>
+                    <span>Semester {resource.semester}</span>
+                    <span>{resource.type}</span>
+                    <span>{resource.term} {resource.year}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-6 rounded-2xl border border-white/10 bg-slate-900/60 p-5 text-sm text-slate-300">
+            No paper files are currently available in the resource catalog.
+          </p>
+        )}
+      </section>
+
+      <section id="subjects" aria-labelledby="subjects-heading">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <SectionHeading
+            id="subjects-heading"
+            eyebrow="A curated starting point"
+            title="Explore popular subjects"
+            description="A handpicked list from the subject catalog, not a ranking based on usage data."
+          />
+        </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {curatedSubjects.map((subject) => (
+            <Link
+              key={subject.slug}
+              href={`/pyq/${subject.slug}`}
+              className="flex min-h-20 items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              <span>
+                <span className="block font-medium text-white">{subject.title}</span>
+                <span className="mt-1 block text-xs text-slate-400">
+                  Semester {subject.semester}
+                  {subject.code ? ` · ${subject.code}` : ""}
+                </span>
+              </span>
+              <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-indigo-300" />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="why"
+        className="grid gap-8 rounded-3xl border border-white/10 bg-slate-900/50 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center"
+        aria-labelledby="why-heading"
+      >
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+            Why GTU Student Hub
+          </p>
+          <h2 id="why-heading" className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
+            Spend less time searching, more time studying.
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
+            Semester and subject pages bring the available study material together, with direct links to papers, notes, syllabus PDFs, and practice where the catalog provides them.
+          </p>
+        </div>
+        <a
+          href="mailto:refunds@gtustudenthub.com?subject=Report%20a%20broken%20resource"
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-indigo-300/30 px-5 py-3 text-sm font-semibold text-indigo-100 transition hover:bg-indigo-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+        >
+          <FileText aria-hidden="true" className="h-4 w-4" />
+          Report a broken resource
+        </a>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-heading">
+        <SectionHeading
+          id="faq-heading"
+          eyebrow="Need a hand?"
+          title="Frequently asked questions"
+        />
+        <div className="mt-6 divide-y divide-white/10 rounded-2xl border border-white/10 bg-slate-900/50">
+          {faqItems.map((item, index) => {
+            const isExpanded = expandedFaq === index;
+            const answerId = `homepage-faq-answer-${index}`;
+
+            return (
+              <div key={item.question} className="p-4 sm:p-5">
+                <button
+                  type="button"
+                  onClick={() => setExpandedFaq(isExpanded ? null : index)}
+                  className="flex min-h-11 w-full items-center justify-between gap-4 text-left font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                  aria-expanded={isExpanded}
+                  aria-controls={answerId}
+                >
+                  {item.question}
+                  <span aria-hidden="true" className="text-xl leading-none text-indigo-300">
+                    {isExpanded ? "−" : "+"}
+                  </span>
+                </button>
+                {isExpanded ? (
+                  <p id={answerId} className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
+                    {item.answer}
+                  </p>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>
   );
-};
-
-export default HomeSections;
+}

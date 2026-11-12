@@ -15,6 +15,7 @@ import {
   X,
   Zap,
   FileText,
+  Search,
 } from "lucide-react";
 
 type NotificationItem = {
@@ -28,91 +29,65 @@ type NotificationItem = {
 
 const STORAGE_KEY = "gtu-studenthub-notifications";
 
-const defaultNotifications: NotificationItem[] = [
-  {
-    id: "welcome",
-    title: "Welcome back!",
-    message: "Your dashboard is ready. New study resources are available for you.",
-    unread: true,
-    href: "/notes",
-    createdAt: "Just now",
-  },
-  {
-    id: "semester-6",
-    title: "New notes published",
-    message: "Fresh notes and PYQs have been added for the latest semester content.",
-    unread: true,
-    href: "/pyq",
-    createdAt: "10 min ago",
-  },
-];
-
 const semesterItems = [
   { label: "Semester 1", href: "/semester/1" },
   { label: "Semester 2", href: "/semester/2" },
   { label: "Semester 3", href: "/semester/3" },
   { label: "Semester 4", href: "/semester/4" },
+  { label: "Semester 5", href: "/semester/5" },
+  { label: "Semester 6", href: "/semester/6" },
+  { label: "Semester 7", href: "/semester/7" },
+  { label: "Semester 8", href: "/semester/8" },
 ];
 
 const subjectItems = [
-  { label: "Advanced Java Programming", href: "/subjects/advanced-java-programming" },
-  { label: "Computer Networks", href: "/subjects/computer-networks" },
-  { label: "Web Programming", href: "/subjects/web-programming" },
-  { label: "Software Engineering", href: "/subjects/software-engineering" },
+  { label: "Advanced Java Programming", href: "/pyq/advanced-java-programming" },
+  { label: "Computer Networks", href: "/pyq/computer-networks" },
+  { label: "Web Programming", href: "/pyq/web-programming" },
+  { label: "Theory of Computation", href: "/pyq/theory-of-computation" },
 ];
 
 const resourcesMenu = [
-  { label: "Notes", href: "/notes", icon: BookOpen },
-  { label: "PYQs", href: "/pyq", icon: FileText },
-  { label: "MCQ Tests", href: "/mcq", icon: Zap },
-  { label: "Syllabus", href: "/syllabus", icon: Layers },
-];
-
-const placementHelpMenu = [
-  { label: "DSA Preparation", href: "/placement/dsa" },
-  { label: "Aptitude Preparation", href: "/placement/aptitude" },
-  { label: "Interview Questions", href: "/placement/interview-questions" },
-  { label: "Resume Building", href: "/placement/resume-building" },
-  { label: "Roadmaps", href: "/placement/roadmaps" },
-  { label: "Placement Experiences", href: "/placement/experiences" },
+  { label: "Search resources", href: "/#resource-search", icon: Search },
+  { label: "Notes", href: "/notes/advanced-java-programming", icon: BookOpen },
+  { label: "Previous year questions", href: "/pyq/advanced-java-programming", icon: FileText },
+  { label: "MCQ practice", href: "/test/ipdc", icon: Zap },
+  { label: "Syllabus", href: "/subject/software-engineering", icon: Layers },
 ];
 
 const desktopNavLinks = [
-  { href: "/", label: "Home" },
+  { href: "/", activePath: "/", label: "Home" },
   {
-    href: "/semester",
+    href: "/semester/1",
+    activePath: "/semester",
     label: "Semesters",
     dropdown: true,
     items: semesterItems,
     description: "Select semester",
   },
   {
-    href: "/subjects",
+    href: "/pyq/advanced-java-programming",
+    activePath: "/pyq",
     label: "Subjects",
     dropdown: true,
     items: subjectItems,
     description: "Popular subjects",
   },
   {
-    href: "/resources",
+    href: "/notes/advanced-java-programming",
+    activePath: "/notes",
     label: "Resources",
     dropdown: true,
     items: resourcesMenu,
     description: "Explore learning resources",
   },
-  {
-    href: "/placement",
-    label: "PlacementHelp",
-    dropdown: true,
-    items: placementHelpMenu,
-    description: "Placement support",
-  },
 ];
 
 const mobileMenuLinks = [
   { href: "/", label: "Home" },
-  { href: "/semester/6", label: "Semesters" },
-  { href: "/placement", label: "PlacementHelp" },
+  { href: "/semester/1", label: "Semesters" },
+  { href: "/pyq/advanced-java-programming", label: "Subjects" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -172,8 +147,11 @@ export default function Navbar() {
       const stored = window.localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as NotificationItem[];
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setNotifications(parsed);
+        if (Array.isArray(parsed)) {
+          const savedNotifications = parsed.filter(
+            (item) => item.id !== "welcome" && item.id !== "semester-6",
+          );
+          setNotifications(savedNotifications);
           return;
         }
       }
@@ -181,7 +159,7 @@ export default function Navbar() {
       // Ignore malformed storage and fall back to defaults.
     }
 
-    setNotifications(defaultNotifications);
+    setNotifications([]);
   }, []);
 
   useEffect(() => {
@@ -344,7 +322,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => toggleDesktopMenu(link.label)}
                   className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    linkActive(link.href) ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5 hover:text-white"
+                    linkActive(link.activePath) ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5 hover:text-white"
                   } focus:outline-none focus:ring-2 focus:ring-indigo-400/40`}
                   aria-expanded={activeDesktopMenu === link.label}
                   aria-haspopup="true"
@@ -356,7 +334,7 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    linkActive(link.href) ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5 hover:text-white"
+                    linkActive(link.activePath) ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5 hover:text-white"
                   } focus:outline-none focus:ring-2 focus:ring-indigo-400/40`}
                 >
                   {link.label}

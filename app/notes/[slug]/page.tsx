@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { subjectPageData } from "@/app/subject/_data/subjects";
+import BookmarkButton from "@/components/BookmarkButton";
 
 const BASE_URL = "https://gtustudenthub.vercel.app";
 
@@ -82,12 +83,25 @@ export default function NotesPage({ params }: NotesPageProps) {
               </p>
             </div>
 
-            <Link
-              href={`/subject/${subject.slug}`}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
-            >
-              Back to subject page
-            </Link>
+            <div className="flex flex-wrap items-center gap-2">
+              <Link
+                href={`/subject/${subject.slug}`}
+                className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-indigo-500 hover:text-white"
+              >
+                Back to subject page
+              </Link>
+              <BookmarkButton
+                resource={{
+                  id: `/notes/${subject.notesSlug ?? params.slug}`,
+                  title: `${subject.title} Notes`,
+                  href: `/notes/${subject.notesSlug ?? params.slug}`,
+                  type: "Notes",
+                  subjectName: subject.title,
+                  subjectCode: subject.code,
+                  semester: subject.semester,
+                }}
+              />
+            </div>
           </div>
         </div>
 

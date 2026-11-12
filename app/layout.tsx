@@ -5,8 +5,13 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/Navbar";
+import StudentEngagementProvider from "@/components/StudentEngagementProvider";
+import { buildSearchIndex } from "@/lib/search/search-data";
 import { GoogleAnalytics } from "@next/third-parties/google";
 const inter = Inter({ subsets: ["latin"] });
+const validResourceHrefs = Array.from(
+  new Set(buildSearchIndex().map((resource) => resource.url)),
+);
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://gtustudenthub.vercel.app");
@@ -89,11 +94,13 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-dvh overflow-x-hidden bg-slate-950 text-slate-100 antialiased`}
       >
-        <Navbar />
-        {children}
-        { /*<Script src="https://checkout.razorpay.com/v1/checkout.js" /> */}
-        <Analytics />
-        <SpeedInsights />
+        <StudentEngagementProvider validResourceHrefs={validResourceHrefs}>
+          <Navbar />
+          {children}
+          { /*<Script src="https://checkout.razorpay.com/v1/checkout.js" /> */}
+          <Analytics />
+          <SpeedInsights />
+        </StudentEngagementProvider>
       </body>
       <GoogleAnalytics gaId="G-B90Y1TNZK6" />
     </html>

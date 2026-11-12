@@ -698,7 +698,7 @@ export const subjectData: SubjectData = {
   },
   "advanced-java-programming": {
     title: "Advanced Java Programming",
-    code: "advanced-java-programming",
+    code: "3160707",
     semester: 6,
     description:
       "Advanced Java concepts, enterprise programming, concurrency, JDBC, and practical GTU question solutions for Semester 6 Computer Engineering.",

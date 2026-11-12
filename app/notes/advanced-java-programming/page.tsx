@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronLeft, Zap } from "lucide-react";
 import Disclaimer from "@/components/Disclaimer";
 import NotesChapterCard from "@/components/NotesChapterCard";
+import BookmarkButton from "@/components/BookmarkButton";
 
 export const metadata: Metadata = {
   title: "GTU Advanced Java Programming Notes",
@@ -97,6 +98,16 @@ export default function AdvancedJavaProgrammingNotesPage() {
               JDBC, Servlets, JSP, JSF, and Hibernate. All notes are completely
               free and available for instant access.
             </p>
+          </div>
+          <div className="mt-5">
+            <BookmarkButton
+              resource={{
+                id: `/notes/${subjectSlug}`,
+                title: "Advanced Java Programming Notes",
+                href: `/notes/${subjectSlug}`,
+                type: "Notes",
+              }}
+            />
           </div>
         </header>
 

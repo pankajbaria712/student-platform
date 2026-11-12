@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, ChevronLeft, Sparkles, XCircle } from "lucide-react";
 import type { IpdcTest } from "@/lib/ipdc/mcqs";
+import { useStudentEngagement } from "@/components/StudentEngagementProvider";
 
 type Props = {
   test: IpdcTest;
@@ -15,6 +16,7 @@ type QuestionItem =
   };
 
 export default function IpdcTestPage({ test }: Props) {
+  const { ready, mcqProgress, saveMcqProgress } = useStudentEngagement();
   const questions = useMemo<QuestionItem[]>(() => {
     const items: QuestionItem[] = [];
     for (const [sectionLabel, sectionData] of Object.entries(test.sections)) {
@@ -30,6 +32,27 @@ export default function IpdcTestPage({ test }: Props) {
 
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const savedProgress = mcqProgress[test.slug];
+
+  useEffect(() => {
+    if (!ready) return;
+
+    const restoredAnswers: Record<number, string> = {};
+    for (const question of questions) {
+      const savedAnswer = savedProgress?.answers[question.id];
+      if (savedAnswer && question.options.includes(savedAnswer)) {
+        restoredAnswers[question.id] = savedAnswer;
+      }
+    }
+
+    setAnswers(restoredAnswers);
+    setSubmitted(
+      Boolean(
+        savedProgress?.completedAt &&
+          savedProgress.totalQuestions === questions.length,
+      ),
+    );
+  }, [questions, ready, savedProgress, test.slug]);
 
   const score = useMemo(
     () =>
@@ -44,11 +67,31 @@ export default function IpdcTestPage({ test }: Props) {
   const answeredCount = Object.keys(answers).length;
 
   const handleSelect = (id: number, option: string) => {
-    setAnswers((prev) => ({ ...prev, [id]: option }));
+    const nextAnswers = { ...answers, [id]: option };
+    setAnswers(nextAnswers);
+    saveMcqProgress({
+      testSlug: test.slug,
+      title: test.title,
+      answers: nextAnswers,
+      totalQuestions: questions.length,
+      ...(submitted
+        ? {
+            completedAt:
+              savedProgress?.completedAt ?? new Date().toISOString(),
+          }
+        : {}),
+    });
   };
 
   const handleSubmit = () => {
     setSubmitted(true);
+    saveMcqProgress({
+      testSlug: test.slug,
+      title: test.title,
+      answers,
+      totalQuestions: questions.length,
+      completedAt: savedProgress?.completedAt ?? new Date().toISOString(),
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -152,6 +195,11 @@ export default function IpdcTestPage({ test }: Props) {
               Select one answer for each question. The submit button is at the
               end of the test.
             </p>
+            <p className="text-xs text-gray-500" role="status">
+              {ready
+                ? "Your answers are saved on this device so you can continue later."
+                : "Loading saved test progress…"}
+            </p>
           </div>
         </div>
 
@@ -234,7 +282,8 @@ export default function IpdcTestPage({ test }: Props) {
                         type="button"
                         key={option}
                         onClick={() => handleSelect(question.id, option)}
-                        className={`rounded-2xl border p-4 text-left transition duration-200 hover:border-indigo-400 ${stateClass}`}
+                        disabled={!ready}
+                        className={`rounded-2xl border p-4 text-left transition duration-200 hover:border-indigo-400 disabled:cursor-wait disabled:opacity-70 ${stateClass}`}
                       >
                         <div className="flex items-center justify-between gap-3">
                           <span className="block text-sm font-semibold">
@@ -264,7 +313,7 @@ export default function IpdcTestPage({ test }: Props) {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={!answeredCount}
+            disabled={!ready || !answeredCount}
             className="inline-flex items-center justify-center gap-2 rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-black text-black transition hover:bg-indigo-400 disabled:opacity-50"
           >
             {submitted ? "Review Answers" : "Submit Test"}

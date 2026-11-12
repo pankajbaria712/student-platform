@@ -13,6 +13,8 @@ import {
 import type { Paper } from "@/app/pyq/_data/subjects";
 import { getFreePdfUrl, getIpdcTestUrl } from "@/lib/pyq/paths";
 import { getSupabaseClient } from "@/lib/supabase";
+import BookmarkButton from "@/components/BookmarkButton";
+import { useStudentEngagement } from "@/components/StudentEngagementProvider";
 
 type ActionButtonProps = {
   icon: LucideIcon;
@@ -65,6 +67,7 @@ function PyqActionButton({
     return (
       <Link
         href={href}
+        onClick={onClick}
         target="_blank"
         rel="noopener noreferrer"
         download={download}
@@ -101,8 +104,15 @@ export default function PyqPaperCard({
   onRequestUnlock,
 }: PyqPaperCardProps) {
   const [opening, setOpening] = useState(false);
+  const { recordViewedResource } = useStudentEngagement();
 
   const freePdfUrl = getFreePdfUrl(paper.pdf);
+  const paperResource = {
+    id: freePdfUrl,
+    title: paper.title,
+    href: freePdfUrl,
+    type: "PYQ" as const,
+  };
   const isFreeTestSubject = [
     "integrated-personality-development-course",
     "ipdc-1",
@@ -185,17 +195,24 @@ export default function PyqPaperCard({
     <Card className={`rounded-3xl p-6 transition-hover ${isDemoPaper ? "border border-cyan-400/30 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900/80 shadow-[0_20px_60px_rgba(14,165,233,0.16)]" : "border border-white/5 bg-white/[0.02] hover:bg-white/[0.04]"}`}>
       <Row className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <Col>
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="text-lg font-bold text-white">{paper.title}</p>
-            {isDemoPaper ? (
-              <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-200">
-                Free Demo
-              </span>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-lg font-bold text-white">{paper.title}</p>
+                {isDemoPaper ? (
+                  <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-200">
+                    Free Demo
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-1 text-sm text-gray-400">
+                Subject Code: {paper.code} • {paper.type} {paper.year}
+              </p>
+            </div>
+            {!isDemoPaper ? (
+              <BookmarkButton compact resource={paperResource} />
             ) : null}
           </div>
-          <p className="mt-1 text-sm text-gray-400">
-            Subject Code: {paper.code} • {paper.type} {paper.year}
-          </p>
         </Col>
 
         <Actions className="flex flex-wrap gap-3">
@@ -204,6 +221,12 @@ export default function PyqPaperCard({
             label={isDemoPaper ? "View Demo" : "View Paper"}
             href={freePdfUrl}
             primary
+            onClick={() =>
+              recordViewedResource({
+                ...paperResource,
+                subjectName: subjectSlug.replace(/-/g, " "),
+              })
+            }
           />
 
           {isFreeTestSubject && freeTestHref ? (

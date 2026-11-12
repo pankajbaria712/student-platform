@@ -1,550 +1,191 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { subjectPageData } from "@/app/subject/_data/subjects";
+import { subjectData } from "@/app/pyq/_data/subjects";
 import { ipdcMcqData } from "@/lib/ipdc/mcqs";
 
-export type SearchItemType = "Semester" | "Subject" | "PYQ" | "Notes" | "MCQ";
+export type SearchResourceType =
+  | "Semester"
+  | "Subject"
+  | "PYQ"
+  | "Notes"
+  | "Syllabus"
+  | "MCQ";
 
 export type SearchItem = {
   id: string;
-  type: SearchItemType;
+  type: SearchResourceType;
   title: string;
-  subtitle: string;
+  subjectName: string;
+  subjectCode: string;
+  semester: number | null;
   url: string;
-  keywords: string[];
-  badge: string;
+  subjectSlug?: string;
+  status?: string;
 };
 
-const semesterItems: SearchItem[] = [
-  {
-    id: "semester-3",
-    type: "Semester",
-    title: "Semester 3",
-    subtitle: "Core science and communication resources.",
-    url: "/semester/3",
-    keywords: ["sem 3", "sem3", "s3", "semester three"],
-    badge: "Semester",
-  },
-  {
-    id: "semester-4",
-    type: "Semester",
-    title: "Semester 4",
-    subtitle: "Systems, networks, databases, and software resources.",
-    url: "/semester/4",
-    keywords: ["sem 4", "sem4", "s4", "semester four"],
-    badge: "Semester",
-  },
-  {
-    id: "semester-5",
-    type: "Semester",
-    title: "Semester 5",
-    subtitle: "Software design, data science, ethics, and communication.",
-    url: "/semester/5",
-    keywords: ["sem 5", "sem5", "s5", "semester five"],
-    badge: "Semester",
-  },
-  {
-    id: "semester-6",
-    type: "Semester",
-    title: "Semester 6",
-    subtitle: "Advanced core subjects, electives, and project resources.",
-    url: "/semester/6",
-    keywords: ["sem 6", "sem6", "s6", "semester six"],
-    badge: "Semester",
-  },
-  {
-    id: "semester-7",
-    type: "Semester",
-    title: "Semester 7",
-    subtitle: "GTU Semester 7 electives, advanced systems, and internship preparation.",
-    url: "/semester/7",
-    keywords: ["sem 7", "sem7", "s7", "semester seven"],
-    badge: "Semester",
-  },
-  {
-    id: "semester-8",
-    type: "Semester",
-    title: "Semester 8",
-    subtitle: "Capstone work, industrial training, and advanced electives.",
-    url: "/semester/8",
-    keywords: ["sem 8", "sem8", "s8", "semester eight"],
-    badge: "Semester",
-  },
-];
+function publicFileExists(url: string) {
+  if (!url.startsWith("/") || url.startsWith("//")) return false;
+  return existsSync(join(process.cwd(), "public", url.replace(/^\/+/, "")));
+}
 
-const subjectItems: SearchItem[] = [
-  {
-    id: "software-engineering",
-    type: "Subject",
-    title: "Software Engineering",
-    subtitle: "Semester 5 core software design and testing.",
-    url: "/pyq/software-engineering",
-    keywords: ["3150711", "se", "software eng", "software engineering"],
-    badge: "Subject",
-  },
-  {
-    id: "python-for-data-science",
-    type: "Subject",
-    title: "Python for Data Science",
-    subtitle: "Semester 5 data science with Python.",
-    url: "/pyq/python-for-data-science",
-    keywords: ["3150713", "pds", "python data science", "python"],
-    badge: "Subject",
-  },
-  {
-    id: "professional-ethics",
-    type: "Subject",
-    title: "Professional Ethics",
-    subtitle: "Semester 5 humanities and engineering responsibility.",
-    url: "/pyq/professional-ethics",
-    keywords: ["3150709", "pe", "ethical", "ethics"],
-    badge: "Subject",
-  },
-  {
-    id: "ipdc-1",
-    type: "Subject",
-    title: "Integrated Personality Development Course - I",
-    subtitle: "Semester 5 IPDC practice and personality growth.",
-    url: "/pyq/ipdc-1",
-    keywords: ["3150005", "ipdc", "ipdc-1"],
-    badge: "Subject",
-  },
-  {
-    id: "design-engineering-iia",
-    type: "Subject",
-    title: "Design Engineering IIA",
-    subtitle: "Semester 5 project work and design planning.",
-    url: "/semester/5",
-    keywords: ["3150001", "de iia", "design engineering"],
-    badge: "Subject",
-  },
-  {
-    id: "computer-networks",
-    type: "Subject",
-    title: "Computer Networks",
-    subtitle: "Semester 5 networks, routing, and protocols.",
-    url: "/pyq/computer-networks",
-    keywords: ["3150710", "cn", "computer networking", "networks"],
-    badge: "Subject",
-  },
-  {
-    id: "analysis-and-design-of-algorithms",
-    type: "Subject",
-    title: "Analysis and Design of Algorithms",
-    subtitle: "Semester 5 algorithm design and complexity.",
-    url: "/pyq/analysis-and-design-of-algorithms",
-    keywords: ["3150703", "ada", "algorithms"],
-    badge: "Subject",
-  },
-  {
-    id: "theory-of-computation",
-    type: "Subject",
-    title: "Theory of Computation",
-    subtitle: "Semester 6 automata, languages, and Turing machines.",
-    url: "/pyq/theory-of-computation",
-    keywords: ["3160704", "toc", "theory of computation"],
-    badge: "Subject",
-  },
-  {
-    id: "advanced-java-programming",
-    type: "Subject",
-    title: "Advanced Java Programming",
-    subtitle: "Semester 6 enterprise Java and application development.",
-    url: "/pyq/advanced-java-programming",
-    keywords: ["3160707", "ajp", "java programming", "advanced java"],
-    badge: "Subject",
-  },
-  {
-    id: "microprocessor-and-interfacing",
-    type: "Subject",
-    title: "Microprocessor & Interfacing",
-    subtitle: "Semester 6 8086 architecture and peripheral interfacing.",
-    url: "/pyq/microprocessor-and-interfacing",
-    keywords: ["3160710", "mpi", "microprocessor"],
-    badge: "Subject",
-  },
-  {
-    id: "web-programming",
-    type: "Subject",
-    title: "Web Programming",
-    subtitle: "Semester 6 full-stack web development.",
-    url: "/pyq/web-programming",
-    keywords: ["3160713", "wp", "web programming", "web dev"],
-    badge: "Subject",
-  },
-  {
-    id: "data-mining",
-    type: "Subject",
-    title: "Data Mining",
-    subtitle: "Semester 6 pattern discovery and analytics.",
-    url: "/pyq/data-mining",
-    keywords: ["3160714", "data mining", "dm"],
-    badge: "Subject",
-  },
-  {
-    id: "system-software",
-    type: "Subject",
-    title: "System Software",
-    subtitle: "Semester 6 assembler, loader, and compiler design.",
-    url: "/pyq/system-software",
-    keywords: ["3160715", "system software", "compilers"],
-    badge: "Subject",
-  },
-  {
-    id: "iot-and-applications",
-    type: "Subject",
-    title: "IOT & Applications",
-    subtitle: "Semester 6 IoT systems, sensors, and cloud integration.",
-    url: "/pyq/iot-and-applications",
-    keywords: ["3160716", "iot", "internet of things"],
-    badge: "Subject",
-  },
-  {
-    id: "data-visualization",
-    type: "Subject",
-    title: "Data Visualization",
-    subtitle: "Semester 6 dashboards and visual analytics.",
-    url: "/pyq/data-visualization",
-    keywords: ["3160717", "dv", "data visualization"],
-    badge: "Subject",
-  },
-  {
-    id: "design-engineering-iib",
-    type: "Subject",
-    title: "Design Engineering II B",
-    subtitle: "Semester 6 project work and prototype development.",
-    url: "/semester/6",
-    keywords: ["3160001", "de iib", "design engineering iib"],
-    badge: "Subject",
-  },
-  {
-    id: "contributor-personality-development-program",
-    type: "Subject",
-    title: "Contributor Personality",
-    subtitle: "Semester 6 humanities and professional development.",
-    url: "/pyq/contributor-personality-development-program",
-    keywords: ["3160002", "contributor personality", "cp"],
-    badge: "Subject",
-  },
-  {
-    id: "ipdc-course",
-    type: "Subject",
-    title: "IPDC Course",
-    subtitle: "Semester 6 integrated personality and ethics.",
-    url: "/pyq/integrated-personality-development-course",
-    keywords: ["3160002", "ipdc", "ipdc course"],
-    badge: "Subject",
-  },
-  {
-    id: "summer-internship",
-    type: "Subject",
-    title: "Summer Internship",
-    subtitle: "Semester 7 internship preparation and industry exposure.",
-    url: "/subject/summer-internship",
-    keywords: ["3170001", "summer internship", "internship"],
-    badge: "Subject",
-  },
-  {
-    id: "compiler-design",
-    type: "Subject",
-    title: "Compiler Design",
-    subtitle: "Semester 7 compiler theory, parsing, and code generation.",
-    url: "/subject/compiler-design",
-    keywords: ["3170701", "compiler design", "compiler"],
-    badge: "Subject",
-  },
-  {
-    id: "mobile-computing-and-wireless-communication",
-    type: "Subject",
-    title: "Mobile Computing and Wireless Communication",
-    subtitle: "Semester 7 mobile networks and wireless communication systems.",
-    url: "/subject/mobile-computing-and-wireless-communication",
-    keywords: ["3170710", "mobile computing", "wireless communication"],
-    badge: "Subject",
-  },
-  {
-    id: "artificial-intelligence",
-    type: "Subject",
-    title: "Artificial Intelligence",
-    subtitle: "Semester 7 AI reasoning, search, and intelligent systems.",
-    url: "/subject/artificial-intelligence",
-    keywords: ["3170716", "ai", "artificial intelligence"],
-    badge: "Subject",
-  },
-  {
-    id: "cloud-computing",
-    type: "Subject",
-    title: "Cloud Computing",
-    subtitle: "Semester 7 cloud services, deployment, and virtualization.",
-    url: "/subject/cloud-computing",
-    keywords: ["3170717", "cloud computing", "cloud"],
-    badge: "Subject",
-  },
-  {
-    id: "information-retrieval",
-    type: "Subject",
-    title: "Information Retrieval",
-    subtitle: "Semester 7 search, ranking, and retrieval concepts.",
-    url: "/subject/information-retrieval",
-    keywords: ["3170718", "information retrieval", "search"],
-    badge: "Subject",
-  },
-  {
-    id: "distributed-system",
-    type: "Subject",
-    title: "Distributed System",
-    subtitle: "Semester 7 synchronization, consistency, and fault tolerance.",
-    url: "/subject/distributed-system",
-    keywords: ["3170719", "distributed system", "distributed"],
-    badge: "Subject",
-  },
-  {
-    id: "information-security",
-    type: "Subject",
-    title: "Information Security",
-    subtitle: "Semester 7 cryptography, authentication, and secure systems.",
-    url: "/subject/information-security",
-    keywords: ["3170720", "information security", "security"],
-    badge: "Subject",
-  },
-  {
-    id: "parallel-and-distributed-computing",
-    type: "Subject",
-    title: "Parallel and Distributed Computing",
-    subtitle: "Semester 7 parallel architectures and distributed execution.",
-    url: "/subject/parallel-and-distributed-computing",
-    keywords: ["3170721", "parallel computing", "distributed computing"],
-    badge: "Subject",
-  },
-  {
-    id: "big-data-analytics",
-    type: "Subject",
-    title: "Big Data Analytics",
-    subtitle: "Semester 7 data processing, analytics, and insights.",
-    url: "/subject/big-data-analytics",
-    keywords: ["3170722", "big data", "analytics"],
-    badge: "Subject",
-  },
-  {
-    id: "natural-language-processing",
-    type: "Subject",
-    title: "Natural Language Processing",
-    subtitle: "Semester 7 text processing and language understanding.",
-    url: "/subject/natural-language-processing",
-    keywords: ["3170723", "nlp", "natural language processing"],
-    badge: "Subject",
-  },
-  {
-    id: "machine-learning",
-    type: "Subject",
-    title: "Machine Learning",
-    subtitle: "Semester 7 models, evaluation, and practical learning workflows.",
-    url: "/subject/machine-learning",
-    keywords: ["3170724", "machine learning", "ml"],
-    badge: "Subject",
-  },
-  {
-    id: "digital-forensics",
-    type: "Subject",
-    title: "Digital Forensics",
-    subtitle: "Semester 7 investigations, evidence, and forensic workflows.",
-    url: "/subject/digital-forensics",
-    keywords: ["3170725", "digital forensics", "forensics"],
-    badge: "Subject",
-  },
-  {
-    id: "mobile-application-development",
-    type: "Subject",
-    title: "Mobile Application Development",
-    subtitle: "Semester 7 app design, development, and testing.",
-    url: "/subject/mobile-application-development",
-    keywords: ["3170726", "mobile app development", "app development"],
-    badge: "Subject",
-  },
-  {
-    id: "operating-systems",
-    type: "Subject",
-    title: "Operating Systems",
-    subtitle: "Semester 4 core operating system concepts.",
-    url: "/pyq/operating-systems",
-    keywords: ["3160401", "os", "operating systems"],
-    badge: "Subject",
-  },
-  {
-    id: "database-management-systems",
-    type: "Subject",
-    title: "Database Management Systems",
-    subtitle: "Database concepts, SQL, and transaction processing.",
-    url: "/pyq/database-management-systems",
-    keywords: ["3160402", "dbms", "database"],
-    badge: "Subject",
-  },
-  {
-    id: "probability-and-statistics",
-    type: "Subject",
-    title: "Probability and Statistics",
-    subtitle: "Probability, distributions, and statistical analysis.",
-    url: "/pyq/probability-and-statistics",
-    keywords: ["3160405", "p&s", "statistics", "probability"],
-    badge: "Subject",
-  },
-  {
-    id: "effective-technical-communication",
-    type: "Subject",
-    title: "Effective Technical Communication",
-    subtitle: "Semester 3 communication skills and writing.",
-    url: "/pyq/effective-technical-communication",
-    keywords: ["3130004", "etc", "technical communication"],
-    badge: "Subject",
-  },
-  {
-    id: "indian-constitution",
-    type: "Subject",
-    title: "Indian Constitution",
-    subtitle: "Semester 3 mandatory constitutional law.",
-    url: "/pyq/indian-constitution",
-    keywords: ["3130007", "constitution"],
-    badge: "Subject",
-  },
-  {
-    id: "design-engineering-ia",
-    type: "Subject",
-    title: "Design Engineering - I A",
-    subtitle: "Semester 3 design fundamentals and creativity.",
-    url: "/pyq/design-engineering-IA",
-    keywords: ["3130008", "de ia", "design engineering"],
-    badge: "Subject",
-  },
-  {
-    id: "data-structures",
-    type: "Subject",
-    title: "Data Structures",
-    subtitle: "Semester 3 core data structure concepts.",
-    url: "/pyq/data-structures",
-    keywords: ["3130702", "ds", "data structures"],
-    badge: "Subject",
-  },
-  {
-    id: "digital-fundamentals",
-    type: "Subject",
-    title: "Digital Fundamentals",
-    subtitle: "Semester 3 digital logic and number systems.",
-    url: "/pyq/digital-fundamentals",
-    keywords: ["3130704", "digital fundamentals"],
-    badge: "Subject",
-  },
-];
+function appPageExists(path: string) {
+  return existsSync(join(process.cwd(), "app", path, "page.tsx"));
+}
 
-const pyqItems: SearchItem[] = subjectItems
-  .filter((item) => item.url.startsWith("/pyq/"))
-  .map((item) => ({
-    ...item,
-    id: `pyq-${item.id}`,
-    type: "PYQ" as const,
-    title: `${item.title} PYQs`,
-    subtitle: `Open past papers for ${item.title}.`,
-    badge: "PYQ",
-  }))
-  .concat([
-    {
-      id: "pyq-ipdc-1",
-      type: "PYQ",
-      title: "IPDC-I PYQs",
-      subtitle: "Practice papers for Integrated Personality Development Course - I.",
-      url: "/pyq/ipdc-1",
-      keywords: ["ipdc", "ipdc-1", "personality development"],
-      badge: "PYQ",
-    },
-  ]);
+export function buildSearchIndex(): SearchItem[] {
+  const subjects = Object.entries(subjectPageData).map(([slug, subject]) => ({
+    slug,
+    title: subject.title,
+    code: subject.code,
+    semester: subject.semester,
+    url: `/subject/${slug}`,
+  }));
+  const knownSlugs = new Set(subjects.map((subject) => subject.slug));
 
-const notesItems: SearchItem[] = [
-  {
-    id: "notes-advanced-java-programming",
-    type: "Notes",
-    title: "Advanced Java Programming Notes",
-    subtitle: "Chapter-wise AJP notes for GTU Semester 6.",
-    url: "/notes/advanced-java-programming",
-    keywords: ["ajp", "advanced java programming", "3160707"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-software-engineering",
-    type: "Notes",
-    title: "Software Engineering Notes",
-    subtitle: "Chapter-wise notes for Semester 5 Software Engineering.",
-    url: "/notes/software-engineering",
-    keywords: ["se", "software engineering", "3150711"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-python-for-data-science",
-    type: "Notes",
-    title: "Python for Data Science Notes",
-    subtitle: "Semester 5 PDS chapter notes.",
-    url: "/notes/python-for-data-science",
-    keywords: ["pds", "python data science", "3150713"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-professional-ethics",
-    type: "Notes",
-    title: "Professional Ethics Notes",
-    subtitle: "Semester 5 ethics revision notes.",
-    url: "/notes/professional-ethics",
-    keywords: ["pe", "professional ethics", "3150709"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-ipdc-1",
-    type: "Notes",
-    title: "IPDC-I Notes",
-    subtitle: "Personality development notes and revision plans.",
-    url: "/notes/ipdc-1",
-    keywords: ["ipdc", "personality development", "3150005"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-computer-networks",
-    type: "Notes",
-    title: "Computer Networks Notes",
-    subtitle: "Semester 5 CN chapter notes.",
-    url: "/notes/computer-networks",
-    keywords: ["cn", "computer networks", "3150710"],
-    badge: "Notes",
-  },
-  {
-    id: "notes-analysis-and-design-of-algorithms",
-    type: "Notes",
-    title: "Analysis and Design of Algorithms Notes",
-    subtitle: "Semester 5 ADA revision notes.",
-    url: "/notes/analysis-and-design-of-algorithms",
-    keywords: ["ada", "analysis and design of algorithms", "3150703"],
-    badge: "Notes",
-  },
-];
+  for (const [slug, subject] of Object.entries(subjectData)) {
+    if (knownSlugs.has(slug)) continue;
+    subjects.push({
+      slug,
+      title: subject.title,
+      code: subject.code,
+      semester: subject.semester,
+      url: `/pyq/${slug}`,
+    });
+  }
 
-const mcqItems: SearchItem[] = [
-  {
-    id: "ipdc-test-library",
+  const searchItems: SearchItem[] = subjects.map((subject) => ({
+    id: `subject-${subject.slug}`,
+    type: "Subject",
+    title: subject.title,
+    subjectName: subject.title,
+    subjectCode: subject.code,
+    semester: subject.semester,
+    url: subject.url,
+    subjectSlug: subject.slug,
+  }));
+
+  for (const [slug, subject] of Object.entries(subjectData)) {
+    const pageSubject = subjectPageData[slug];
+    for (const paper of subject.papers) {
+      if (
+        (paper.type !== "Summer" && paper.type !== "Winter") ||
+        !publicFileExists(paper.pdf)
+      ) {
+        continue;
+      }
+      searchItems.push({
+        id: `pyq-${slug}-${paper.year}-${paper.type}-${paper.title}`,
+        type: "PYQ",
+        title: paper.title,
+        subjectName: pageSubject?.title ?? subject.title,
+        subjectCode: pageSubject?.code ?? subject.code,
+        semester: pageSubject?.semester ?? subject.semester,
+        url: paper.pdf,
+        subjectSlug: slug,
+      });
+    }
+
+    if (!pageSubject && appPageExists(join("notes", slug))) {
+      searchItems.push({
+        id: `notes-${slug}`,
+        type: "Notes",
+        title: `${subject.title} Notes`,
+        subjectName: subject.title,
+        subjectCode: subject.code,
+        semester: subject.semester,
+        url: `/notes/${slug}`,
+        subjectSlug: slug,
+      });
+    }
+  }
+
+  for (const subject of Object.values(subjectPageData)) {
+    if (
+      subject.notesSlug &&
+      subject.notesStatus !== "not-applicable"
+    ) {
+      searchItems.push({
+        id: `notes-${subject.slug}`,
+        type: "Notes",
+        title: `${subject.title} Notes`,
+        subjectName: subject.title,
+        subjectCode: subject.code,
+        semester: subject.semester,
+        url: `/notes/${subject.notesSlug}`,
+        subjectSlug: subject.slug,
+        status:
+          subject.notesStatus === "coming-soon"
+            ? "Notes page under preparation"
+            : undefined,
+      });
+    }
+
+    if (publicFileExists(subject.syllabusPdf)) {
+      searchItems.push({
+        id: `syllabus-${subject.slug}`,
+        type: "Syllabus",
+        title: `${subject.title} Syllabus PDF`,
+        subjectName: subject.title,
+        subjectCode: subject.code,
+        semester: subject.semester,
+        url: subject.syllabusPdf,
+        subjectSlug: subject.slug,
+      });
+    }
+  }
+
+  for (const [slug, subject] of Object.entries(subjectData)) {
+    const syllabusUrl = `/pdfs/syllabus/${slug}-syllabus.pdf`;
+    if (subjectPageData[slug] || !publicFileExists(syllabusUrl)) continue;
+    searchItems.push({
+      id: `syllabus-${slug}`,
+      type: "Syllabus",
+      title: `${subject.title} Syllabus PDF`,
+      subjectName: subject.title,
+      subjectCode: subject.code,
+      semester: subject.semester,
+      url: syllabusUrl,
+      subjectSlug: slug,
+    });
+  }
+
+  const ipdcSubject = subjectPageData["ipdc-1"] ?? subjectData["ipdc-1"];
+  for (const test of Object.values(ipdcMcqData)) {
+    searchItems.push({
+      id: `mcq-${test.slug}`,
+      type: "MCQ",
+      title: test.title,
+      subjectName: ipdcSubject?.title ?? "IPDC",
+      subjectCode: ipdcSubject?.code ?? "",
+      semester: ipdcSubject?.semester ?? null,
+      url: `/test/ipdc/${encodeURIComponent(test.slug)}`,
+      subjectSlug: "ipdc-1",
+    });
+  }
+
+  searchItems.push({
+    id: "mcq-ipdc-library",
     type: "MCQ",
-    title: "IPDC Free Test Library",
-    subtitle: "Open all IPDC mock tests and MCQ practice.",
+    title: "IPDC MCQ Test Library",
+    subjectName: ipdcSubject?.title ?? "IPDC",
+    subjectCode: ipdcSubject?.code ?? "",
+    semester: ipdcSubject?.semester ?? null,
     url: "/test/ipdc",
-    keywords: ["ipdc", "mcq", "test library", "mock test"],
-    badge: "MCQ",
-  },
-  ...Object.values(ipdcMcqData).map((test) => ({
-    id: `ipdc-${test.slug}`,
-    type: "MCQ" as const,
-    title: test.title,
-    subtitle: `Practice the ${test.title} IPDC MCQ paper.`,
-    url: `/test/ipdc/${encodeURIComponent(test.slug)}`,
-    keywords: [test.slug, test.title.toLowerCase(), "ipdc", "mcq", "practice"],
-    badge: "MCQ",
-  })),
-];
+    subjectSlug: "ipdc-1",
+  });
 
-export const searchIndex: SearchItem[] = [
-  ...semesterItems,
-  ...subjectItems,
-  ...pyqItems,
-  ...notesItems,
-  ...mcqItems,
-];
+  for (let semester = 1; semester <= 8; semester += 1) {
+    searchItems.push({
+      id: `semester-${semester}`,
+      type: "Semester",
+      title: `Semester ${semester}`,
+      subjectName: "All subjects",
+      subjectCode: "",
+      semester,
+      url: `/semester/${semester}`,
+    });
+  }
+
+  return searchItems;
+}

@@ -8,6 +8,7 @@ import HomeSections, {
   type HomepageSubject,
 } from "@/components/HomeSections";
 import { subjectData } from "@/app/pyq/_data/subjects";
+import { buildSearchIndex } from "@/lib/search/search-data";
 
 const curatedSubjects: HomepageSubject[] = Object.entries(subjectData)
   .filter(([, subject]) => subject.papers.length > 0)
@@ -47,6 +48,8 @@ const recentResources: HomepageResource[] = Object.values(subjectData)
   )
   .slice(0, 4)
 
+const searchItems = buildSearchIndex();
+
 export const metadata: Metadata = {
   title: {
     absolute: "GTU Student Hub | Notes, PYQs, MCQ Practice & Syllabus",
@@ -75,7 +78,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-950 font-sans text-white antialiased selection:bg-indigo-500/40">
       <main>
-        <HomeHero subjects={curatedSubjects} />
+        <HomeHero subjects={curatedSubjects} searchItems={searchItems} />
         <HomeSections subjects={curatedSubjects} recentResources={recentResources} />
       </main>
       <Footer />

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getSupabaseClient } from "@/lib/supabase";
 import {
   Bell,
+  Bookmark,
   BookOpen,
   ChevronDown,
   GraduationCap,
@@ -48,7 +49,8 @@ const subjectItems = [
 ];
 
 const resourcesMenu = [
-  { label: "Search resources", href: "/#resource-search", icon: Search },
+  { label: "Search resources", href: "/search", icon: Search },
+  { label: "Saved resources", href: "/saved", icon: Bookmark },
   { label: "Notes", href: "/notes/advanced-java-programming", icon: BookOpen },
   { label: "Previous year questions", href: "/pyq/advanced-java-programming", icon: FileText },
   { label: "MCQ practice", href: "/test/ipdc", icon: Zap },
@@ -85,6 +87,8 @@ const desktopNavLinks = [
 
 const mobileMenuLinks = [
   { href: "/", label: "Home" },
+  { href: "/search", label: "Search resources" },
+  { href: "/saved", label: "Saved resources" },
   { href: "/semester/1", label: "Semesters" },
   { href: "/pyq/advanced-java-programming", label: "Subjects" },
   { href: "/contact", label: "Contact" },

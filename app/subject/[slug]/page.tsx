@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { BookOpen, Terminal, Wifi } from "lucide-react";
 import { subjectPageData } from "@/app/subject/_data/subjects";
 import { subjectData as pyqData } from "@/app/pyq/_data/subjects";
+import BookmarkButton from "@/components/BookmarkButton";
+import TrackedResourceLink from "@/components/TrackedResourceLink";
 
 const BASE_URL = "https://gtustudenthub.vercel.app";
 
@@ -103,12 +105,32 @@ export default function SubjectPage({ params }: SubjectPageProps) {
               >
                 Back to Semester {subject.semester}
               </Link>
-              <a
+              <TrackedResourceLink
                 href={subject.syllabusPdf}
+                resource={{
+                  id: subject.syllabusPdf,
+                  title: `${subject.title} Syllabus PDF`,
+                  href: subject.syllabusPdf,
+                  type: "Syllabus",
+                  subjectName: subject.title,
+                  subjectCode: subject.code,
+                  semester: subject.semester,
+                }}
                 className="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400"
               >
                 Download syllabus
-              </a>
+              </TrackedResourceLink>
+              <BookmarkButton
+                resource={{
+                  id: `/subject/${subject.slug}`,
+                  title: subject.title,
+                  href: `/subject/${subject.slug}`,
+                  type: "Subject",
+                  subjectName: subject.title,
+                  subjectCode: subject.code,
+                  semester: subject.semester,
+                }}
+              />
             </div>
           </div>
 
@@ -163,13 +185,22 @@ export default function SubjectPage({ params }: SubjectPageProps) {
               </p>
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <a
+                <TrackedResourceLink
                   href={subject.syllabusPdf}
+                  resource={{
+                    id: subject.syllabusPdf,
+                    title: `${subject.title} Syllabus PDF`,
+                    href: subject.syllabusPdf,
+                    type: "Syllabus",
+                    subjectName: subject.title,
+                    subjectCode: subject.code,
+                    semester: subject.semester,
+                  }}
                   className="rounded-2xl border border-slate-700 bg-slate-950/70 px-5 py-4 text-left text-sm font-semibold text-white transition hover:border-indigo-500"
                 >
                   <p>Syllabus PDF</p>
                   <p className="mt-2 text-xs text-slate-400">Verified GTU syllabus file</p>
-                </a>
+                </TrackedResourceLink>
                 <div className="rounded-2xl border border-slate-700 bg-slate-950/70 px-5 py-4">
                   <p className="font-semibold text-white">PYQ access</p>
                   <p className="mt-2 text-xs text-slate-400">
@@ -216,31 +247,82 @@ export default function SubjectPage({ params }: SubjectPageProps) {
               </div>
 
               <div className="mt-6 space-y-4">
-                <a
-                  href={subject.syllabusPdf}
-                  className="block rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
-                >
-                  Download Syllabus
-                </a>
-                {showPyq ? (
-                  <Link
-                    href={`/pyq/${subject.pyqSlug}`}
-                    className="block rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
+                <div className="flex items-center gap-2">
+                  <TrackedResourceLink
+                    href={subject.syllabusPdf}
+                    resource={{
+                      id: subject.syllabusPdf,
+                      title: `${subject.title} Syllabus PDF`,
+                      href: subject.syllabusPdf,
+                      type: "Syllabus",
+                      subjectName: subject.title,
+                      subjectCode: subject.code,
+                      semester: subject.semester,
+                    }}
+                    className="flex min-h-12 flex-1 items-center rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
                   >
-                    Open PYQ papers
-                  </Link>
+                    Download Syllabus
+                  </TrackedResourceLink>
+                  <BookmarkButton
+                    compact
+                    resource={{
+                      id: subject.syllabusPdf,
+                      title: `${subject.title} Syllabus PDF`,
+                      href: subject.syllabusPdf,
+                      type: "Syllabus",
+                      subjectName: subject.title,
+                      subjectCode: subject.code,
+                      semester: subject.semester,
+                    }}
+                  />
+                </div>
+                {showPyq ? (
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/pyq/${subject.pyqSlug}`}
+                      className="flex min-h-12 flex-1 items-center rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
+                    >
+                      Open PYQ papers
+                    </Link>
+                    <BookmarkButton
+                      compact
+                      resource={{
+                        id: `/pyq/${subject.pyqSlug}`,
+                        title: `${subject.title} PYQs`,
+                        href: `/pyq/${subject.pyqSlug}`,
+                        type: "PYQ",
+                        subjectName: subject.title,
+                        subjectCode: subject.code,
+                        semester: subject.semester,
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className="block rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-400">
                     PYQ page unavailable
                   </div>
                 )}
                 {showNotes ? (
-                  <Link
-                    href={`/notes/${subject.notesSlug}`}
-                    className="block rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
-                  >
-                    Open Notes page
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/notes/${subject.notesSlug}`}
+                      className="flex min-h-12 flex-1 items-center rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-200 transition hover:border-indigo-500"
+                    >
+                      Open Notes page
+                    </Link>
+                    <BookmarkButton
+                      compact
+                      resource={{
+                        id: `/notes/${subject.notesSlug}`,
+                        title: `${subject.title} Notes`,
+                        href: `/notes/${subject.notesSlug}`,
+                        type: "Notes",
+                        subjectName: subject.title,
+                        subjectCode: subject.code,
+                        semester: subject.semester,
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div className="block rounded-3xl border border-slate-800 bg-slate-950/70 px-5 py-4 text-sm text-slate-400">
                     Notes page unavailable
@@ -296,12 +378,21 @@ export default function SubjectPage({ params }: SubjectPageProps) {
               </p>
             </div>
             <div className="grid gap-3 sm:auto-cols-min sm:grid-flow-col">
-              <a
+              <TrackedResourceLink
                 href={subject.syllabusPdf}
+                resource={{
+                  id: subject.syllabusPdf,
+                  title: `${subject.title} Syllabus PDF`,
+                  href: subject.syllabusPdf,
+                  type: "Syllabus",
+                  subjectName: subject.title,
+                  subjectCode: subject.code,
+                  semester: subject.semester,
+                }}
                 className="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400"
               >
                 Download syllabus
-              </a>
+              </TrackedResourceLink>
               {showPyq ? (
                 <Link
                   href={`/pyq/${subject.pyqSlug}`}

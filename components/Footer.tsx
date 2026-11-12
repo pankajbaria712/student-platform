@@ -19,7 +19,7 @@ export default function Footer() {
             A straightforward place to find GTU subject resources and plan your exam preparation.
           </p>
           <a
-            href="mailto:refunds@gtustudenthub.com?subject=Report%20a%20broken%20resource"
+            href="/contact#feedback"
             className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-indigo-200 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
           >
             <Mail aria-hidden="true" className="h-4 w-4" />

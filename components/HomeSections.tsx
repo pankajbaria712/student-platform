@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, ClipboardList, FileText, Layers } from "lucide-react";
+import { ArrowRight, BookOpen, BookmarkX, ClipboardList, FileText, Layers } from "lucide-react";
+import BookmarkButton from "@/components/BookmarkButton";
+import { useStudentEngagement } from "@/components/StudentEngagementProvider";
 
 export type HomepageSubject = {
   slug: string;
@@ -76,7 +78,7 @@ const faqItems = [
   {
     question: "Where can I report a broken resource?",
     answer:
-      "Use the report link on this page to email the team with the subject and resource link so it can be checked.",
+      "Use the feedback form to prepare an email with the resource link and a description of the issue.",
   },
 ];
 
@@ -103,8 +105,199 @@ function SectionHeading({ id, eyebrow, title, description }: {
   );
 }
 
+function EngagementHomeSection() {
+  const {
+    recent,
+    bookmarks,
+    mcqProgress,
+    ready,
+    storageUnavailable,
+    recoveredInvalidData,
+    isResourceAvailable,
+    recordViewedResource,
+    removeRecent,
+    clearRecent,
+  } = useStudentEngagement();
+  const recentTests = Object.values(mcqProgress)
+    .sort((first, second) => second.updatedAt - first.updatedAt)
+    .slice(0, 3);
+
+  return (
+    <>
+      <section id="recently-viewed" aria-labelledby="recently-viewed-heading">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <SectionHeading
+            id="recently-viewed-heading"
+            eyebrow="Pick up where you left off"
+            title="Recently viewed"
+            description="Your latest subjects and resources, saved only in this browser."
+          />
+          <div className="flex items-center gap-3">
+            {recent.length > 0 ? (
+              <button
+                type="button"
+                onClick={clearRecent}
+                className="min-h-10 rounded-lg px-3 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+              >
+                Clear history
+              </button>
+            ) : null}
+            <Link
+              href="/saved"
+              className="inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-semibold text-indigo-200 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            >
+              Saved resources ({ready ? bookmarks.length : 0})
+            </Link>
+          </div>
+        </div>
+
+        {storageUnavailable || recoveredInvalidData ? (
+          <p
+            role="status"
+            className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 p-4 text-sm text-amber-100"
+          >
+            {storageUnavailable
+              ? "Browser storage is unavailable. Your activity may not persist after leaving this page."
+              : "Some saved browser data was invalid or outdated and was skipped."}
+          </p>
+        ) : null}
+
+        {!ready ? (
+          <p className="mt-5 rounded-2xl border border-white/10 bg-slate-900/50 p-5 text-sm text-slate-400">
+            Loading your recent resources…
+          </p>
+        ) : recent.length ? (
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {recent.slice(0, 6).map((resource) => {
+              const available = isResourceAvailable(resource.href);
+              const linkClass =
+                "flex min-h-28 min-w-0 flex-1 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/60 p-4 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300";
+              const content = (
+                <>
+                  <span className="font-semibold leading-6 text-white">{resource.title}</span>
+                  <span className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+                    <span>{resource.type}</span>
+                    {resource.subjectName ? <span>{resource.subjectName}</span> : null}
+                    {resource.semester ? <span>Semester {resource.semester}</span> : null}
+                  </span>
+                </>
+              );
+
+              return (
+                <li key={resource.href} className="flex items-start gap-2">
+                  {available ? (
+                    resource.href.endsWith(".pdf") ? (
+                      <a
+                        href={resource.href}
+                        className={linkClass}
+                        onClick={() => recordViewedResource(resource)}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <Link
+                        href={resource.href}
+                        className={linkClass}
+                        onClick={() => recordViewedResource(resource)}
+                      >
+                        {content}
+                      </Link>
+                    )
+                  ) : (
+                    <div className={`${linkClass} cursor-default`}>
+                      <span className="font-semibold text-slate-300">{resource.title}</span>
+                      <span className="mt-3 text-xs text-amber-200">
+                        This resource is no longer in the current catalog.
+                      </span>
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeRecent(resource.href)}
+                    aria-label={`Remove ${resource.title} from recent history`}
+                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 text-slate-400 transition hover:border-red-300/30 hover:bg-red-400/10 hover:text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                  >
+                    <BookmarkX aria-hidden="true" className="h-4 w-4" />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="mt-5 rounded-2xl border border-dashed border-white/15 bg-slate-900/50 p-5 text-sm text-slate-400">
+            Resources you visit will appear here.
+          </p>
+        )}
+      </section>
+
+      <section aria-labelledby="mcq-progress-heading">
+        <SectionHeading
+          id="mcq-progress-heading"
+          eyebrow="Keep practicing"
+          title="MCQ progress"
+          description="Answer counts and submitted status come from your saved practice attempts on this device."
+        />
+        {recentTests.length ? (
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {recentTests.map((progress) => {
+              const href = `/test/ipdc/${progress.testSlug}`;
+              const available = isResourceAvailable(href);
+              const answered = Math.min(
+                Object.keys(progress.answers).length,
+                progress.totalQuestions,
+              );
+              const card = (
+                <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-semibold text-white">{progress.title}</h3>
+                    <span className="rounded-full bg-indigo-400/10 px-2.5 py-1 text-[11px] font-semibold text-indigo-200">
+                      {progress.completedAt ? "Submitted" : "In progress"}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm text-slate-400">
+                    {answered} of {progress.totalQuestions} questions answered
+                  </p>
+                  <progress
+                    value={answered}
+                    max={progress.totalQuestions}
+                    aria-label={`${progress.title}: ${answered} of ${progress.totalQuestions} questions answered`}
+                    className="mt-3 h-2 w-full accent-indigo-400"
+                  />
+                </div>
+              );
+              return (
+                <li key={progress.testSlug}>
+                  {available ? (
+                    <Link
+                      href={href}
+                      className="block rounded-2xl transition hover:border-indigo-400/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                    >
+                      {card}
+                    </Link>
+                  ) : (
+                    <div className="opacity-70">{card}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="mt-5 rounded-2xl border border-dashed border-white/15 bg-slate-900/50 p-5 text-sm text-slate-400">
+            No MCQ attempts are saved yet. Your answered-question progress will show here after you start a test.
+            {" "}
+            <Link href="/test/ipdc" className="font-semibold text-indigo-200 hover:text-white">
+              Browse IPDC tests
+            </Link>
+          </p>
+        )}
+      </section>
+    </>
+  );
+}
+
 export default function HomeSections({ subjects, recentResources }: HomeSectionsProps) {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const { bookmarks, recordViewedResource } = useStudentEngagement();
   const curatedSubjects = curatedSubjectSlugs
     .map((slug) => subjects.find((subject) => subject.slug === slug))
     .filter((subject): subject is HomepageSubject => Boolean(subject));
@@ -140,6 +333,8 @@ export default function HomeSections({ subjects, recentResources }: HomeSections
           ))}
         </div>
       </section>
+
+      <EngagementHomeSection />
 
       <section id="resources" aria-labelledby="resources-heading">
         <SectionHeading
@@ -182,10 +377,20 @@ export default function HomeSections({ subjects, recentResources }: HomeSections
         {recentResources.length > 0 ? (
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {recentResources.map((resource) => (
-              <li key={resource.href}>
+              <li key={resource.href} className="flex items-start gap-2">
                 <a
                   href={resource.href}
-                  className="flex min-h-32 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/60 p-5 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                  onClick={() =>
+                    recordViewedResource({
+                      id: resource.href,
+                      title: resource.title,
+                      href: resource.href,
+                      type: "PYQ",
+                      subjectName: resource.subject,
+                      semester: resource.semester,
+                    })
+                  }
+                  className="flex min-h-32 min-w-0 flex-1 flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/60 p-5 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
                 >
                   <span className="flex items-start justify-between gap-3">
                     <span className="font-semibold leading-6 text-white">{resource.title}</span>
@@ -198,6 +403,19 @@ export default function HomeSections({ subjects, recentResources }: HomeSections
                     <span>{resource.term} {resource.year}</span>
                   </span>
                 </a>
+                <div className="mt-1">
+                  <BookmarkButton
+                    compact
+                    resource={{
+                      id: resource.href,
+                      title: resource.title,
+                      href: resource.href,
+                      type: "PYQ",
+                      subjectName: resource.subject,
+                      semester: resource.semester,
+                    }}
+                  />
+                </div>
               </li>
             ))}
           </ul>
@@ -219,20 +437,36 @@ export default function HomeSections({ subjects, recentResources }: HomeSections
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {curatedSubjects.map((subject) => (
-            <Link
+            <div
               key={subject.slug}
-              href={`/pyq/${subject.slug}`}
-              className="flex min-h-20 items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+              className="flex items-center gap-2"
             >
-              <span>
-                <span className="block font-medium text-white">{subject.title}</span>
-                <span className="mt-1 block text-xs text-slate-400">
-                  Semester {subject.semester}
-                  {subject.code ? ` · ${subject.code}` : ""}
+              <Link
+                href={`/pyq/${subject.slug}`}
+                className="flex min-h-20 min-w-0 flex-1 items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-4 transition hover:border-indigo-400/40 hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+              >
+                <span>
+                  <span className="block font-medium text-white">{subject.title}</span>
+                  <span className="mt-1 block text-xs text-slate-400">
+                    Semester {subject.semester}
+                    {subject.code ? ` · ${subject.code}` : ""}
+                  </span>
                 </span>
-              </span>
-              <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-indigo-300" />
-            </Link>
+                <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-indigo-300" />
+              </Link>
+              <BookmarkButton
+                compact
+                resource={{
+                  id: `/subject/${subject.slug}`,
+                  title: subject.title,
+                  href: `/pyq/${subject.slug}`,
+                  type: "Subject",
+                  subjectName: subject.title,
+                  subjectCode: subject.code,
+                  semester: subject.semester,
+                }}
+              />
+            </div>
           ))}
         </div>
       </section>
@@ -254,7 +488,7 @@ export default function HomeSections({ subjects, recentResources }: HomeSections
           </p>
         </div>
         <a
-          href="mailto:refunds@gtustudenthub.com?subject=Report%20a%20broken%20resource"
+          href="/contact#feedback"
           className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-indigo-300/30 px-5 py-3 text-sm font-semibold text-indigo-100 transition hover:bg-indigo-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
         >
           <FileText aria-hidden="true" className="h-4 w-4" />

@@ -3,7 +3,7 @@
 import { useMemo, useState, type FormEvent, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Search, X } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import type { SearchItem, SearchResourceType } from "@/lib/search/search-data";
 import BookmarkButton from "@/components/BookmarkButton";
 import { useStudentEngagement } from "@/components/StudentEngagementProvider";
@@ -193,7 +193,11 @@ export default function GlobalSearch({
   return (
     <div
       id={mode === "suggestions" ? "resource-search" : undefined}
-      className={mode === "suggestions" ? "max-w-2xl" : "mx-auto max-w-6xl"}
+      className={
+        mode === "suggestions"
+          ? "relative z-30 max-w-2xl"
+          : "mx-auto max-w-6xl"
+      }
     >
       <form className="relative" role="search" onSubmit={handleSubmit}>
         <label htmlFor={searchId} className="sr-only">
@@ -229,20 +233,6 @@ export default function GlobalSearch({
               }
               className="min-h-11 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
             />
-            {query ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery("");
-                  setActiveSuggestion(-1);
-                  setSuggestionsOpen(false);
-                }}
-                aria-label="Clear search"
-                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
-              >
-                <X aria-hidden="true" className="h-4 w-4" />
-              </button>
-            ) : null}
           </div>
           <button
             type="submit"
@@ -257,7 +247,7 @@ export default function GlobalSearch({
               id={suggestionListId}
               role="listbox"
               aria-label="Search suggestions"
-              className="absolute inset-x-0 top-full z-30 mt-2 max-h-80 overflow-y-auto rounded-2xl border border-white/10 bg-slate-950 p-2 shadow-2xl"
+              className="search-suggestions-scrollbar absolute inset-x-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-2xl border border-white/10 bg-slate-950 p-2 shadow-2xl"
             >
               {suggestions.map((item, index) => (
                 <li

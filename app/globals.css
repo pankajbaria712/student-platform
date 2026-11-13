@@ -26,6 +26,30 @@
     @apply px-4 sm:px-6 lg:px-8;
   }
 
+  .search-suggestions-scrollbar {
+    scrollbar-color: rgb(99 102 241 / 0.75) rgb(15 23 42 / 0.8);
+    scrollbar-width: thin;
+  }
+
+  .search-suggestions-scrollbar::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  .search-suggestions-scrollbar::-webkit-scrollbar-track {
+    background: rgb(15 23 42 / 0.8);
+    border-radius: 9999px;
+  }
+
+  .search-suggestions-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(99 102 241 / 0.75);
+    border: 2px solid rgb(15 23 42 / 0.8);
+    border-radius: 9999px;
+  }
+
+  .search-suggestions-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(129 140 248 / 0.95);
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;

@@ -13,12 +13,11 @@ type HomeHeroProps = {
 
 export default function HomeHero({ subjects, searchItems }: HomeHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-slate-950">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 -top-48 h-96 w-96 rounded-full bg-indigo-600/10 blur-3xl"
-      />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-8 lg:py-20">
+    <section className="relative z-20 border-b border-white/10 bg-slate-950">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-40 -top-48 h-96 w-96 rounded-full bg-indigo-600/10 blur-3xl" />
+      </div>
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-8 lg:py-20">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-400/10 px-3 py-1.5 text-xs font-semibold text-indigo-200">
             <Sparkles aria-hidden="true" className="h-4 w-4" />
